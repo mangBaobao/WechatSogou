@@ -1,0 +1,318 @@
+{
+  "groups": [
+    {
+      "name": "pega",
+      "type": "cert.aiops.pega.config.PegaConfiguration",
+      "sourceType": "cert.aiops.pega.config.PegaConfiguration"
+    },
+    {
+      "name": "pega.zkutility",
+      "type": "cert.aiops.pega.config.ZKConfiguration",
+      "sourceType": "cert.aiops.pega.config.ZKConfiguration"
+    },
+    {
+      "name": "worker",
+      "type": "cert.aiops.pega.config.WorkerConfiguration",
+      "sourceType": "cert.aiops.pega.config.WorkerConfiguration"
+    }
+  ],
+  "properties": [
+    {
+      "name": "pega.cache-validation",
+      "type": "java.lang.Integer",
+      "sourceType": "cert.aiops.pega.config.PegaConfiguration",
+      "defaultValue": 0
+    },
+    {
+      "name": "pega.controller-path",
+      "type": "java.lang.String",
+      "sourceType": "cert.aiops.pega.config.PegaConfiguration"
+    },
+    {
+      "name": "pega.core-pool-size",
+      "type": "java.lang.Integer",
+      "sourceType": "cert.aiops.pega.config.PegaConfiguration",
+      "defaultValue": 0
+    },
+    {
+      "name": "pega.epoch",
+      "type": "java.lang.Long",
+      "sourceType": "cert.aiops.pega.config.PegaConfiguration",
+      "defaultValue": 0
+    },
+    {
+      "name": "pega.epoch-update-thread-name-prefix",
+      "type": "java.lang.String",
+      "sourceType": "cert.aiops.pega.config.PegaConfiguration"
+    },
+    {
+      "name": "pega.frag-factor",
+      "type": "java.lang.Double",
+      "sourceType": "cert.aiops.pega.config.PegaConfiguration"
+    },
+    {
+      "name": "pega.gini-coefficient",
+      "type": "java.lang.Float",
+      "sourceType": "cert.aiops.pega.config.PegaConfiguration"
+    },
+    {
+      "name": "pega.host-query-thread-pool-name-prefix",
+      "type": "java.lang.String",
+      "sourceType": "cert.aiops.pega.config.PegaConfiguration"
+    },
+    {
+      "name": "pega.id",
+      "type": "java.lang.String",
+      "sourceType": "cert.aiops.pega.config.PegaConfiguration"
+    },
+    {
+      "name": "pega.mapping-path",
+      "type": "java.lang.String",
+      "sourceType": "cert.aiops.pega.config.PegaConfiguration"
+    },
+    {
+      "name": "pega.max-pool-size",
+      "type": "java.lang.Integer",
+      "sourceType": "cert.aiops.pega.config.PegaConfiguration",
+      "defaultValue": 0
+    },
+    {
+      "name": "pega.monitor-count-thredshold",
+      "type": "java.lang.Integer",
+      "sourceType": "cert.aiops.pega.config.PegaConfiguration",
+      "defaultValue": 0
+    },
+    {
+      "name": "pega.page-number",
+      "type": "java.lang.Integer",
+      "sourceType": "cert.aiops.pega.config.PegaConfiguration",
+      "defaultValue": 0
+    },
+    {
+      "name": "pega.page-size",
+      "type": "java.lang.Integer",
+      "sourceType": "cert.aiops.pega.config.PegaConfiguration",
+      "defaultValue": 0
+    },
+    {
+      "name": "pega.queue-capacity",
+      "type": "java.lang.Integer",
+      "sourceType": "cert.aiops.pega.config.PegaConfiguration",
+      "defaultValue": 0
+    },
+    {
+      "name": "pega.renovation-thread-name-prefix",
+      "type": "java.lang.String",
+      "sourceType": "cert.aiops.pega.config.PegaConfiguration"
+    },
+    {
+      "name": "pega.request-host-limit",
+      "type": "java.lang.Integer",
+      "sourceType": "cert.aiops.pega.config.PegaConfiguration",
+      "defaultValue": 0
+    },
+    {
+      "name": "pega.request-retry-times",
+      "type": "java.lang.Integer",
+      "sourceType": "cert.aiops.pega.config.PegaConfiguration",
+      "defaultValue": 0
+    },
+    {
+      "name": "pega.request-wait-base",
+      "type": "java.lang.Integer",
+      "sourceType": "cert.aiops.pega.config.PegaConfiguration",
+      "defaultValue": 0
+    },
+    {
+      "name": "pega.response-timeout",
+      "type": "java.lang.Integer",
+      "sourceType": "cert.aiops.pega.config.PegaConfiguration",
+      "defaultValue": 0
+    },
+    {
+      "name": "pega.role",
+      "type": "java.lang.String",
+      "sourceType": "cert.aiops.pega.config.PegaConfiguration"
+    },
+    {
+      "name": "pega.routine-cycle",
+      "type": "java.lang.Integer",
+      "sourceType": "cert.aiops.pega.config.PegaConfiguration",
+      "defaultValue": 0
+    },
+    {
+      "name": "pega.routine-epoch-path",
+      "type": "java.lang.String",
+      "sourceType": "cert.aiops.pega.config.PegaConfiguration"
+    },
+    {
+      "name": "pega.sync-cycle",
+      "type": "java.lang.Integer",
+      "sourceType": "cert.aiops.pega.config.PegaConfiguration",
+      "defaultValue": 0
+    },
+    {
+      "name": "pega.system-path",
+      "type": "java.lang.String",
+      "sourceType": "cert.aiops.pega.config.PegaConfiguration"
+    },
+    {
+      "name": "pega.system-query-thread-pool-name-prefix",
+      "type": "java.lang.String",
+      "sourceType": "cert.aiops.pega.config.PegaConfiguration"
+    },
+    {
+      "name": "pega.worker-path",
+      "type": "java.lang.String",
+      "sourceType": "cert.aiops.pega.config.PegaConfiguration"
+    },
+    {
+      "name": "pega.working-net",
+      "type": "java.lang.String",
+      "sourceType": "cert.aiops.pega.config.PegaConfiguration"
+    },
+    {
+      "name": "pega.zkutility.base-sleep-time-ms",
+      "type": "java.lang.Integer",
+      "sourceType": "cert.aiops.pega.config.ZKConfiguration",
+      "defaultValue": 0
+    },
+    {
+      "name": "pega.zkutility.chroot",
+      "type": "java.lang.String",
+      "sourceType": "cert.aiops.pega.config.ZKConfiguration"
+    },
+    {
+      "name": "pega.zkutility.connect-string",
+      "type": "java.lang.String",
+      "sourceType": "cert.aiops.pega.config.ZKConfiguration"
+    },
+    {
+      "name": "pega.zkutility.connection-timeout-ms",
+      "type": "java.lang.Integer",
+      "sourceType": "cert.aiops.pega.config.ZKConfiguration",
+      "defaultValue": 0
+    },
+    {
+      "name": "pega.zkutility.heartbeat-cycle-ms",
+      "type": "java.lang.Integer",
+      "sourceType": "cert.aiops.pega.config.ZKConfiguration",
+      "defaultValue": 0
+    },
+    {
+      "name": "pega.zkutility.max-retries",
+      "type": "java.lang.Integer",
+      "sourceType": "cert.aiops.pega.config.ZKConfiguration",
+      "defaultValue": 0
+    },
+    {
+      "name": "pega.zkutility.max-sleep-ms",
+      "type": "java.lang.Integer",
+      "sourceType": "cert.aiops.pega.config.ZKConfiguration",
+      "defaultValue": 0
+    },
+    {
+      "name": "pega.zkutility.session-timeout-ms",
+      "type": "java.lang.Integer",
+      "sourceType": "cert.aiops.pega.config.ZKConfiguration",
+      "defaultValue": 0
+    },
+    {
+      "name": "worker.cache-validation",
+      "type": "java.lang.Integer",
+      "sourceType": "cert.aiops.pega.config.WorkerConfiguration",
+      "defaultValue": 0
+    },
+    {
+      "name": "worker.concurrency",
+      "type": "java.lang.Integer",
+      "sourceType": "cert.aiops.pega.config.WorkerConfiguration",
+      "defaultValue": 0
+    },
+    {
+      "name": "worker.core-pool-size",
+      "type": "java.lang.Integer",
+      "sourceType": "cert.aiops.pega.config.WorkerConfiguration",
+      "defaultValue": 0
+    },
+    {
+      "name": "worker.max-count-per-file",
+      "type": "java.lang.Integer",
+      "sourceType": "cert.aiops.pega.config.WorkerConfiguration",
+      "defaultValue": 0
+    },
+    {
+      "name": "worker.max-pool-size",
+      "type": "java.lang.Integer",
+      "sourceType": "cert.aiops.pega.config.WorkerConfiguration",
+      "defaultValue": 0
+    },
+    {
+      "name": "worker.ping-script-path",
+      "type": "java.lang.String",
+      "sourceType": "cert.aiops.pega.config.WorkerConfiguration"
+    },
+    {
+      "name": "worker.queue-capacity",
+      "type": "java.lang.Integer",
+      "sourceType": "cert.aiops.pega.config.WorkerConfiguration",
+      "defaultValue": 0
+    },
+    {
+      "name": "worker.queue-name",
+      "type": "java.lang.String",
+      "sourceType": "cert.aiops.pega.config.WorkerConfiguration"
+    },
+    {
+      "name": "worker.queue-routing-key",
+      "type": "java.lang.String",
+      "sourceType": "cert.aiops.pega.config.WorkerConfiguration"
+    },
+    {
+      "name": "worker.request-file-path",
+      "type": "java.lang.String",
+      "sourceType": "cert.aiops.pega.config.WorkerConfiguration"
+    },
+    {
+      "name": "worker.request-handle-executor-name-prefix",
+      "type": "java.lang.String",
+      "sourceType": "cert.aiops.pega.config.WorkerConfiguration"
+    },
+    {
+      "name": "worker.request-wait-base",
+      "type": "java.lang.Integer",
+      "sourceType": "cert.aiops.pega.config.WorkerConfiguration",
+      "defaultValue": 0
+    },
+    {
+      "name": "worker.request-wait-threshold",
+      "type": "java.lang.Integer",
+      "sourceType": "cert.aiops.pega.config.WorkerConfiguration",
+      "defaultValue": 0
+    },
+    {
+      "name": "worker.retry-times",
+      "type": "java.lang.Integer",
+      "sourceType": "cert.aiops.pega.config.WorkerConfiguration",
+      "defaultValue": 0
+    },
+    {
+      "name": "worker.routine-file-path",
+      "type": "java.lang.String",
+      "sourceType": "cert.aiops.pega.config.WorkerConfiguration"
+    },
+    {
+      "name": "worker.routine-wait-base",
+      "type": "java.lang.Integer",
+      "sourceType": "cert.aiops.pega.config.WorkerConfiguration",
+      "defaultValue": 0
+    },
+    {
+      "name": "worker.routine-wait-threshold",
+      "type": "java.lang.Integer",
+      "sourceType": "cert.aiops.pega.config.WorkerConfiguration",
+      "defaultValue": 0
+    }
+  ],
+  "hints": []
+}
