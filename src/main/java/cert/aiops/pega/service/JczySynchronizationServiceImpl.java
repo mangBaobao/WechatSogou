@@ -5,6 +5,8 @@ import cert.aiops.pega.synchronization.JczyDeviceInfo;
 import cert.aiops.pega.synchronization.JczyDeviceInfoList;
 import cert.aiops.pega.synchronization.JczySystemInfo;
 import cert.aiops.pega.synchronization.JczySystemInfoList;
+import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -14,8 +16,8 @@ import java.util.List;
 /*
 only used for unit test by avoiding feign
  */
-//@Component
-//@Primary
+@Component
+@Primary
 public class JczySynchronizationServiceImpl implements JczySynchronizationService {
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     JczyDeviceInfoList jczyDeviceInfoList;
@@ -30,10 +32,10 @@ public class JczySynchronizationServiceImpl implements JczySynchronizationServic
         ArrayList<JczySystemInfo> systemInfos = new ArrayList<>();
 //        for(int i =0; i<3;i++){
             JczySystemInfo jczySystemInfo =new JczySystemInfo();
-            jczySystemInfo.setFname("509音视频监控");
-            jczySystemInfo.setSname("509音视频监控");
-            jczySystemInfo.setGroups("509");
-            jczySystemInfo.setId((long) 509001);
+            jczySystemInfo.setFname("音视频");
+            jczySystemInfo.setSname("音视频");
+            jczySystemInfo.setGroups("666");
+            jczySystemInfo.setId((long) 666001);
             jczySystemInfo.setIsmaintain(PegaEnum.State.在维);
             jczySystemInfo.setUtime(formatter.format(new Date()));
             systemInfos.add(jczySystemInfo);
@@ -52,7 +54,7 @@ public class JczySynchronizationServiceImpl implements JczySynchronizationServic
                 jczyDeviceInfo.setBnetwork_name("z");
                 jczyDeviceInfo.setDevtype("服务器");
                 jczyDeviceInfo.setDid(ip_c[i] +"0"+ j);
-                jczyDeviceInfo.setDname("test"+i+j);
+                jczyDeviceInfo.setDname("test"+i+"-"+j);
                 jczyDeviceInfo.setDsn(100000+String.valueOf(j));
                 jczyDeviceInfo.setDstatus("Dstatus");
                 jczyDeviceInfo.setDstatus_name("在维");
@@ -81,17 +83,17 @@ public class JczySynchronizationServiceImpl implements JczySynchronizationServic
 
     @Override
     public List<JczyDeviceInfo> getHostsBySystemAndNet(String device, String net, String system, String devtype) {
-        return null;
+        return this.jczyDeviceInfoList.getDevice();
     }
 
     @Override
     public List<JczySystemInfo> getSystemsByState(String system, String state) {
-        return null;
+        return this.jczySystemInfoList.getDevice();
     }
 
     @Override
     public List<JczySystemInfo> getSystemByName(String system, String name) {
-        return null;
+        return this.jczySystemInfoList.getDevice();
     }
 
 //@Override
@@ -109,11 +111,11 @@ public class JczySynchronizationServiceImpl implements JczySynchronizationServic
 
     @Override
     public List<JczySystemInfo> getSystemByNameInList(String system, String name) {
-        return null;
+          return this.jczySystemInfoList.getDevice();
     }
 
     @Override
     public String getSystemByNameInString(String system, String name) {
-        return null;
+        return this.jczySystemInfoList.getDevice().get(0).getSname();
     }
 }

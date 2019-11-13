@@ -20,6 +20,7 @@ import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.recipes.cache.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,8 @@ public class PegaApplicationTest {
     @Autowired
     PegaConfiguration pega;
 
+    @Mock
+    JczySynchronizationService jczySynchronizationService;
 
     Logger logger = LoggerFactory.getLogger(PegaApplicationTest.class);
 
@@ -175,23 +178,23 @@ public class PegaApplicationTest {
 //        sql = "create table if not exists pega_test.host_state_routine(ip String,system_name String," + "" +
 //                "net Enum8('z'=1,'v'=2),epoch UInt32,unavail Enum8('unavail'=0,'avail'=1),update_time DateTime)" +
 //                "ENGINE MergeTree() PARTITION BY toYYYYMM(update_time) ORDER BY (epoch, system_name, net)";
-        String sql = "create table if not exists pega.host_info (id String,system_name String,ip String," +
-                "state Enum8('在维'=0,'不在维'=1,'交维中'=2,'施工中'=3,'下线'=4),host_name String,create_time DateTime,update_time DateTime)" +
+        String sql = "create table if not exists pega_test.host_info (id String,system_name String,ip String," +
+                "state Enum8('在维'=0,'不在维'=1,'交维中'=2,'施工中'=3,'下线'=4),host_name String,create_time DateTime,update_time DateTime,net String)" +
                 "ENGINE MergeTree() ORDER BY(system_name,ip)";
         ClickhouseUtil.getInstance().exeSql(sql);
-        sql = "create table if not exists pega.host_state_routine(ip String,system_id UInt32," +
+        sql = "create table if not exists pega_test.host_state_routine(ip String,system_id UInt32," +
                 "epoch UInt32,avail Enum8('unavail'=0,'avail'=1),update_time DateTime)ENGINE MergeTree() PARTITION BY " +
                 "toYYYYMM(update_time) ORDER BY (epoch, system_id)";
         ClickhouseUtil.getInstance().exeSql(sql);
-        sql = "create table if not exists pega.host_state_request(ip String,taskId String," +
+        sql = "create table if not exists pega_test.host_state_request(ip String,taskId String," +
                 "avail Enum8('unavail'=0,'avail'=1),update_time DateTime)ENGINE MergeTree() PARTITION BY " +
                 "toYYYYMM(update_time) ORDER BY  taskId";
         ClickhouseUtil.getInstance().exeSql(sql);
-        sql = "create table if not exists pega.worker_mappings(id String, state Enum8('valid'=0,'invalid'=1,'update'=2),  record_time String,count int,mappings String) ENGINE MergeTree() " +
+        sql = "create table if not exists pega_test.worker_mappings(id String, state Enum8('valid'=0,'invalid'=1,'update'=2),  record_time String,count int,mappings String) ENGINE MergeTree() " +
                 " PARTITION BY toYYYYMM(Cast(record_time as DateTime)) ORDER BY(Cast(record_time as DateTime),id)";
         ClickhouseUtil.getInstance().exeSql(sql);
 
-        sql = "create table if not exists pega.system_mappings(id UInt64, allocated_count int,unallocated_count int,state Enum8('valid'=0,'invalid'=1,'update'=2),uptime String,mapping String)ENGINE MergeTree()" +
+        sql = "create table if not exists pega_test.system_mappings(id UInt64, allocated_count int,unallocated_count int,state Enum8('valid'=0,'invalid'=1,'update'=2),uptime String,mapping String)ENGINE MergeTree()" +
                 "PARTITION BY toYYYYMM(Cast(uptime as DateTime)) ORDER BY(Cast(uptime as DateTime),id)";
         ClickhouseUtil.getInstance().exeSql(sql);
     }
@@ -201,10 +204,10 @@ public class PegaApplicationTest {
         //String sql = "insert into pega_test.host_info (system_name,ip,net,state,host_name,create_time,update_time) values (?,?,?,?,?,?,?)";
 
         ArrayList<HostInfoClick> hostInfos = new ArrayList<>();
-        for (int i = 0; i < 60000; i++) {
+        for (int i = 0; i < 6; i++) {
             HostInfoClick hinfo = new HostInfoClick();
             hinfo.setCreate_time(new Date());
-            hinfo.setHost_name("test");
+            hinfo.setHost_name("ysp"+i);
             hinfo.setIp("10.10.10.10");
 //            hinfo.setNet(PegaEnum.Net.z);
             hinfo.setState(PegaEnum.State.在维);
@@ -860,8 +863,8 @@ public class PegaApplicationTest {
         logger.info("redisBatchOperationTest :getListPage,cachedObjects={}", cachedObjects.toString());
     }
 
-    @Resource
-    private JczySynchronizationService jczySynchronizationService;
+//    @Resource
+//    private JczySynchronizationService jczySynchronizationService;
 
     @Test
     public void feignClientTest() {

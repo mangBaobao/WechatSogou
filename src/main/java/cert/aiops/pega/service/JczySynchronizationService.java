@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
-@PropertySource("classpath:application.properties")
-//@FeignClient(name="jczy",url="http://10.40.72.141:8083",path="/jczy",configuration = FeignClientConfigurer.class)
-@FeignClient(name="jczy",url="${pega.feignclient.url}",path="/jczy",configuration = FeignClientConfigurer.class)
+//@PropertySource("classpath:application.properties")
+////@FeignClient(name="jczy",url="http://10.40.72.141:8083",path="/jczy",configuration = FeignClientConfigurer.class)
+//@FeignClient(name="jczy",url="${pega.feignclient.url}",path="/jczy",configuration = FeignClientConfigurer.class)
 public interface JczySynchronizationService {
     @GetMapping("/{device}")
     List<JczyDeviceInfo> getRequiredHosts(@PathVariable("device")String device, @RequestParam("system")String system, @RequestParam("state")String state);

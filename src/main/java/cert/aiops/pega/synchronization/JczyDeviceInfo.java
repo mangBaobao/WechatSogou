@@ -22,6 +22,8 @@ public class JczyDeviceInfo {
     private String utime;
     private String bnetwork_name;
 
+    private String Dstatus_name;
+
     @Override
     public String toString() {
         return "JczyDeviceInfo{" +
@@ -32,16 +34,49 @@ public class JczyDeviceInfo {
                 ", dstatus='" + dstatus + '\'' +
                 ", dstatus_name='" + dstatus_name + '\'' +
                 ", devtype='" + devtype + '\'' +
-                ", dsn='" + dsn + '\'' +
-                ", ip='" + ip + '\'' +
-                ", bnetwork_name='" + bnetwork_name + '\'' +
-                ", utime='" + utime + '\'' +                
-                ", rname='" + rname + '\'' +               
+                ", dmodel_name='" + dmodel_name + '\'' +
+                ", rname='" + rname + '\'' +
                 ", ip_num='" + ip_num + '\'' +
                 ", bnetwork='" + bnetwork + '\'' +
                 ", importance='" + importance + '\'' +
-
+                ", ip='" + ip + '\'' +
+                ", dsn='" + dsn + '\'' +
+                ", utime='" + utime + '\'' +
+                ", bnetwork_name='" + bnetwork_name + '\'' +
+                ", Dstatus_name='" + Dstatus_name + '\'' +
                 '}';
+    }
+
+    public String getDstatus_name() {
+        return Dstatus_name;
+    }
+
+    public void setDstatus_name(String dstatus_name) {
+        Dstatus_name = dstatus_name;
+    }
+
+    public String getDid() {
+        return did;
+    }
+
+    public void setDid(String did) {
+        this.did = did;
+    }
+
+    public String getDname() {
+        return dname;
+    }
+
+    public void setDname(String dname) {
+        this.dname = dname;
+    }
+
+    public String getDmodel_name() {
+        return dmodel_name;
+    }
+
+    public void setDmodel_name(String dmodel_name) {
+        this.dmodel_name = dmodel_name;
     }
 
     public String getDevtype() {
