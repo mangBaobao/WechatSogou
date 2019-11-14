@@ -1,6 +1,6 @@
 package cert.aiops.pega.service;
 
-import cert.aiops.pega.bean.PegaEnum;
+import cert.aiops.pega.util.PegaEnum;
 import cert.aiops.pega.synchronization.JczyDeviceInfo;
 import cert.aiops.pega.synchronization.JczyDeviceInfoList;
 import cert.aiops.pega.synchronization.JczySystemInfo;

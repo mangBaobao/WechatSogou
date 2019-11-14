@@ -1,5 +1,6 @@
 package cert.aiops.pega.bean;
 
+import cert.aiops.pega.util.PegaEnum;
 import cert.aiops.pega.util.TabSerializable;
 import cert.aiops.pega.util.TabSerializer;
 

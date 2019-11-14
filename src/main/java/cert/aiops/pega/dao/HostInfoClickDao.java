@@ -1,7 +1,7 @@
 package cert.aiops.pega.dao;
 
 import cert.aiops.pega.bean.HostInfoClick;
-import cert.aiops.pega.bean.PegaEnum;
+import cert.aiops.pega.util.PegaEnum;
 import cert.aiops.pega.bean.SystemInfoClick;
 import cert.aiops.pega.util.ClickhouseUtil;
 import cert.aiops.pega.util.TabSerializer;

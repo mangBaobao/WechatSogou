@@ -1,7 +1,6 @@
 package cert.aiops.pega.bean;
 
-import cert.aiops.pega.config.PegaConfiguration;
-import cert.aiops.pega.util.SpringContextUtil;
+import cert.aiops.pega.util.PegaEnum;
 
 import java.io.Serializable;
 

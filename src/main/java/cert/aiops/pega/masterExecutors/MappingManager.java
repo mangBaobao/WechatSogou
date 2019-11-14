@@ -1,7 +1,7 @@
 package cert.aiops.pega.masterExecutors;
 
 import cert.aiops.pega.bean.HostInfo;
-import cert.aiops.pega.bean.PegaEnum;
+import cert.aiops.pega.util.PegaEnum;
 import cert.aiops.pega.bean.SystemInfo;
 import cert.aiops.pega.bean.mapping.*;
 import cert.aiops.pega.config.PegaConfiguration;

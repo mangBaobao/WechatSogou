@@ -1,8 +1,6 @@
 package cert.aiops.pega.dao;
 
-import cert.aiops.pega.bean.PegaEnum;
 import cert.aiops.pega.bean.mapping.WorkAssignment;
-import cert.aiops.pega.bean.mapping.WorkerRecorder;
 import cert.aiops.pega.bean.mapping.WorkerMappings;
 import cert.aiops.pega.util.ClickhouseUtil;
 import com.fasterxml.jackson.databind.JavaType;

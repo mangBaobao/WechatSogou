@@ -1,7 +1,5 @@
 package cert.aiops.pega.util;
 
-import cert.aiops.pega.bean.PegaEnum;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;

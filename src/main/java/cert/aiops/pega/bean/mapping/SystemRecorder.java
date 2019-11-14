@@ -1,12 +1,11 @@
 package cert.aiops.pega.bean.mapping;
 
-import cert.aiops.pega.bean.PegaEnum;
+import cert.aiops.pega.util.PegaEnum;
 import cert.aiops.pega.util.TabSerializable;
 import cert.aiops.pega.util.TabSerializer;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Map;
 import java.util.StringJoiner;
 
 public class SystemRecorder implements TabSerializable, Comparable<SystemRecorder> {

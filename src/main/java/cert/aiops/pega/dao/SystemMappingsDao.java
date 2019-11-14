@@ -1,6 +1,6 @@
 package cert.aiops.pega.dao;
 
-import cert.aiops.pega.bean.PegaEnum;
+import cert.aiops.pega.util.PegaEnum;
 import cert.aiops.pega.bean.mapping.*;
 import cert.aiops.pega.util.ClickhouseUtil;
 import com.fasterxml.jackson.databind.JavaType;

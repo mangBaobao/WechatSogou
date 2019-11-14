@@ -1,13 +1,10 @@
 package cert.aiops.pega.util;
 
 import cert.aiops.pega.bean.HostState;
-import cert.aiops.pega.bean.PegaEnum;
 import cert.aiops.pega.bean.SinglePingState;
-import cert.aiops.pega.startup.BeingMasterCondition;
 import cert.aiops.pega.startup.BeingWorkerCondition;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.bouncycastle.openssl.PEMDecryptor;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Component;
 

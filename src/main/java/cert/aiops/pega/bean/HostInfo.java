@@ -1,5 +1,7 @@
 package cert.aiops.pega.bean;
 
+import cert.aiops.pega.util.PegaEnum;
+
 import javax.persistence.*;
 
 @Entity

@@ -1,7 +1,7 @@
 package cert.aiops.pega.dao;
 
 import cert.aiops.pega.bean.HostState;
-import cert.aiops.pega.bean.PegaEnum;
+import cert.aiops.pega.util.PegaEnum;
 import cert.aiops.pega.bean.SinglePingState;
 import cert.aiops.pega.bean.SystemState;
 import cert.aiops.pega.config.PegaConfiguration;

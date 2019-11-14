@@ -1,6 +1,6 @@
 package cert.aiops.pega.synchronization;
 
-import cert.aiops.pega.bean.PegaEnum;
+import cert.aiops.pega.util.PegaEnum;
 
 import java.io.Serializable;
 

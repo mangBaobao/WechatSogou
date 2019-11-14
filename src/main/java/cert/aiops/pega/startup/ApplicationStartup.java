@@ -1,26 +1,16 @@
 package cert.aiops.pega.startup;
 
-import cert.aiops.pega.bean.PegaEnum;
+import cert.aiops.pega.util.PegaEnum;
 import cert.aiops.pega.masterExecutors.Master;
 import cert.aiops.pega.util.SpringContextUtil;
-import cert.aiops.pega.workerExecutors.Worker;
 import cert.aiops.pega.config.PegaConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
-import org.springframework.boot.SpringBootConfiguration;
-import org.springframework.context.ApplicationListener;
-import org.springframework.context.annotation.*;
-import org.springframework.context.event.ContextRefreshedEvent;
-import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 
 @Component
 @Order(value=1)

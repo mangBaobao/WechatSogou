@@ -1,6 +1,6 @@
 package cert.aiops.pega.masterExecutors;
 
-import cert.aiops.pega.bean.PegaEnum;
+import cert.aiops.pega.util.PegaEnum;
 import cert.aiops.pega.bean.SystemInfo;
 import cert.aiops.pega.config.PegaConfiguration;
 import cert.aiops.pega.service.HostInfoService;
@@ -9,7 +9,6 @@ import cert.aiops.pega.startup.BeingMasterCondition;
 import cert.aiops.pega.synchronization.Synchronizer;
 import cert.aiops.pega.util.SpringContextUtil;
 import cert.aiops.pega.util.ZookeeperUtil;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,6 @@
 package cert.aiops.pega.bean;
 
-import org.apache.catalina.Host;
+import cert.aiops.pega.util.PegaEnum;
 
 import javax.persistence.*;
 import java.util.ArrayList;

@@ -1,11 +1,10 @@
 package cert.aiops.pega.synchronization;
 
 import cert.aiops.pega.bean.HostInfo;
-import cert.aiops.pega.bean.PegaEnum;
+import cert.aiops.pega.util.PegaEnum;
 import cert.aiops.pega.bean.SystemInfo;
 import cert.aiops.pega.bean.SystemInfoClick;
 import cert.aiops.pega.config.PegaConfiguration;
-import cert.aiops.pega.masterExecutors.Master;
 import cert.aiops.pega.service.JczySynchronizationService;
 import cert.aiops.pega.service.SystemInfoService;
 import cert.aiops.pega.startup.BeingMasterCondition;
