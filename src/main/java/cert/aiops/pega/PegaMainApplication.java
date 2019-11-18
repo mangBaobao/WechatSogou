@@ -16,7 +16,6 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @EnableDiscoveryClient
 @EnableAsync
 @EnableCaching
-@EnableKafka
 public class PegaMainApplication {
 //    private static Logger logger = LoggerFactory.getLogger(PegaMainApplication.class);
 

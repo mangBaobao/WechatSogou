@@ -26,7 +26,43 @@ public class PegaEnum {
         online, worker
     }
 
-    public enum ExceptionCode{
+    public enum UpdaterStateCode{
+        AgentRunningFailed(1100),
+        DaemondRunningFailed(1101),
+        DaemondGuardFailed(1102),
+        DoubleKilled(1103),
+        UpdaterWorking(1104),
+        AgentRunningSuccess(1111);
+
+        private int value;
+
+        UpdaterStateCode(int value){
+            this.value=value;
+        }
+        public UpdaterStateCode valueOf(int value){
+            switch (value){
+                case 1100:
+                    return UpdaterStateCode.AgentRunningFailed;
+                case 1101:
+                    return UpdaterStateCode.DaemondRunningFailed;
+                case 1102:
+                    return UpdaterStateCode.DaemondGuardFailed;
+                case 1103:
+                    return UpdaterStateCode.DoubleKilled;
+                case 1104:
+                    return UpdaterStateCode.UpdaterWorking;
+                case 1111:
+                    return UpdaterStateCode.AgentRunningSuccess;
+            }
+            return null;
+        }
+
+        public int getValue(){
+            return this.value;
+        }
+    }
+
+    public enum RegistrationExceptionCode {
         NotFoundUuid (1000),
         NotFoundMatchedIp (1001),
         NameNotMatched (1002),
@@ -34,20 +70,20 @@ public class PegaEnum {
 
         private int value;
 
-         ExceptionCode(int value){
+         RegistrationExceptionCode(int value){
             this.value=value;
         }
 
-        public ExceptionCode valueOf(int value){
+        public RegistrationExceptionCode valueOf(int value){
             switch (value){
                 case 1000:
-                    return ExceptionCode.NotFoundUuid;
+                    return RegistrationExceptionCode.NotFoundUuid;
                 case 1001:
-                    return ExceptionCode.NotFoundMatchedIp;
+                    return RegistrationExceptionCode.NotFoundMatchedIp;
                 case 1002:
-                    return ExceptionCode.NameNotMatched;
+                    return RegistrationExceptionCode.NameNotMatched;
                 case 1003:
-                    return ExceptionCode.UuidNotMatched;
+                    return RegistrationExceptionCode.UuidNotMatched;
             }
             return null;
         }
