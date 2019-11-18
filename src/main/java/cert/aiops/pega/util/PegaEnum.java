@@ -70,7 +70,7 @@ public class PegaEnum {
 
         private int value;
 
-         RegistrationExceptionCode(int value){
+          RegistrationExceptionCode(int value){
             this.value=value;
         }
 

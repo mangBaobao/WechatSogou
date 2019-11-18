@@ -2,7 +2,7 @@ package cert.aiops.pega.bean;
 
 import cert.aiops.pega.util.PegaEnum;
 
-public class Exception {
+public class AgentException {
     private String reporter;
     private String time;
     private String issueId;
@@ -12,7 +12,7 @@ public class Exception {
 
     @Override
     public String toString() {
-        return "Exception{" +
+        return "AgentException{" +
                 "reporter='" + reporter + '\'' +
                 ", time='" + time + '\'' +
                 ", issueId='" + issueId + '\'' +
