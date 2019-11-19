@@ -7,6 +7,7 @@ import cert.aiops.pega.dao.HostInfoClickDao;
 import cert.aiops.pega.dao.HostStateDao;
 import cert.aiops.pega.dao.SystemMappingsDao;
 import cert.aiops.pega.dao.WorkerMappingsDao;
+import cert.aiops.pega.registration.RegistrationExceptionListener;
 import cert.aiops.pega.masterExecutors.Master;
 import cert.aiops.pega.masterExecutors.MasterCronTasks;
 import cert.aiops.pega.masterExecutors.PegaNodeCacheListener;
@@ -16,7 +17,6 @@ import cert.aiops.pega.workerExecutors.Worker;
 import cert.aiops.pega.service.HostInfoService;
 import cert.aiops.pega.service.SystemInfoService;
 import cert.aiops.pega.util.*;
-import com.google.gson.JsonObject;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.recipes.cache.*;
 import org.junit.Test;
@@ -25,12 +25,10 @@ import org.mockito.Mock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.IOException;
-import java.sql.Array;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -908,16 +906,23 @@ public class PegaApplicationTest {
     @Test
     public void kafkaSendObjectListTest(){
         logger.info("kafkaSendObjectListTest begins......");
-        for(int i=0;i<=3;i++){
+        for(int i=0;i<=10;i++){
             AgentException exception=new AgentException();
             exception.setCode(PegaEnum.RegistrationExceptionCode.NotFoundUuid );
             exception.setIssueId("dfadfadfadg_"+i);
             exception.setTopic("exception");
             exception.setReporter("dfaqwerqewrrt_"+i);
             exception.setTime(String.valueOf(new Date()));
-            exception.setReason("test");
+            exception.setReason("test:round 5");
             logger.info("kafkaSendObjectListTest: exception instance={}", exception.toString());
             kafkaUtil.send2Kafka("exception", exception);
         }
+    }
+
+    @Test
+    public void kafkaConsumeObjectTest(){
+        logger.info("kafkaConsumeObjectTest begins......");
+        RegistrationExceptionListener listener=new RegistrationExceptionListener();
+        kafkaUtil.startConsumeMessage("exception",listener);
     }
 }

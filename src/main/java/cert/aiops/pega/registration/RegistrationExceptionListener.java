@@ -1,4 +1,4 @@
-package cert.aiops.pega.exceptions;
+package cert.aiops.pega.registration;
 
 
 import org.apache.kafka.clients.consumer.Consumer;
@@ -10,15 +10,8 @@ import org.springframework.kafka.support.Acknowledgment;
 
 import java.util.List;
 
-public class KafkaMessageListener implements BatchAcknowledgingConsumerAwareMessageListener<String, String> {
-    private Logger logger = LoggerFactory.getLogger(KafkaMessageListener.class);
-    @Override
-    public void onMessage(List<ConsumerRecord<String, String>> list, Consumer<?, ?> consumer) {
-
-        for(ConsumerRecord<String,String> singleRecord:list){
-            logger.info("onMessage1: key={},value={}",singleRecord.key(),singleRecord.value());
-        }
-    }
+public class RegistrationExceptionListener implements BatchAcknowledgingConsumerAwareMessageListener<String, String> {
+    private Logger logger = LoggerFactory.getLogger(RegistrationExceptionListener.class);
 
     @Override
     public void onMessage(List<ConsumerRecord<String, String>> data, Acknowledgment acknowledgment, Consumer<?, ?> consumer) {

@@ -2,11 +2,17 @@ package cert.aiops.pega.bean;
 
 import cert.aiops.pega.util.PegaEnum;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name="agent_exception")
 public class AgentException {
     private String reporter;
     private String time;
+    @Column(nullable = false, unique = true)
     private String issueId;
     private String topic;
+    @Enumerated(EnumType.STRING)
     private PegaEnum.RegistrationExceptionCode code;
     private String reason;
 

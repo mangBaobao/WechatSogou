@@ -1,25 +1,17 @@
 package cert.aiops.pega.util;
 
 import cert.aiops.pega.config.KafkaConsumerConfiguer;
-import cert.aiops.pega.config.PegaConfiguration;
-import cert.aiops.pega.exceptions.KafkaMessageListener;
+import cert.aiops.pega.registration.RegistrationExceptionListener;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.kafka.clients.consumer.Consumer;
-import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
-import org.springframework.kafka.listener.ContainerProperties;
 import org.springframework.stereotype.Component;
-import cert.aiops.pega.exceptions.KafkaMessageListener;
-import javax.annotation.Resource;
-import java.util.List;
 
 @Component
 @PropertySource("classpath:utility.properties")
@@ -28,6 +20,7 @@ public class KafkaUtil {
     @Value("${pega.kafka.producer.topics}")
     private String topicsAsString;
 
+    private  ConcurrentMessageListenerContainer<String,String> container;
     @Autowired
     private KafkaTemplate kafkaTemplate;
 
@@ -53,14 +46,16 @@ public class KafkaUtil {
 //
 //    }
 
-    public void consumeMessage(String topic, KafkaMessageListener kafkaMessageListener){
+    public void startConsumeMessage(String topic, RegistrationExceptionListener kafkaMessageListener){
         if(!topicsAsString.contains(topic)||topic.isEmpty()){
-            logger.info("consumeMessage: input topic is not included,refused to send. topic={}",topic);
+            logger.info("startConsumeMessage: input topic is not included,refused to send. topic={}",topic);
             return;
         }
-        ConcurrentMessageListenerContainer<String,String> container= consumerConfiguer.kafkaListenerContainerFactory().createContainer(topic);
+        if(container==null)
+            container= consumerConfiguer.kafkaListenerContainerFactory().createContainer(topic);
         container.setupMessageListener(kafkaMessageListener);
         container.start();
+
     }
 
 }

@@ -40,8 +40,8 @@ public class KafkaConsumerConfiguer {
         properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,environment.getProperty("spring.kafka.bootstrap-servers"));
         properties.put(ConsumerConfig.GROUP_ID_CONFIG,environment.getProperty("spring.kafka.consumer.group-id"));
         properties.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG,environment.getProperty("spring.kafka.consumer.enable-auto-commit"));
-        properties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG,environment.getProperty("org.apache.kafka.common.serialization.StringDeserializer"));
-        properties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,environment.getProperty("org.apache.kafka.common.serialization.StringDeserializer"));
+        properties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG,environment.getProperty("spring.kafka.consumer.key-deserializer"));
+        properties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,environment.getProperty("spring.kafka.consumer.value-deserializer"));
         return properties;
     }
 

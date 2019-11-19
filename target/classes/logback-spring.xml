@@ -4,8 +4,8 @@
     <!--继承spring boot提供的logback配置-->
     <!--设置系统日志目录-->
     <!--<include resource="org/springframework/boot/logging/logback/base.xml" />-->
-    <!--<property scope="context" name="LOG_PATH" value="G:\\pega_log"/>-->
-    <property scope="context" name="LOG_PATH" value="/var/log/pega/"/>
+    <property scope="context" name="LOG_PATH" value="F:\\pega_log"/>
+    <!--<property scope="context" name="LOG_PATH" value="/var/log/pega/"/>-->
     <!-- 彩色日志 --> <!-- 彩色日志依赖的渲染类,控制台上的日志彩色显示 -->
     <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter"/>
     <conversionRule conversionWord="wex"
