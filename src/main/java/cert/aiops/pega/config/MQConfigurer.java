@@ -49,7 +49,7 @@ public class MQConfigurer {
 //      template.setExchange(environment.getProperty("spring.rabbitmq.template.createExchange"));
 //      template.setConfirmCallback(((correlationData, b, s) -> {
 //          if(b){
-//              logger.info("send message to createExchange done, id:{}",correlationData.getHost_name());
+//              logger.info("send message to createExchange done, id:{}",correlationData.getHostName());
 //          }
 //          else{
 //              logger.error("send message to createExchange failed, cause:{}",s);

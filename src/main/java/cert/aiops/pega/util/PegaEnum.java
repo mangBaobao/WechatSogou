@@ -26,6 +26,14 @@ public class PegaEnum {
         online, worker
     }
 
+    public enum IssueStatus {
+        lasting,finish
+    }
+
+    public enum ActionType{
+        arrival,allocate,extract,local
+    }
+
     public enum UpdaterStateCode{
         AgentRunningFailed(1100),
         DaemondRunningFailed(1101),
