@@ -51,11 +51,25 @@ public class KafkaUtil {
             logger.info("startConsumeMessage: input topic is not included,refused to send. topic={}",topic);
             return;
         }
-        if(container==null)
-            container= consumerConfiguer.kafkaListenerContainerFactory().createContainer(topic);
-        container.setupMessageListener(kafkaMessageListener);
-        container.start();
-
+        if(container==null) {
+            container = consumerConfiguer.kafkaListenerContainerFactory().createContainer(topic);
+            container.setupMessageListener(kafkaMessageListener);
+        }
+        if(!container.isRunning()) {
+          logger.info("startConsumeMessage: container is not running. begin to start container");
+            container.start();
+        }
+        logger.info("startConsumeMessage:resume container");
+        container.resume();
     }
 
+    public void pauseConsumeMessage(){
+        if(container.isRunning()||!container.isContainerPaused()){
+            logger.info("stopConsumeMessage: begin to pause container");
+            container.pause();
+        }
+        else{
+            logger.info("stopConsumeMessage: container is paused or not running. Do nothing...");
+        }
+    }
 }

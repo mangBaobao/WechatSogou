@@ -95,7 +95,7 @@ public class HostQueryServiceImpl implements HostQueryService {
 ////            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 ////            String dateString = formatter.format(createdTime);
 ////            host.setTimestamp(dateString);
-//            host.setUpdate_time(formatter.format(createdTime));
+//            host.setUpdateTime(formatter.format(createdTime));
 //            host.setStatus(PegaEnum.Avail.unavail);
 //            hosts.add(host);
 //        }

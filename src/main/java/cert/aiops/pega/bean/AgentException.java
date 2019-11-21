@@ -9,6 +9,7 @@ import javax.persistence.*;
 public class AgentException {
     private String reporter;
     private String time;
+    @Id
     @Column(nullable = false, unique = true)
     private String issueId;
     private String topic;

@@ -1,32 +1,64 @@
 package cert.aiops.pega.bean;
 
 import cert.aiops.pega.util.PegaEnum;
+import cert.aiops.pega.util.TabSerializable;
+import cert.aiops.pega.util.TabSerializer;
 
-public class Judgement {
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import java.sql.Time;
+import java.util.Date;
+import java.util.StringJoiner;
 
-    private String exceptionId;
+public class Judgement implements TabSerializable {
+
+    private String issueId;
+    @Enumerated(EnumType.STRING)
     private PegaEnum.RegistrationExceptionCode exceptionCode;
+    @Enumerated(EnumType.STRING)
     private PegaEnum.IssueStatus status;
+    @Enumerated(EnumType.STRING)
     private PegaEnum.ActionType actionType;
     private String content;
+    private Date updateTime;
 
+    @Override
+    public String toTabbedString() {
+        StringJoiner joiner = new StringJoiner(",");
+        TabSerializer.addValue(issueId,joiner);
+        TabSerializer.addValue(exceptionCode,joiner);
+        TabSerializer.addValue(status,joiner);
+        TabSerializer.addValue(actionType,joiner);
+        TabSerializer.addValue(content,joiner);
+        TabSerializer.addValue(updateTime,joiner);
+        return joiner.toString();
+    }
     @Override
     public String toString() {
         return "Judgement{" +
-                "exceptionId='" + exceptionId + '\'' +
+                "issueId='" + issueId + '\'' +
                 ", exceptionCode=" + exceptionCode +
                 ", status=" + status +
                 ", actionType=" + actionType +
                 ", content='" + content + '\'' +
+                ", updateTime=" + updateTime +
                 '}';
     }
 
-    public String getExceptionId() {
-        return exceptionId;
+    public Date getUpdateTime() {
+        return updateTime;
     }
 
-    public void setExceptionId(String exceptionId) {
-        this.exceptionId = exceptionId;
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public String getIssueId() {
+        return issueId;
+    }
+
+    public void setIssueId(String issueId) {
+        this.issueId = issueId;
     }
 
     public PegaEnum.RegistrationExceptionCode getExceptionCode() {
@@ -60,4 +92,6 @@ public class Judgement {
     public void setContent(String content) {
         this.content = content;
     }
+
+
 }

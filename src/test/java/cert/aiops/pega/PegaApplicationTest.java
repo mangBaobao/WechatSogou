@@ -3,10 +3,7 @@ package cert.aiops.pega;
 import cert.aiops.pega.bean.*;
 import cert.aiops.pega.bean.mapping.*;
 import cert.aiops.pega.config.PegaConfiguration;
-import cert.aiops.pega.dao.HostInfoClickDao;
-import cert.aiops.pega.dao.HostStateDao;
-import cert.aiops.pega.dao.SystemMappingsDao;
-import cert.aiops.pega.dao.WorkerMappingsDao;
+import cert.aiops.pega.dao.*;
 import cert.aiops.pega.registration.RegistrationExceptionListener;
 import cert.aiops.pega.masterExecutors.Master;
 import cert.aiops.pega.masterExecutors.MasterCronTasks;
@@ -29,11 +26,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.Date;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -75,7 +71,7 @@ public class PegaApplicationTest {
 //        String strKey = "1_sys1_count";
 //        int strValue = 1001;
 //
-//        String tempKey = String.valueOf(new Date().getTime());
+//        String tempKey = String.valueOf(new Date().getUpdateTime());
 //        String routineKey = "1_sys1";
 //
 //        logger.info("redisClientUtil test now begins...");
@@ -196,6 +192,11 @@ public class PegaApplicationTest {
         sql = "create table if not exists pega_test.system_mappings(id UInt64, allocated_count int,unallocated_count int,state Enum8('valid'=0,'invalid'=1,'update'=2),uptime String,mapping String)ENGINE MergeTree()" +
                 "PARTITION BY toYYYYMM(Cast(uptime as DateTime)) ORDER BY(Cast(uptime as DateTime),id)";
         ClickhouseUtil.getInstance().exeSql(sql);
+
+        sql="create table if not exists pega_test.judgement_history(issue_id String,exception_code Enum16('NotFoundUuid'=1000,'NotFoundMatchedIp'=1001,'NameNotMatched'=1002,'UuidNotMatched'=1003)," +
+                "status Enum8('lasting'=0,'finish'=1), action_type Enum8('arrival'=0,'allocate'=1,'extract'=2,'local'=3),content String, update_time DateTime) ENGINE MergeTree() PARTITION " +
+                "BY toYYYYMM(update_time) ORDER BY(update_time,issue_id)";
+        ClickhouseUtil.getInstance().exeSql(sql);
     }
 
     @Test
@@ -299,8 +300,8 @@ public class PegaApplicationTest {
         logger.info("HostInfoDao test begins...............................");
         logger.info("HostInfoDao putHostInfoList test");
         dao.putHostInfoList(hostInfos);
-        logger.info("HostInfoDao getHostInfosBySystemName test");
-        SystemInfoClick sys = dao.getHostInfosBySystemName("Chinese2");
+        logger.info("HostInfoDao queryHostInfosBySystemName test");
+        SystemInfoClick sys = dao.queryHostInfosBySystemName("Chinese2");
         logger.info(sys.toString());
         logger.info("HostInfoDao getAllHostInfos test");
         ArrayList<SystemInfoClick> systemInfoClicks = dao.getAllHostInfos();
@@ -925,4 +926,38 @@ public class PegaApplicationTest {
         RegistrationExceptionListener listener=new RegistrationExceptionListener();
         kafkaUtil.startConsumeMessage("exception",listener);
     }
+    @Autowired
+    JudgementDao judgementDao;
+    @Test
+    public void  clickhouseJudgementTest(){
+        Judgement judgement;
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        logger.info("clickhouseJudgementTest begins......");
+        for(int i=0;i<3;i++){
+            judgement =new Judgement();
+            judgement.setActionType(PegaEnum.ActionType.allocate);
+            judgement.setContent("test:round 4");
+            judgement.setExceptionCode(PegaEnum.RegistrationExceptionCode.NotFoundMatchedIp);
+            judgement.setIssueId("judgement0000"+i);
+            judgement.setStatus(PegaEnum.IssueStatus.finish);
+            judgement.setUpdateTime(new Date());
+            judgementDao.storeJudgement(judgement);
+        }
+        logger.info("clickhouseJudgementTest finishes to store judgements");
+        logger.info("clickhouseJudgementTest begins to query judgements by time");
+//        String sql="select * from pega_test.judgement_history where update_time<'"+formatter.format(new Date())+"'";
+//        ResultSet results = ClickhouseUtil.getInstance().exeSql(sql);
+        ArrayList<Judgement> judgements=judgementDao.queryJudgementByTime(new Date());
+
+        for(Judgement judge : judgements){
+            logger.info("clickhouseJudgementTest: query judgement:{}",judge.toTabbedString());
+        }
+
+        logger.info("clickhouseJudgementTest begins to query judgements by id");
+        judgements=judgementDao.queryJudgementById("judgement00001");
+        for(Judgement judge : judgements){
+            logger.info("clickhouseJudgementTest: query judgement by id:{}",judge.toTabbedString());
+        }
+    }
+
 }

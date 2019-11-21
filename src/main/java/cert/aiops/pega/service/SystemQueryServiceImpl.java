@@ -112,7 +112,7 @@ public class SystemQueryServiceImpl implements SystemQueryService {
 //            state.setStatus(PegaEnum.Avail.unavail);
 //            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 //            String dateString = formatter.format(createdTime);
-//            state.setUpdate_time(createdTime);
+//            state.setUpdateTime(createdTime);
 ////            state.setNet(PegaEnum.Net.z);
 //            state.setIp(String.valueOf(i));
 //            hostStates.add(state);

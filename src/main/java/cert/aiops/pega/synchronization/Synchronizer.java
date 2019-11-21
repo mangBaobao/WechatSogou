@@ -173,7 +173,7 @@ public class Synchronizer {
 //            hostInfo.setSystem_name(deviceInfo.getSname());
 //            hostInfo.setId(Long.valueOf(deviceInfo.getDid()));
 //            hostInfo.setHostName(deviceInfo.getDname());
-//            hostInfo.setUpdate_time(uptime);
+//            hostInfo.setUpdateTime(uptime);
 ////            hostInfo.setNet(PegaEnum.Net.valueOf(deviceInfo.getBnetwork_name()));
 //            hostInfo.setIp(deviceInfo.getIp());
 //            hostInfos.add(hostInfo);

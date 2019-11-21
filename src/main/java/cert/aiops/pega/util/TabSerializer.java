@@ -87,11 +87,15 @@ public class TabSerializer {
             joiner.add("'"+((PegaEnum.State)value).name()+"'");
         }else if(value instanceof PegaEnum.Avail){
             joiner.add("'"+((PegaEnum.Avail)value).name()+"'");
-        }else if(value instanceof PegaEnum.ObjectState){
-            joiner.add("'"+((PegaEnum.ObjectState)value).name()+"'");
-        } else if(value instanceof String){
-            joiner.add("'"+String.valueOf(value)+"'");
-        }else {
+        }else if(value instanceof PegaEnum.ObjectState) {
+            joiner.add("'" + ((PegaEnum.ObjectState) value).name() + "'");
+        }else if(value instanceof  PegaEnum.IssueStatus){
+            joiner.add("'"+ ((PegaEnum.IssueStatus)value).name()+"'");
+        }else if(value instanceof  PegaEnum.ActionType){
+            joiner.add("'"+((PegaEnum.ActionType)value).name()+"'");
+        }else if(value instanceof PegaEnum.RegistrationExceptionCode){
+            joiner.add("'"+((PegaEnum.RegistrationExceptionCode)value).name()+"'");
+        } else {
             joiner.add(String.valueOf(value));
         }
 

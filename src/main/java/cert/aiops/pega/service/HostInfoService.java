@@ -53,7 +53,7 @@ public class HostInfoService {
 
     public void addHostInfo(HostInfo hostInfo){
 //        hostInfoRepository.addHostInfo(hostInfo.getIp(),hostInfo.getHostName(),hostInfo.getNet(),hostInfo.getState(),hostInfo.getSystemId(),
-//                hostInfo.getSystemId(),hostInfo.getUpdate_time());
+//                hostInfo.getSystemId(),hostInfo.getUpdateTime());
 
         hostInfoRepository.save(hostInfo);
     }

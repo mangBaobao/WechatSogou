@@ -33,7 +33,7 @@ public class HostInfoClickDao {
         ClickhouseUtil.getInstance().exeSql(sql);
     }
 
-    public SystemInfoClick getHostInfosBySystemName(String systemName) {
+    public SystemInfoClick queryHostInfosBySystemName(String systemName) {
         String sql = "select * from " + database + ".host_info where system_name='" + systemName + "' order by update_time";
         ResultSet results = ClickhouseUtil.getInstance().exeSql(sql);
         SystemInfoClick systemInfoClick = new SystemInfoClick();
@@ -75,7 +75,7 @@ public class HostInfoClickDao {
             ArrayList<SystemInfoClick> systemInfoClicks = new ArrayList<>();
             while (results.next()) {
                 String name = results.getString("system_name");
-                SystemInfoClick sys = getHostInfosBySystemName(name);
+                SystemInfoClick sys = queryHostInfosBySystemName(name);
                 systemInfoClicks.add(sys);
             }
             return systemInfoClicks;
