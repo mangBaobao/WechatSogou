@@ -64,6 +64,10 @@ public class KafkaUtil {
     }
 
     public void pauseConsumeMessage(){
+        if(container==null){
+            logger.info("stopConsumeMessage: container is not exist. Do nothing...");
+            return;
+        }
         if(container.isRunning()||!container.isContainerPaused()){
             logger.info("stopConsumeMessage: begin to pause container");
             container.pause();

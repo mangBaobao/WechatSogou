@@ -960,4 +960,28 @@ public class PegaApplicationTest {
         }
     }
 
+    @Test
+    public void kafkaSendCronObjectListTest(){
+        logger.info("kafkaSendCronObjectListTest begins......");
+        int round = 1;
+        while(true) {
+            for (int i = 0; i <= 3; i++) {
+                AgentException exception = new AgentException();
+                exception.setCode(PegaEnum.RegistrationExceptionCode.NotFoundUuid);
+                exception.setIssueId("wwwwwqqqq2_" + round+"_"+i);
+                exception.setTopic("exception");
+                exception.setReporter("wwwwwwqqqq2_" + i);
+                exception.setTime(String.valueOf(new Date()));
+                exception.setReason("test:round "+round);
+                logger.info("kafkaSendCronObjectListTest: exception instance={}", exception.toString());
+                kafkaUtil.send2Kafka("exception", exception);
+            }
+            round++;
+            try {
+            Thread.sleep(100000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        }
+    }
 }

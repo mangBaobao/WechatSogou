@@ -31,6 +31,11 @@ public class MasterCronTasks {
         boolean isQueueChanged=queueManager.updateQueueStatus();
         MappingManager mappingManager = SpringContextUtil.getBean(MappingManager.class);
 
+        if(mappingManager.getWorkerSize()==0){
+            logger.info("renovateMappings:no worker exist. Do nothing");
+            return;
+        }
+
         logger.info("MasterCronTasks_renovateMappings: checkAllocationFragment");
         if(mappingManager.checkAllocationFragment()){
             mappingManager.remappingAllSystems();

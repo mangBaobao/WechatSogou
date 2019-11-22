@@ -17,14 +17,14 @@ public class RegistrationCronTask {
     @Autowired
     private KafkaUtil kafkaUtil;
 
-    @Scheduled(cron="0 0/5 * * *")
+    @Scheduled(cron="0 0/2 * * * *")
     public void startReceiveExceptions(){
         logger.info("startReceiveExceptions: begins to receive agent exceptions");
         RegistrationExceptionListener listener=new RegistrationExceptionListener();
         kafkaUtil.startConsumeMessage("exception",listener);
     }
 
-    @Scheduled(cron="0 0/8 * * *")
+    @Scheduled(cron="0 0/3 * * * *")
     public void stopReceiveException(){
         logger.info("stopReceiveException: begins to stop receive agent exceptions");
         kafkaUtil.pauseConsumeMessage();
