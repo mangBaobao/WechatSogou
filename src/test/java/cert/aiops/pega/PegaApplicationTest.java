@@ -8,6 +8,7 @@ import cert.aiops.pega.registration.RegistrationExceptionListener;
 import cert.aiops.pega.masterExecutors.Master;
 import cert.aiops.pega.masterExecutors.MasterCronTasks;
 import cert.aiops.pega.masterExecutors.PegaNodeCacheListener;
+import cert.aiops.pega.registration.RegistrationManager;
 import cert.aiops.pega.service.JczySynchronizationService;
 import cert.aiops.pega.synchronization.*;
 import cert.aiops.pega.workerExecutors.Worker;
@@ -538,14 +539,14 @@ public class PegaApplicationTest {
     public void host2MysqlTest() throws InterruptedException {
         ArrayList<HostInfo> hostInfos = new ArrayList<>();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 10; i++) {
             HostInfo hinfo = new HostInfo();
             hinfo.setId((long) i);
             hinfo.setSystemId(Long.valueOf(i % 2));
-            hinfo.setHost_name("test" + (i));
+            hinfo.setHost_name("国家" + (i));
             hinfo.setIp("10.10.10." + (i));
 //            hinfo.setNet(PegaEnum.Net.z);
-            hinfo.setState(PegaEnum.State.交维中);
+            hinfo.setState(PegaEnum.State.在维);
             hinfo.setSystem_name("中文" + i % 2);
             hinfo.setUpdate_time(formatter.format(new Date()));
             hostInfos.add(hinfo);
@@ -983,5 +984,29 @@ public class PegaApplicationTest {
             e.printStackTrace();
         }
         }
+    }
+
+    @Autowired
+    UuidUtil uuidUtil;
+    @Test
+    public void uuidTest(){
+        logger.info("uuidTest begins ....");
+        uuidUtil.generateUuid("z_10.127.0.0".getBytes());
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        uuidUtil.generateUuid("v_10.127.0.0".getBytes());
+        uuidUtil.generateUuid("z_10.127.0.1".getBytes());
+
+    }
+
+    @Autowired
+    RegistrationManager manager;
+    @Test
+    public void registerTest(){
+        logger.info("registerTest begins....");
+        manager.publishIdentifications();
     }
 }

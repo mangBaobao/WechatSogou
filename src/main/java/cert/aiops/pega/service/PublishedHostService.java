@@ -1,6 +1,6 @@
 package cert.aiops.pega.service;
 
-import cert.aiops.pega.bean.PublishedHost;
+import cert.aiops.pega.bean.RegisteredHost;
 import cert.aiops.pega.dao.PublishedHostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,11 +16,11 @@ public class PublishedHostService {
     @Autowired
     private PublishedHostRepository publishedHostRepository;
 
-    public void batchStoreHosts(ArrayList<PublishedHost> hosts){
+    public void batchStoreHosts(ArrayList<RegisteredHost> hosts){
         publishedHostRepository.saveAll(hosts);
     }
 
-    public List<PublishedHost> getAllHostByTime(Time beginning){
+    public List<RegisteredHost> getAllHostByTime(Time beginning){
         return  publishedHostRepository.getAllBy(beginning);
     }
 
@@ -36,11 +36,11 @@ public class PublishedHostService {
         publishedHostRepository.updateChannels(id,channles);
     }
 
-    public PublishedHost getHostByName(String hostName){
+    public RegisteredHost getHostByName(String hostName){
         return publishedHostRepository.getByHostName(hostName);
     }
 
-    public PublishedHost getHostById(String id){
+    public RegisteredHost getHostById(String id){
         return publishedHostRepository.getById(id);
     }
 }

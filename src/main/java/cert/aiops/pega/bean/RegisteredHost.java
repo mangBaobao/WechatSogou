@@ -1,26 +1,30 @@
 package cert.aiops.pega.bean;
 
+import com.fasterxml.jackson.annotation.JsonFilter;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.sql.Time;
+import java.util.ArrayList;
+import java.util.Date;
 
+@JsonFilter("PublishFilter")
 @Entity
-@Table(name="hostName")
-public class PublishedHost {
+@Table(name="registered_host")
+public class RegisteredHost {
 
     private String ip;
-    private Time update_time;
+    private Date update_time;
     @Id
     @Column(nullable = false, unique = true)
     private String hostName;
-    private String id;
-    private String channels;
+    private String id=null;
+    private ArrayList<String> channels=new ArrayList<>();
 
     @Override
     public String toString() {
-        return "PublishedHost{" +
+        return "RegisteredHost{" +
                 "ip='" + ip + '\'' +
                 ", update_time='" + update_time + '\'' +
                 ", hostName='" + hostName + '\'' +
@@ -37,11 +41,11 @@ public class PublishedHost {
         this.ip = ip;
     }
 
-    public Time getUpdate_time() {
+    public Date getUpdate_time() {
         return update_time;
     }
 
-    public void setUpdate_time(Time update_time) {
+    public void setUpdate_time(Date update_time) {
         this.update_time = update_time;
     }
 
@@ -61,11 +65,11 @@ public class PublishedHost {
         this.id = id;
     }
 
-    public String getChannels() {
+    public ArrayList<String>  getChannels() {
         return channels;
     }
 
-    public void setChannels(String channels) {
-        this.channels = channels;
+    public void addChannel(String channel) {
+        this.channels.add(channel);
     }
 }

@@ -2,12 +2,24 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="77949154-d0ea-4538-8da3-fb57a3ba8d60" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/cert/aiops/pega/channels/ChannelManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/cert/aiops/pega/util/ProvinceUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/cert/aiops/pega/util/UuidUtil.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cert/aiops/pega/masterExecutors/MasterCronTasks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cert/aiops/pega/masterExecutors/MasterCronTasks.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cert/aiops/pega/registration/RegistrationCronTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cert/aiops/pega/registration/RegistrationCronTask.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cert/aiops/pega/util/KafkaUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cert/aiops/pega/util/KafkaUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/utility.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/utility.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cert/aiops/pega/bean/PublishedHost.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cert/aiops/pega/bean/RegisteredHost.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cert/aiops/pega/dao/HostInfoRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cert/aiops/pega/dao/HostInfoRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cert/aiops/pega/dao/PublishedHostRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cert/aiops/pega/dao/PublishedHostRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cert/aiops/pega/masterExecutors/Master.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cert/aiops/pega/masterExecutors/Master.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cert/aiops/pega/registration/RegistrationManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cert/aiops/pega/registration/RegistrationManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cert/aiops/pega/service/HostInfoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cert/aiops/pega/service/HostInfoService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cert/aiops/pega/service/PublishedHostService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cert/aiops/pega/service/PublishedHostService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cert/aiops/pega/util/IdentityUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cert/aiops/pega/util/IdentityUtil.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/cert/aiops/pega/PegaApplicationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/cert/aiops/pega/PegaApplicationTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/cert/aiops/pega/dao/HostInfoRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cert/aiops/pega/dao/HostInfoRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/cert/aiops/pega/masterExecutors/Master.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cert/aiops/pega/masterExecutors/Master.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/cert/aiops/pega/masterExecutors/MasterCronTasks.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cert/aiops/pega/masterExecutors/MasterCronTasks.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/cert/aiops/pega/service/HostInfoService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cert/aiops/pega/service/HostInfoService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/utility.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/utility.properties" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -55,33 +67,33 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="class" value="5" />
-          <entry key="java" value="93" />
-          <entry key="properties" value="7" />
-          <entry key="xml" value="2" />
+          <entry key="class" value="8" />
+          <entry key="java" value="115" />
+          <entry key="properties" value="8" />
+          <entry key="xml" value="3" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="CLASS" value="5" />
-          <entry key="JAVA" value="93" />
-          <entry key="Properties" value="7" />
-          <entry key="XML" value="2" />
+          <entry key="CLASS" value="8" />
+          <entry key="JAVA" value="115" />
+          <entry key="Properties" value="8" />
+          <entry key="XML" value="3" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="dummy" value="31" />
-          <entry key="java" value="9256" />
+          <entry key="dummy" value="46" />
+          <entry key="java" value="12918" />
           <entry key="properties" value="833" />
-          <entry key="txt" value="258" />
+          <entry key="txt" value="288" />
           <entry key="xml" value="3" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="9256" />
-          <entry key="PLAIN_TEXT" value="289" />
+          <entry key="JAVA" value="12918" />
+          <entry key="PLAIN_TEXT" value="334" />
           <entry key="Properties" value="833" />
           <entry key="XML" value="3" />
         </counts>
@@ -91,10 +103,10 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/cert/aiops/pega/PegaApplicationTest.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/cert/aiops/pega/util/UuidUtil.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="545">
-              <caret line="972" column="50" selection-start-line="972" selection-start-column="50" selection-end-line="972" selection-end-column="50" />
+            <state relative-caret-position="416">
+              <caret line="16" column="82" selection-start-line="16" selection-start-column="82" selection-end-line="16" selection-end-column="82" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -103,19 +115,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/cert/aiops/pega/dao/HostStateDao.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1404">
-              <caret line="138" column="49" selection-start-line="138" selection-start-column="49" selection-end-line="138" selection-end-column="49" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/cert/aiops/pega/registration/RegistrationManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
+            <state relative-caret-position="274">
+              <caret line="67" column="70" selection-start-line="67" selection-start-column="70" selection-end-line="67" selection-end-column="70" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#583#584#0" expanded="true" />
@@ -126,9 +129,21 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/test/java/cert/aiops/pega/PegaApplicationTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="322">
+              <caret line="1007" column="16" selection-start-line="1007" selection-start-column="16" selection-end-line="1007" selection-end-column="16" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/cert/aiops/pega/registration/RegistrationCronTask.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="248">
+            <state relative-caret-position="262">
               <caret line="23" selection-start-line="23" selection-end-line="23" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -138,46 +153,43 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/cert/aiops/pega/registration/RegistrationExceptionListener.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/cert/aiops/pega/bean/RegisteredHost.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1006">
-              <caret line="46" selection-start-line="46" selection-end-line="46" />
+            <state relative-caret-position="286">
+              <caret line="11" column="26" selection-start-line="11" selection-start-column="26" selection-end-line="11" selection-end-column="26" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#860#861#0" expanded="true" />
+                <element signature="e#888#889#0" expanded="true" />
+                <element signature="e#1010#1011#0" expanded="true" />
+                <element signature="e#1056#1057#0" expanded="true" />
+                <element signature="e#1300#1301#0" expanded="true" />
+                <element signature="e#1328#1329#0" expanded="true" />
+                <element signature="e#1506#1507#0" expanded="true" />
+                <element signature="e#1543#1544#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/cert/aiops/pega/dao/JudgementDao.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/cert/aiops/pega/service/HostInfoService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="652">
-              <caret line="34" column="49" selection-start-line="34" selection-start-column="49" selection-end-line="34" selection-end-column="49" />
+            <state relative-caret-position="228">
+              <caret line="88" column="72" selection-start-line="88" selection-start-column="72" selection-end-line="88" selection-end-column="72" />
               <folding>
-                <element signature="imports" expanded="true" />
+                <element signature="e#3036#3037#0" expanded="true" />
+                <element signature="e#3076#3077#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/cert/aiops/pega/util/KafkaUtil.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/cert/aiops/pega/dao/HostInfoRepository.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-480">
-              <caret line="48" column="7" lean-forward="true" selection-start-line="48" selection-start-column="7" selection-end-line="48" selection-end-column="7" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/utility.properties">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="344">
-              <caret line="68" lean-forward="true" selection-start-line="68" selection-end-line="68" />
+            <state relative-caret-position="226">
+              <caret line="49" lean-forward="true" selection-start-line="49" selection-end-line="49" />
             </state>
           </provider>
         </entry>
@@ -212,7 +224,6 @@
         <option value="$PROJECT_DIR$/src/main/java/cert/aiops/pega/exceptions/RegistrationExceptionListener.java" />
         <option value="$PROJECT_DIR$/src/main/java/cert/aiops/pega/registration/PublishMessage.java" />
         <option value="$PROJECT_DIR$/src/main/java/cert/aiops/pega/bean/PublishHost.java" />
-        <option value="$PROJECT_DIR$/src/main/java/cert/aiops/pega/util/PegaEnum.java" />
         <option value="$PROJECT_DIR$/src/main/java/cert/aiops/pega/bean/PublishedHost.java" />
         <option value="$PROJECT_DIR$/src/main/java/cert/aiops/pega/dao/PublishedHostRepository.java" />
         <option value="$PROJECT_DIR$/src/main/java/cert/aiops/pega/service/PublishedHostService.java" />
@@ -222,11 +233,21 @@
         <option value="$PROJECT_DIR$/src/main/java/cert/aiops/pega/util/TabSerializer.java" />
         <option value="$PROJECT_DIR$/src/main/java/cert/aiops/pega/dao/JudgementDao.java" />
         <option value="$PROJECT_DIR$/src/main/java/cert/aiops/pega/registration/RegistrationExceptionListener.java" />
-        <option value="$PROJECT_DIR$/src/main/java/cert/aiops/pega/registration/RegistrationManager.java" />
         <option value="$PROJECT_DIR$/src/main/java/cert/aiops/pega/registration/RegistrationCronTask.java" />
         <option value="$PROJECT_DIR$/src/main/java/cert/aiops/pega/masterExecutors/MasterCronTasks.java" />
         <option value="$PROJECT_DIR$/src/main/java/cert/aiops/pega/util/KafkaUtil.java" />
         <option value="$PROJECT_DIR$/src/main/resources/utility.properties" />
+        <option value="$PROJECT_DIR$/src/main/java/cert/aiops/pega/bean/RegistratedHost.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cert/aiops/pega/masterExecutors/Master.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cert/aiops/pega/util/PegaEnum.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cert/aiops/pega/util/UuidUtil.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cert/aiops/pega/util/IdentityUtil.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cert/aiops/pega/util/ProvinceUtil.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cert/aiops/pega/channels/ChannelManager.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cert/aiops/pega/bean/RegisteredHost.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cert/aiops/pega/dao/HostInfoRepository.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cert/aiops/pega/service/HostInfoService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cert/aiops/pega/registration/RegistrationManager.java" />
         <option value="$PROJECT_DIR$/src/test/java/cert/aiops/pega/PegaApplicationTest.java" />
       </list>
     </option>
@@ -270,16 +291,16 @@
     </treeState>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="276" />
-    <option name="y" value="371" />
-    <option name="width" value="1276" />
+    <option name="x" value="302" />
+    <option name="y" value="447" />
+    <option name="width" value="1024" />
     <option name="height" value="726" />
   </component>
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectView">
-    <navigator currentView="PackagesPane" proportions="" version="1">
+    <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
@@ -294,6 +315,12 @@
               <item name="pega-cloud" type="58d84e3e:PackageViewProjectNode" />
               <item name="pega-cloud" type="616d4139:PackageViewModuleNode" />
               <item name="cert.aiops.pega" type="1f31426a:PackageElementNode" />
+            </path>
+            <path>
+              <item name="pega-cloud" type="58d84e3e:PackageViewProjectNode" />
+              <item name="pega-cloud" type="616d4139:PackageViewModuleNode" />
+              <item name="cert.aiops.pega" type="1f31426a:PackageElementNode" />
+              <item name="bean" type="1f31426a:PackageElementNode" />
             </path>
             <path>
               <item name="pega-cloud" type="58d84e3e:PackageViewProjectNode" />
@@ -318,6 +345,12 @@
               <item name="pega-cloud" type="616d4139:PackageViewModuleNode" />
               <item name="cert.aiops.pega" type="1f31426a:PackageElementNode" />
               <item name="registration" type="1f31426a:PackageElementNode" />
+            </path>
+            <path>
+              <item name="pega-cloud" type="58d84e3e:PackageViewProjectNode" />
+              <item name="pega-cloud" type="616d4139:PackageViewModuleNode" />
+              <item name="cert.aiops.pega" type="1f31426a:PackageElementNode" />
+              <item name="service" type="1f31426a:PackageElementNode" />
             </path>
             <path>
               <item name="pega-cloud" type="58d84e3e:PackageViewProjectNode" />
@@ -445,7 +478,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1574402683633" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1574730123919" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/src/main/java/cert/aiops/pega" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/pom.xml" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
@@ -469,7 +502,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.PegaApplicationTest.kafkaSendCronObjectListTest">
+  <component name="RunManager" selected="JUnit.PegaApplicationTest.registerTest">
     <configuration name="PegaApplicationTest.clickhouseJudgementTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="pega-cloud" />
       <extension name="coverage">
@@ -486,7 +519,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="PegaApplicationTest.clickhouseUtilTest_batchinsertHostInfoList" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="PegaApplicationTest.host2MysqlTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="pega-cloud" />
       <extension name="coverage">
         <pattern>
@@ -496,39 +529,7 @@
       </extension>
       <option name="PACKAGE_NAME" value="cert.aiops.pega" />
       <option name="MAIN_CLASS_NAME" value="cert.aiops.pega.PegaApplicationTest" />
-      <option name="METHOD_NAME" value="clickhouseUtilTest_batchinsertHostInfoList" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="PegaApplicationTest.clickhouseUtilTest_createTable" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="pega-cloud" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="cert.aiops.pega.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="cert.aiops.pega" />
-      <option name="MAIN_CLASS_NAME" value="cert.aiops.pega.PegaApplicationTest" />
-      <option name="METHOD_NAME" value="clickhouseUtilTest_createTable" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="PegaApplicationTest.kafkaConsumeObjectTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="pega-cloud" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="cert.aiops.pega.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="cert.aiops.pega" />
-      <option name="MAIN_CLASS_NAME" value="cert.aiops.pega.PegaApplicationTest" />
-      <option name="METHOD_NAME" value="kafkaConsumeObjectTest" />
+      <option name="METHOD_NAME" value="host2MysqlTest" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -550,6 +551,38 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="PegaApplicationTest.registerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="pega-cloud" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="cert.aiops.pega.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="cert.aiops.pega" />
+      <option name="MAIN_CLASS_NAME" value="cert.aiops.pega.PegaApplicationTest" />
+      <option name="METHOD_NAME" value="registerTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PegaApplicationTest.uuidTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="pega-cloud" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="cert.aiops.pega.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="cert.aiops.pega" />
+      <option name="MAIN_CLASS_NAME" value="cert.aiops.pega.PegaApplicationTest" />
+      <option name="METHOD_NAME" value="uuidTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="PegaMainApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <module name="pega-cloud" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="cert.aiops.pega.PegaMainApplication" />
@@ -559,19 +592,19 @@
     </configuration>
     <list>
       <item itemvalue="Spring Boot.PegaMainApplication" />
-      <item itemvalue="JUnit.PegaApplicationTest.kafkaConsumeObjectTest" />
-      <item itemvalue="JUnit.PegaApplicationTest.clickhouseUtilTest_createTable" />
       <item itemvalue="JUnit.PegaApplicationTest.clickhouseJudgementTest" />
-      <item itemvalue="JUnit.PegaApplicationTest.clickhouseUtilTest_batchinsertHostInfoList" />
       <item itemvalue="JUnit.PegaApplicationTest.kafkaSendCronObjectListTest" />
+      <item itemvalue="JUnit.PegaApplicationTest.uuidTest" />
+      <item itemvalue="JUnit.PegaApplicationTest.registerTest" />
+      <item itemvalue="JUnit.PegaApplicationTest.host2MysqlTest" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.PegaApplicationTest.registerTest" />
+        <item itemvalue="JUnit.PegaApplicationTest.host2MysqlTest" />
+        <item itemvalue="JUnit.PegaApplicationTest.uuidTest" />
         <item itemvalue="JUnit.PegaApplicationTest.kafkaSendCronObjectListTest" />
         <item itemvalue="JUnit.PegaApplicationTest.clickhouseJudgementTest" />
-        <item itemvalue="JUnit.PegaApplicationTest.clickhouseUtilTest_batchinsertHostInfoList" />
-        <item itemvalue="JUnit.PegaApplicationTest.clickhouseUtilTest_createTable" />
-        <item itemvalue="JUnit.PegaApplicationTest.kafkaConsumeObjectTest" />
       </list>
     </recent_temporary>
   </component>
@@ -588,7 +621,7 @@
       <workItem from="1573558626982" duration="886000" />
       <workItem from="1573610257590" duration="1081000" />
       <workItem from="1573615391215" duration="7042000" />
-      <workItem from="1573692290297" duration="64860000" />
+      <workItem from="1573692290297" duration="81587000" />
     </task>
     <task id="LOCAL-00001" summary="finish regression test;&#10;finish kafka configuration;&#10;finish exception code enumeration;&#10;in progress: kafka util">
       <created>1573723769507</created>
@@ -632,49 +665,56 @@
       <option name="project" value="LOCAL" />
       <updated>1574327814462</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="pass cron registration task">
+      <created>1574414174046</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1574414174046</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="PegaApplicationTest_clickhouseJudgementTest - 2019.11.21 at 14h 05m 45s.xml">
-      <configuration name="PegaApplicationTest.clickhouseJudgementTest" configurationId="JUnit" />
+    <history-entry file="PegaApplicationTest_uuidTest - 2019.11.25 at 15h 51m 18s.xml">
+      <configuration name="PegaApplicationTest.uuidTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="PegaApplicationTest_clickhouseJudgementTest - 2019.11.21 at 14h 06m 10s.xml">
-      <configuration name="PegaApplicationTest.clickhouseJudgementTest" configurationId="JUnit" />
+    <history-entry file="PegaApplicationTest_registerTest - 2019.11.25 at 17h 12m 08s.xml">
+      <configuration name="PegaApplicationTest.registerTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="PegaApplicationTest_clickhouseJudgementTest - 2019.11.21 at 14h 07m 19s.xml">
-      <configuration name="PegaApplicationTest.clickhouseJudgementTest" configurationId="JUnit" />
+    <history-entry file="PegaApplicationTest_registerTest - 2019.11.25 at 17h 12m 53s.xml">
+      <configuration name="PegaApplicationTest.registerTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="PegaApplicationTest_kafkaSendCronObjectListTest - 2019.11.22 at 11h 18m 58s.xml">
-      <configuration name="PegaApplicationTest.kafkaSendCronObjectListTest" configurationId="JUnit" />
+    <history-entry file="PegaApplicationTest_registerTest - 2019.11.25 at 17h 14m 58s.xml">
+      <configuration name="PegaApplicationTest.registerTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="PegaApplicationTest_kafkaSendCronObjectListTest - 2019.11.22 at 11h 28m 34s.xml">
-      <configuration name="PegaApplicationTest.kafkaSendCronObjectListTest" configurationId="JUnit" />
+    <history-entry file="PegaApplicationTest_registerTest - 2019.11.25 at 17h 26m 11s.xml">
+      <configuration name="PegaApplicationTest.registerTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="PegaApplicationTest_kafkaSendCronObjectListTest - 2019.11.22 at 11h 30m 21s.xml">
-      <configuration name="PegaApplicationTest.kafkaSendCronObjectListTest" configurationId="JUnit" />
+    <history-entry file="PegaApplicationTest_registerTest - 2019.11.25 at 17h 28m 44s.xml">
+      <configuration name="PegaApplicationTest.registerTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="PegaApplicationTest_kafkaSendCronObjectListTest - 2019.11.22 at 11h 35m 09s.xml">
-      <configuration name="PegaApplicationTest.kafkaSendCronObjectListTest" configurationId="JUnit" />
+    <history-entry file="PegaApplicationTest_host2MysqlTest - 2019.11.25 at 17h 35m 06s.xml">
+      <configuration name="PegaApplicationTest.host2MysqlTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="PegaApplicationTest_kafkaSendCronObjectListTest - 2019.11.22 at 13h 56m 57s.xml">
-      <configuration name="PegaApplicationTest.kafkaSendCronObjectListTest" configurationId="JUnit" />
+    <history-entry file="PegaApplicationTest_registerTest - 2019.11.25 at 17h 35m 47s.xml">
+      <configuration name="PegaApplicationTest.registerTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="PegaApplicationTest_kafkaSendCronObjectListTest - 2019.11.22 at 13h 59m 46s.xml">
-      <configuration name="PegaApplicationTest.kafkaSendCronObjectListTest" configurationId="JUnit" />
+    <history-entry file="PegaApplicationTest_host2MysqlTest - 2019.11.26 at 08h 30m 28s.xml">
+      <configuration name="PegaApplicationTest.host2MysqlTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="PegaApplicationTest_kafkaSendCronObjectListTest - 2019.11.22 at 14h 04m 41s.xml">
-      <configuration name="PegaApplicationTest.kafkaSendCronObjectListTest" configurationId="JUnit" />
+    <history-entry file="PegaApplicationTest_registerTest - 2019.11.26 at 09h 01m 49s.xml">
+      <configuration name="PegaApplicationTest.registerTest" configurationId="JUnit" />
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="73869000" />
+    <option name="totallyTimeSpent" value="90596000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1696" height="1026" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.74545455" visible="true" weight="0.2672619" />
-      <window_info id="Structure" order="1" sideWeight="0.25454545" side_tool="true" visible="true" weight="0.2672619" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.86380595" visible="true" weight="0.15952381" />
+      <window_info id="Structure" order="1" sideWeight="0.13619404" side_tool="true" visible="true" weight="0.15952381" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
       <window_info id="UI Designer" order="4" />
@@ -683,8 +723,8 @@
       <window_info id="Web" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32932165" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.41794312" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.39824945" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.41356674" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.43982494" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -721,7 +761,8 @@
     <MESSAGE value="finish kafka util&#10;test pass:send to kafka;consume kafka" />
     <MESSAGE value="create bean,dao and service" />
     <MESSAGE value="create and pass test: judgement dao" />
-    <option name="LAST_COMMIT_MESSAGE" value="create and pass test: judgement dao" />
+    <MESSAGE value="pass cron registration task" />
+    <option name="LAST_COMMIT_MESSAGE" value="pass cron registration task" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -739,102 +780,27 @@
           <option name="timeStamp" value="8" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/cert/aiops/pega/registration/RegistrationCronTask.java</url>
-          <line>23</line>
+          <url>file://$PROJECT_DIR$/src/main/java/cert/aiops/pega/service/HostInfoService.java</url>
+          <line>88</line>
           <properties />
-          <option name="timeStamp" value="9" />
+          <option name="timeStamp" value="11" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/cert/aiops/pega/registration/RegistrationManager.java</url>
+          <line>89</line>
+          <properties />
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/cert/aiops/pega/dao/HostInfoRepository.java</url>
+          <line>50</line>
+          <properties />
+          <option name="timeStamp" value="13" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/cert/aiops/pega/bean/HostState.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-884">
-          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cert/aiops/pega/PegaMainApplication.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="424">
-          <caret line="17" column="14" lean-forward="true" selection-start-line="17" selection-start-column="14" selection-end-line="17" selection-end-column="14" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/kafka/spring-kafka/2.2.4.RELEASE/spring-kafka-2.2.4.RELEASE.jar!/org/springframework/kafka/config/AbstractKafkaListenerContainerFactory.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5139">
-          <caret line="255" column="12" selection-start-line="255" selection-start-column="11" selection-end-line="255" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/kafka/spring-kafka/2.2.4.RELEASE/spring-kafka-2.2.4.RELEASE.jar!/org/springframework/kafka/core/KafkaTemplate.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="156">
-          <caret line="35" column="13" selection-start-line="35" selection-start-column="13" selection-end-line="35" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/kafka/spring-kafka/2.2.4.RELEASE/spring-kafka-2.2.4.RELEASE-sources.jar!/org/springframework/kafka/core/KafkaTemplate.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="280">
-          <caret line="226" column="31" selection-start-line="226" selection-start-column="31" selection-end-line="226" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cert/aiops/pega/config/MQConfigurer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-234">
-          <caret line="28" column="13" selection-start-line="28" selection-start-column="13" selection-end-line="28" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cert/aiops/pega/config/PegaConfiguration.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-5186">
-          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/kafka/spring-kafka/2.2.4.RELEASE/spring-kafka-2.2.4.RELEASE-sources.jar!/org/springframework/kafka/config/KafkaListenerContainerFactory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="358">
-          <caret line="62" column="6" selection-start-line="62" selection-start-column="6" selection-end-line="62" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cert/aiops/pega/util/ExecResultTransformer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="156">
-          <caret line="17" column="13" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cert/aiops/pega/masterExecutors/Master.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3744">
-          <caret line="168" selection-start-line="168" selection-end-line="168" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/apache/kafka/kafka-clients/2.0.1/kafka-clients-2.0.1.jar!/org/apache/kafka/clients/consumer/KafkaConsumer.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="201">
-          <caret line="140" selection-start-line="140" selection-end-line="140" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cert/aiops/pega/synchronization/Synchronizer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="380">
-          <caret line="107" selection-start-line="107" selection-end-line="107" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/logback-spring.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -887,13 +853,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/application.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="259">
-          <caret line="45" column="21" selection-start-line="45" selection-start-column="21" selection-end-line="45" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/cert/aiops/pega/dao/SystemInfoRepository.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="130">
@@ -908,46 +867,6 @@
           <folding>
             <element signature="e#596#597#0" expanded="true" />
             <element signature="e#629#630#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cert/aiops/pega/service/HostInfoService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="104">
-          <caret line="13" selection-start-line="13" selection-end-line="14" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cert/aiops/pega/dao/HostInfoRepository.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-52">
-          <caret line="14" column="2" lean-forward="true" selection-start-line="14" selection-start-column="2" selection-end-line="14" selection-end-column="102" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cert/aiops/pega/util/PegaEnum.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="243">
-          <caret line="33" column="38" selection-start-line="33" selection-start-column="33" selection-end-line="33" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cert/aiops/pega/bean/HostInfo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="208">
-          <caret line="13" column="44" lean-forward="true" selection-start-line="13" selection-start-column="4" selection-end-line="13" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cert/aiops/pega/bean/PublishedHost.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="338">
-          <caret line="16" column="27" selection-start-line="16" selection-start-column="27" selection-end-line="16" selection-end-column="27" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#860#861#0" expanded="true" />
-            <element signature="e#888#889#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1035,13 +954,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cert/aiops/pega/dao/HostStateDao.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1404">
-          <caret line="138" column="49" selection-start-line="138" selection-start-column="49" selection-end-line="138" selection-end-column="49" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/cert/aiops/pega/dao/HostInfoClickDao.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="205">
@@ -1087,13 +999,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cert/aiops/pega/masterExecutors/MappingManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="394">
-          <caret line="450" selection-start-line="450" selection-end-line="450" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/cert/aiops/pega/util/KafkaUtil.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-480">
@@ -1131,20 +1036,183 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/cert/aiops/pega/PegaApplicationTest.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/cert/aiops/pega/dao/HostStateDao.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="545">
-          <caret line="972" column="50" selection-start-line="972" selection-start-column="50" selection-end-line="972" selection-end-column="50" />
+        <state relative-caret-position="1404">
+          <caret line="138" column="49" selection-start-line="138" selection-start-column="49" selection-end-line="138" selection-end-column="49" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cert/aiops/pega/masterExecutors/MappingManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="11050">
+          <caret line="450" selection-start-line="450" selection-end-line="450" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cert/aiops/pega/masterExecutors/Master.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="654">
+          <caret line="66" column="57" selection-start-line="66" selection-start-column="57" selection-end-line="66" selection-end-column="57" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cert/aiops/pega/bean/HostInfo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="598">
+          <caret line="28" column="22" lean-forward="true" selection-start-line="28" selection-start-column="22" selection-end-line="28" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_192/src.zip!/java/util/UUID.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="394">
+          <caret line="161" column="23" selection-start-line="161" selection-start-column="23" selection-end-line="161" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/application.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret line="45" column="21" selection-start-line="45" selection-start-column="21" selection-end-line="45" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cert/aiops/pega/util/IdentityUtil.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="496">
+          <caret line="47" column="68" selection-start-line="47" selection-start-column="68" selection-end-line="47" selection-end-column="68" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cert/aiops/pega/util/ProvinceUtil.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-78">
+          <caret line="37" column="25" lean-forward="true" selection-start-line="37" selection-start-column="25" selection-end-line="37" selection-end-column="25" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_192/src.zip!/java/lang/String.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="390">
+          <caret line="1957" column="18" selection-start-line="1957" selection-start-column="18" selection-end-line="1957" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cert/aiops/pega/channels/ChannelManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="78">
+          <caret line="3" column="57" selection-start-line="3" selection-start-column="57" selection-end-line="3" selection-end-column="57" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2340" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cert/aiops/pega/util/RedisClientUtil.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="26">
+          <caret line="83" column="16" selection-start-line="83" selection-start-column="16" selection-end-line="83" selection-end-column="16" />
+          <folding>
+            <element signature="e#2433#2434#0" expanded="true" />
+            <element signature="e#2473#2474#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cert/aiops/pega/util/PegaEnum.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2340">
+          <caret line="101" column="5" selection-start-line="101" selection-start-column="5" selection-end-line="101" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cert/aiops/pega/registration/RegistrationCronTask.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="262">
+          <caret line="23" selection-start-line="23" selection-end-line="23" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-aop/5.1.5.RELEASE/spring-aop-5.1.5.RELEASE.jar!/org/springframework/aop/framework/CglibAopProxy.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="326">
+          <caret line="506" selection-start-line="506" selection-end-line="506" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-core/5.1.5.RELEASE/spring-core-5.1.5.RELEASE.jar!/org/springframework/cglib/proxy/MethodProxy.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="104" selection-start-line="104" selection-end-line="104" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cert/aiops/pega/service/HostInfoService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="228">
+          <caret line="88" column="72" selection-start-line="88" selection-start-column="72" selection-end-line="88" selection-end-column="72" />
+          <folding>
+            <element signature="e#3036#3037#0" expanded="true" />
+            <element signature="e#3076#3077#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cert/aiops/pega/util/UuidUtil.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="416">
+          <caret line="16" column="82" selection-start-line="16" selection-start-column="82" selection-end-line="16" selection-end-column="82" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-aop/5.1.5.RELEASE/spring-aop-5.1.5.RELEASE.jar!/org/springframework/aop/framework/JdkDynamicAopProxy.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="274">
+          <caret line="142" selection-start-line="142" selection-end-line="142" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cert/aiops/pega/dao/HostInfoRepository.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="226">
+          <caret line="49" lean-forward="true" selection-start-line="49" selection-end-line="49" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cert/aiops/pega/bean/RegisteredHost.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="286">
+          <caret line="11" column="26" selection-start-line="11" selection-start-column="26" selection-end-line="11" selection-end-column="26" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#860#861#0" expanded="true" />
+            <element signature="e#888#889#0" expanded="true" />
+            <element signature="e#1010#1011#0" expanded="true" />
+            <element signature="e#1056#1057#0" expanded="true" />
+            <element signature="e#1300#1301#0" expanded="true" />
+            <element signature="e#1328#1329#0" expanded="true" />
+            <element signature="e#1506#1507#0" expanded="true" />
+            <element signature="e#1543#1544#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/cert/aiops/pega/registration/RegistrationManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
+        <state relative-caret-position="274">
+          <caret line="67" column="70" selection-start-line="67" selection-start-column="70" selection-end-line="67" selection-end-column="70" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#583#584#0" expanded="true" />
@@ -1153,10 +1221,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cert/aiops/pega/registration/RegistrationCronTask.java">
+    <entry file="file://$PROJECT_DIR$/src/test/java/cert/aiops/pega/PegaApplicationTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="248">
-          <caret line="23" selection-start-line="23" selection-end-line="23" />
+        <state relative-caret-position="322">
+          <caret line="1007" column="16" selection-start-line="1007" selection-start-column="16" selection-end-line="1007" selection-end-column="16" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

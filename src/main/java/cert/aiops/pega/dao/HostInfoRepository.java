@@ -1,6 +1,7 @@
 package cert.aiops.pega.dao;
 
 import cert.aiops.pega.bean.HostInfo;
+import cert.aiops.pega.util.PegaEnum;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -47,5 +48,7 @@ public interface HostInfoRepository extends JpaRepository<HostInfo, Long> {
 //    int addHostInfo(String ip, String host_name, HostInfo.Net net,
 //                    HostInfo.State state, String system_name, String create_time, String update_time);
 
+    @Query(value="select * from host_info where state=?1 order by update_time desc",nativeQuery = true)
+    List<HostInfo>  getAllByState(String state);
 
 }

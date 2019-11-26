@@ -7,6 +7,8 @@ import java.util.Set;
 
 public class IdentityUtil {
     private static final  String SPLITTER="_";
+    private static final String __REGISTER_KEY_PREFIX ="ip:";
+    private static final String __ACROSS_SPLITTER="-";
 
     public static String generateFileName(long systemId,long headId,long tailId){
         return systemId+SPLITTER+headId+SPLITTER+tailId;
@@ -41,6 +43,10 @@ public class IdentityUtil {
         return sortedKeys;
     }
 
+    public static String generateRegisterKey(String ip){return __REGISTER_KEY_PREFIX +ip;}
+    public static String generateRegisterName(String net,String shortName,String ip){
+        return net+__ACROSS_SPLITTER+shortName+__ACROSS_SPLITTER+ip;
+    }
     public static String generateEpochIdentity(long epoch, long systemId){
         return epoch+SPLITTER+systemId;
     }

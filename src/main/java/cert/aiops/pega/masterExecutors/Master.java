@@ -1,5 +1,6 @@
 package cert.aiops.pega.masterExecutors;
 
+import cert.aiops.pega.registration.RegistrationManager;
 import cert.aiops.pega.util.PegaEnum;
 import cert.aiops.pega.bean.SystemInfo;
 import cert.aiops.pega.config.PegaConfiguration;
@@ -39,6 +40,9 @@ public class Master {
     @Autowired
     private MessageQueueManager messageQueueManager;
 
+    @Autowired
+    private RegistrationManager registrationManager;
+
     MappingManager getMappingManager() {
         return mappingManager;
     }
@@ -60,6 +64,7 @@ public class Master {
             mappingManager.setSystemInfos(systemInfos);
             mappingManager.initAllMappings();
             messageQueueManager.updateQueueStatus();
+            registrationManager.publishIdentifications();
         }
     }
 

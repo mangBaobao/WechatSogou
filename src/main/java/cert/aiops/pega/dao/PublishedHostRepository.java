@@ -1,7 +1,7 @@
 package cert.aiops.pega.dao;
 
 
-import cert.aiops.pega.bean.PublishedHost;
+import cert.aiops.pega.bean.RegisteredHost;
 import feign.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -12,15 +12,15 @@ import java.sql.Time;
 import java.util.List;
 
 @Repository
-public interface PublishedHostRepository extends JpaRepository<PublishedHost,String> {
+public interface PublishedHostRepository extends JpaRepository<RegisteredHost,String> {
     @Query(value = "select * from published_host where update_time >= timestamp order by host_name asc", nativeQuery = true)
-    List<PublishedHost> getAllBy(Time timestamp);
+    List<RegisteredHost> getAllBy(Time timestamp);
 
     @Query(value="select * from published_host where host_name=:host_name",nativeQuery = true)
-    PublishedHost getByHostName(@Param("host_name")String host_name);
+    RegisteredHost getByHostName(@Param("host_name")String host_name);
 
     @Query(value="select * from published_host where id=:id",nativeQuery = true)
-    PublishedHost getById(@Param("id")String id);
+    RegisteredHost getById(@Param("id")String id);
 
     @Modifying
     @Query(value="update published_host ph set ph.host_name=newName where ph.host_name=oldName",nativeQuery = true)

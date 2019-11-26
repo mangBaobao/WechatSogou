@@ -3,6 +3,7 @@ package cert.aiops.pega.service;
 import cert.aiops.pega.bean.HostInfo;
 import cert.aiops.pega.bean.SystemInfo;
 import cert.aiops.pega.dao.HostInfoRepository;
+import cert.aiops.pega.util.PegaEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -84,4 +85,7 @@ public class HostInfoService {
         return hostInfoRepository.findBySystem_IdIPRange(systemId,head,tail);
     }
 
+    public List<HostInfo> getMaintainedHosts(){
+        return hostInfoRepository.getAllByState(PegaEnum.State.在维.name());
+    }
 }
