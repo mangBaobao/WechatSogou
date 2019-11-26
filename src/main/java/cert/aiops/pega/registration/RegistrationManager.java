@@ -6,6 +6,7 @@ import cert.aiops.pega.bean.RegisteredHost;
 import cert.aiops.pega.channels.ChannelManager;
 import cert.aiops.pega.config.PegaConfiguration;
 import cert.aiops.pega.service.HostInfoService;
+import cert.aiops.pega.service.PublishedHostService;
 import cert.aiops.pega.util.IdentityUtil;
 import cert.aiops.pega.util.PegaEnum;
 import cert.aiops.pega.util.ProvinceUtil;
@@ -34,6 +35,9 @@ public class RegistrationManager {
     private ArrayList<RegisteredHost> registeredHosts;
 
     @Autowired
+    private PublishedHostService publishedHostService;
+
+    @Autowired
     private HostInfoService hostInfoService;
 
     @Autowired
@@ -50,6 +54,10 @@ public class RegistrationManager {
 
     public void addAgentException(AgentException a){
         arrivalExceptions.add(a);
+    }
+
+    public void storePublishedHosts(){
+        publishedHostService.batchStoreHosts(registeredHosts);
     }
 
     public void addAgentExceptionList(ArrayList<AgentException> agentExceptionList){
@@ -108,5 +116,7 @@ public class RegistrationManager {
         logger.info("generateIdentifications: totally generate count={} host identifications", registeredHosts.size());
     }
 
+    public void registerHosts(){
 
+    }
 }

@@ -6,8 +6,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 @JsonFilter("PublishFilter")
 @Entity
@@ -20,7 +23,7 @@ public class RegisteredHost {
     @Column(nullable = false, unique = true)
     private String hostName;
     private String id=null;
-    private ArrayList<String> channels=new ArrayList<>();
+    private String channels="";
 
     @Override
     public String toString() {
@@ -65,11 +68,19 @@ public class RegisteredHost {
         this.id = id;
     }
 
-    public ArrayList<String>  getChannels() {
-        return channels;
+    public List<String> getChannels() {
+        List<String> channelList= Arrays.asList(channels.substring(1,channels.length()-1).split(","));
+        return channelList;
     }
 
     public void addChannel(String channel) {
-        this.channels.add(channel);
+        if(channels=="")
+            channels="[";
+        else
+            channels=channels.substring(0,channels.length()-1);
+        if(channels.length()>1)
+            channels+=","+channel+"]";
+        else
+            channels+=channel+"]";
     }
 }

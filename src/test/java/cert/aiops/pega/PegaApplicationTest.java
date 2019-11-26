@@ -1008,5 +1008,7 @@ public class PegaApplicationTest {
     public void registerTest(){
         logger.info("registerTest begins....");
         manager.publishIdentifications();
+        manager.storePublishedHosts();
     }
+
 }
