@@ -9,6 +9,7 @@ public class IdentityUtil {
     private static final  String SPLITTER="_";
     private static final String __REGISTER_KEY_PREFIX ="ip:";
     private static final String __ACROSS_SPLITTER="-";
+    private static final String __COLON=":";
 
     public static String generateFileName(long systemId,long headId,long tailId){
         return systemId+SPLITTER+headId+SPLITTER+tailId;
@@ -50,4 +51,7 @@ public class IdentityUtil {
     public static String generateEpochIdentity(long epoch, long systemId){
         return epoch+SPLITTER+systemId;
     }
+
+    public static String[] unpackClaim(String value){return value.split(__COLON); }
+
 }

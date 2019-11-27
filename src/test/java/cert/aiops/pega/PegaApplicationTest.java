@@ -4,6 +4,8 @@ import cert.aiops.pega.bean.*;
 import cert.aiops.pega.bean.mapping.*;
 import cert.aiops.pega.config.PegaConfiguration;
 import cert.aiops.pega.dao.*;
+import cert.aiops.pega.registration.ClaimNotice;
+import cert.aiops.pega.registration.ClaimNoticeManager;
 import cert.aiops.pega.registration.RegistrationExceptionListener;
 import cert.aiops.pega.masterExecutors.Master;
 import cert.aiops.pega.masterExecutors.MasterCronTasks;
@@ -15,6 +17,9 @@ import cert.aiops.pega.workerExecutors.Worker;
 import cert.aiops.pega.service.HostInfoService;
 import cert.aiops.pega.service.SystemInfoService;
 import cert.aiops.pega.util.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.netflix.discovery.converters.Auto;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.recipes.cache.*;
 import org.junit.Test;
@@ -24,6 +29,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.DefaultTypedTuple;
+import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.IOException;
@@ -1007,8 +1014,54 @@ public class PegaApplicationTest {
     @Test
     public void registerTest(){
         logger.info("registerTest begins....");
-        manager.publishIdentifications();
-        manager.storePublishedHosts();
+//        manager.publishIdentifications();
+//        manager.storePublishedHosts();
     }
 
+    @Test
+    public void pickDataTest(){
+        logger.info("pickDataTest begins....");
+        PickData data=new PickData();
+        data.setChannelId("test");
+        data.setMessageId("testMsg");
+        data.setPickTime(new Date());
+        HashMap<String,Object> content=new HashMap<>();
+        content.put("key1","value1");
+        content.put("key2",2);
+        data.setContent(content);
+        ObjectMapper mapper=new ObjectMapper();
+        try {
+            String dataAsString=mapper.writeValueAsString(data);
+            logger.info("pickDataTest:data as string={}",dataAsString);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Autowired
+    private RedisClientUtil redisClientUtil;
+
+    @Autowired
+    private ClaimNoticeManager claimNoticeManager;
+
+    @Test
+    public void claimSetTest(){
+        logger.info("claimSetTest begins....");
+       String uuid= uuidUtil.generateUuid("10.10.10.9".getBytes());
+        redisClientUtil.addSetSingle("checkin","10.10.10.9:"+uuid, System.currentTimeMillis());
+        String uuid1= uuidUtil.generateUuid("10.10.10.1".getBytes());
+        String uuid2=uuidUtil.generateUuid("10.10.10.2".getBytes());
+        ZSetOperations.TypedTuple<String> tuple1= new DefaultTypedTuple<String>("10.10.10.1:"+uuid1,Double.valueOf(System.currentTimeMillis()));
+        ZSetOperations.TypedTuple<String> tuple2= new DefaultTypedTuple<String>("10.10.10.2:"+uuid2,Double.valueOf(System.currentTimeMillis()));
+        Set<ZSetOperations.TypedTuple<String>> testSet=new HashSet<>(Arrays.asList(tuple1,tuple2));
+        redisClientUtil.addSetMultiple("checkin",testSet);
+        logger.info("claimSetTest : begins to pick checkin set....");
+//        claimNoticeManager.receiveLastRoundClaims(System.currentTimeMillis());
+        HashMap<String, ClaimNotice> map=claimNoticeManager.getClaimNotices();
+        Iterator iterator=map.entrySet().iterator();
+        while(iterator.hasNext()) {
+           Map.Entry<String,ClaimNotice> member= (Map.Entry<String, ClaimNotice>) iterator.next();
+            logger.info("claimSetTest: claims score={},value={}", member.getValue().getClaimTime(),member.getValue().toString());
+        }
+    }
 }

@@ -3,14 +3,11 @@ package cert.aiops.pega.util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.data.redis.core.*;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
-import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -27,6 +24,7 @@ public class RedisClientUtil {
     }
     @Autowired
     StringRedisTemplate stringRedisTemplate;
+
     @Resource(name="stringRedisTemplate")
     ValueOperations<String,String> valOpsStr;
 
@@ -112,6 +110,17 @@ public class RedisClientUtil {
         return redisTemplate.opsForList().size(key);
     }
 
+    public void addSetSingle(String key,String value,long score){
+        stringRedisTemplate.opsForZSet().add(key,value,score);
+    }
+
+    public void addSetMultiple(String key, Set<ZSetOperations.TypedTuple<String>>value){
+        stringRedisTemplate.opsForZSet().add(key,value);
+    }
+
+    public Set<ZSetOperations.TypedTuple<String>> getSetwithRange(String key, long begin, long end){
+        return stringRedisTemplate.opsForZSet().rangeWithScores(key,begin,end);
+    }
 
 
 }

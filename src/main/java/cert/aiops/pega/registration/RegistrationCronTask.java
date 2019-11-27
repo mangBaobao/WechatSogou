@@ -16,6 +16,8 @@ public class RegistrationCronTask {
     private Logger logger= LoggerFactory.getLogger(RegistrationCronTask.class);
     @Autowired
     private KafkaUtil kafkaUtil;
+    @Autowired
+    private RegistrationManager registrationManager;
 
     @Scheduled(cron="0 0/2 * * * *")
     public void startReceiveExceptions(){
@@ -28,5 +30,10 @@ public class RegistrationCronTask {
     public void stopReceiveException(){
         logger.info("stopReceiveException: begins to stop receive agent exceptions");
         kafkaUtil.pauseConsumeMessage();
+    }
+
+    @Scheduled(cron="0 0/5 * * * *")
+    public void incAdmitHosts(){
+        registrationManager.incPublishIdentification();
     }
 }
