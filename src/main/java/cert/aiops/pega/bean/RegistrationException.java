@@ -5,8 +5,8 @@ import cert.aiops.pega.util.PegaEnum;
 import javax.persistence.*;
 
 @Entity
-@Table(name="agent_exception")
-public class AgentException {
+@Table(name="registration_exception")
+public class RegistrationException {
     private String reporter;
     private String time;
     @Id
@@ -19,7 +19,7 @@ public class AgentException {
 
     @Override
     public String toString() {
-        return "AgentException{" +
+        return "RegistrationException{" +
                 "reporter='" + reporter + '\'' +
                 ", time='" + time + '\'' +
                 ", issueId='" + issueId + '\'' +

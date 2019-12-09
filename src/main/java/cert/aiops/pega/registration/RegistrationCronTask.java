@@ -1,7 +1,6 @@
 package cert.aiops.pega.registration;
 
 import cert.aiops.pega.util.KafkaUtil;
-import org.apache.logging.log4j.spi.LoggerRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +33,6 @@ public class RegistrationCronTask {
 
     @Scheduled(cron="0 0/5 * * * *")
     public void incAdmitHosts(){
-        registrationManager.incPublishIdentification();
+        registrationManager.publishAdmitIdentification();
     }
 }

@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -50,5 +51,8 @@ public interface HostInfoRepository extends JpaRepository<HostInfo, Long> {
 
     @Query(value="select * from host_info where state=?1 order by update_time desc",nativeQuery = true)
     List<HostInfo>  getAllByState(String state);
+
+    @Query(value="select * from host_info where update_time>?1 order by update_time asc",nativeQuery = true)
+    List<HostInfo> getAllByUpdateTime(String time);
 
 }

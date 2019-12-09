@@ -1,12 +1,14 @@
 package cert.aiops.pega.registration;
 
-import cert.aiops.pega.bean.AgentException;
+import cert.aiops.pega.bean.Judgement;
+import cert.aiops.pega.bean.RegistrationException;
 import cert.aiops.pega.bean.HostInfo;
 import cert.aiops.pega.bean.RegisteredHost;
 import cert.aiops.pega.channels.ChannelManager;
 import cert.aiops.pega.config.PegaConfiguration;
 import cert.aiops.pega.service.HostInfoService;
-import cert.aiops.pega.service.PublishedHostService;
+import cert.aiops.pega.service.RegisteredHostService;
+import cert.aiops.pega.service.RegistrationExceptionService;
 import cert.aiops.pega.util.IdentityUtil;
 import cert.aiops.pega.util.PegaEnum;
 import cert.aiops.pega.util.ProvinceUtil;
@@ -27,18 +29,21 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 @Component
 public class RegistrationManager {
     private Logger logger = LoggerFactory.getLogger(RegistrationManager.class);
-    private ConcurrentLinkedQueue<AgentException> arrivalExceptions;
-    private HashMap<String, PegaEnum.IssueStatus> exceptionStatus;
+    private ConcurrentLinkedQueue<RegistrationException> arrivalExceptions;
+    private HashMap<String, PegaEnum.IssueStatus> exceptionStatus;//key:issueId,value:currentIssueState
     private ArrayList<HostInfo> hostInfos;
     // private ArrayList<RegisteredHost> registeredHosts;
-    private HashMap<String, RegisteredHost> registeredHosts;
-    private Date lastSynchronizedDBTime;
+    private HashMap<String, RegisteredHost> registeredHosts;//key:ip,value:host instance
+    private Date lastReadHostInfos;
     HashMap<String, RegisteredHost> newArrival;
     @Autowired
-    private PublishedHostService publishedHostService;
+    private RegisteredHostService registeredHostService;
 
     @Autowired
     private HostInfoService hostInfoService;
+
+    @Autowired
+    private RegistrationExceptionService registrationExceptionService;
 
     @Autowired
     private ProvinceUtil provinceUtil;
@@ -56,7 +61,7 @@ public class RegistrationManager {
     }
 
 
-    public void addAgentException(AgentException a) {
+    public void addAgentException(RegistrationException a) {
         arrivalExceptions.add(a);
     }
 
@@ -67,16 +72,14 @@ public class RegistrationManager {
             Map.Entry<String, RegisteredHost> entry = (Map.Entry<String, RegisteredHost>) iterator.next();
             hosts.add(entry.getValue());
         }
-        publishedHostService.batchStoreHosts(hosts);
+        registeredHostService.batchStoreHosts(hosts);
     }
 
-    public void addAgentExceptionList(ArrayList<AgentException> agentExceptionList) {
-        arrivalExceptions.addAll(agentExceptionList);
+    public void addRegistrationExceptionList(ArrayList<RegistrationException> registrationExceptionList) {
+        arrivalExceptions.addAll(registrationExceptionList);
     }
 
-    public void processExceptionIssues() {
 
-    }
 
     public void firstPublishIdentification() {
         this.generateIdentifications();
@@ -84,8 +87,8 @@ public class RegistrationManager {
         this.publishIdentifications(registeredHosts);
     }
 
-    public void incPublishIdentification() {
-        incAdmitHosts();
+    public void publishAdmitIdentification() {
+        getNewArrivalHosts();
         if (newArrival.size() != 0) {
             storePublishedHosts(newArrival);
             this.publishIdentifications(newArrival);
@@ -117,16 +120,87 @@ public class RegistrationManager {
         logger.info("publishIdentifications: finishes to publish host identification. registered host count={}", registeredHosts.size());
     }
 
-    //incremental synchronize with mysql
-    public void updateHostInfos() {
+    public void processExceptionIssues() {
+        HashMap<String, RegisteredHost> newlyAddHosts=new HashMap<>();
+        Date time=new Date();
+        RegisteredHost host=null;
+        HostInfo info=null;
+        Judgement judgement=new Judgement();
+        while(!arrivalExceptions.isEmpty()){
+            RegistrationException registrationException =arrivalExceptions.peek();
+            registrationExceptionService.storeException(registrationException);
+            judgement.setIssueId(registrationException.getIssueId());
+            judgement.setExceptionCode(registrationException.getCode());
+            judgement.setUpdateTime(time);
+            switch (registrationException.getCode()){
+                case NotFoundMatchedIp:
+                    String[] ips=IdentityUtil.unpackNoMatchedIPException(registrationException.getIssueId());
+                    for(int i=0;i<ips.length;i++){
+                         info=hostInfoService.getHostInfo(ips[i]);
+                        if(info==null)
+                            continue;
+                         host=registeredHosts.get(ips[i]);
+                        if(host!=null){//if host exists, publish again
+                            host.setUpdate_time(time);
+                            newlyAddHosts.put(ips[i],host);
+                        }
+                        else {// if host not registered yet, create new registration and publish
+                            host = hostInfo2RegisteredHost(info, time);
+                            newlyAddHosts.put(ips[i], host);
+                            registeredHostService.storeHost(host);
+                        }
+                            judgement.setStatus(PegaEnum.IssueStatus.finish);
+                            judgement.setActionType(PegaEnum.ActionType.republish);
+                            judgement.setContent(host.getIp());
+                    }
+                    if(info==null)
+                       judgement.setStatus(PegaEnum.IssueStatus.lasting);
+                    break;
+                case NotFoundUuid:
+                    String ip=IdentityUtil.unpackNotFoundUuidException(registrationException.getIssueId());
+                    if(ip==null){
+                        logger.info("processExceptionIssues:cannot extract valid ip from issueid={}",registrationException.getIssueId());
+                     judgement.setStatus(PegaEnum.IssueStatus.lasting);
+                     judgement.setContent("cannot extract valid ip from issueid");
+                        break;
+                    }
+                    host=registeredHosts.get(ip);
+                    if(host==null){
+                        info=hostInfoService.getHostInfo(ip);
+                        if(info==null)
+
+                    }
+                    break;
+                case UuidNotMatched:
+                    break;
+                case NameNotMatched:
+                    break;
+                    default: break;
+            }
+
+            status= PegaEnum.IssueStatus.finish;
+        }
+    }
+
+    //get newly updated hosts from host_info
+    public void getNewlyUpdatedHosts() {
 
     }
 
+    private RegisteredHost hostInfo2RegisteredHost(HostInfo info,Date time){
+        RegisteredHost host=new RegisteredHost();
+        host.setUpdate_time(time);
+        host.setIp(info.getIp());
+        host.setId(null);
+        String hostName = provinceUtil.getShortName(info.getHost_name().substring(0, 2));
+        host.setHostName(IdentityUtil.generateRegisterName(pegaConfiguration.getWorkingNet(), hostName, host.getIp()));
+        return host;
+    }
     private void initiateHostInfos() {
         if (hostInfos != null)
             return;
         hostInfos = (ArrayList<HostInfo>) hostInfoService.getMaintainedHosts();
-        lastSynchronizedDBTime = new Date();
+        lastReadHostInfos = new Date();
     }
 
     private void generateIdentifications() {
@@ -147,7 +221,7 @@ public class RegistrationManager {
         logger.info("generateIdentifications: totally generate count={} host identifications", registeredHosts.size());
     }
 
-    private void incAdmitHosts() {
+    private void getNewArrivalHosts() {
         HashMap<String, ClaimNotice> claimNotices = claimNoticeManager.getLastRoundClaimNotices();
         if (claimNotices.size() == 0) {
             logger.info("registerHosts: find no claim notice, do nothing ...");

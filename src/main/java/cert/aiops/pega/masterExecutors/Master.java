@@ -64,7 +64,7 @@ public class Master {
             mappingManager.setSystemInfos(systemInfos);
             mappingManager.initAllMappings();
             messageQueueManager.updateQueueStatus();
-            registrationManager.publishIdentifications();
+            registrationManager.firstPublishIdentification();
         }
     }
 

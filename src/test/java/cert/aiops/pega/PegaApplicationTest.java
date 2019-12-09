@@ -19,7 +19,6 @@ import cert.aiops.pega.service.SystemInfoService;
 import cert.aiops.pega.util.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.netflix.discovery.converters.Auto;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.recipes.cache.*;
 import org.junit.Test;
@@ -851,7 +850,7 @@ public class PegaApplicationTest {
 //        }
 //        tasks.renovateMappings();
 //    }
-
+ private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     @Test
     public void redisBatchOperationTest() {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -916,7 +915,7 @@ public class PegaApplicationTest {
     public void kafkaSendObjectListTest(){
         logger.info("kafkaSendObjectListTest begins......");
         for(int i=0;i<=10;i++){
-            AgentException exception=new AgentException();
+            RegistrationException exception=new RegistrationException();
             exception.setCode(PegaEnum.RegistrationExceptionCode.NotFoundUuid );
             exception.setIssueId("dfadfadfadg_"+i);
             exception.setTopic("exception");
@@ -974,7 +973,7 @@ public class PegaApplicationTest {
         int round = 1;
         while(true) {
             for (int i = 0; i <= 3; i++) {
-                AgentException exception = new AgentException();
+                RegistrationException exception = new RegistrationException();
                 exception.setCode(PegaEnum.RegistrationExceptionCode.NotFoundUuid);
                 exception.setIssueId("wwwwwqqqq2_" + round+"_"+i);
                 exception.setTopic("exception");
@@ -1021,10 +1020,10 @@ public class PegaApplicationTest {
     @Test
     public void pickDataTest(){
         logger.info("pickDataTest begins....");
-        PickData data=new PickData();
+        ReportedData data=new ReportedData();
         data.setChannelId("test");
         data.setMessageId("testMsg");
-        data.setPickTime(new Date());
+        data.setReportTime(new Date());
         HashMap<String,Object> content=new HashMap<>();
         content.put("key1","value1");
         content.put("key2",2);
@@ -1063,5 +1062,15 @@ public class PegaApplicationTest {
            Map.Entry<String,ClaimNotice> member= (Map.Entry<String, ClaimNotice>) iterator.next();
             logger.info("claimSetTest: claims score={},value={}", member.getValue().getClaimTime(),member.getValue().toString());
         }
+    }
+
+    @Test
+    public void getHostInfosByTimeTest(){
+       logger.info("getHostInfosByTimeTest begins...");
+        HostInfoRepository repository=SpringContextUtil.getBean(HostInfoRepository.class);
+            List<HostInfo>  hosts=repository.getAllByUpdateTime("2019-11-26 08:30:20");
+            for(HostInfo info:hosts){
+                logger.info("getHostInfosByTimeTest: host={}",info.toString());
+            }
     }
 }

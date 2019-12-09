@@ -1,9 +1,7 @@
 package cert.aiops.pega.registration;
 
 
-import cert.aiops.pega.bean.AgentException;
-import cert.aiops.pega.bean.Judgement;
-import cert.aiops.pega.dao.JudgementDao;
+import cert.aiops.pega.bean.RegistrationException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -26,25 +24,25 @@ public class RegistrationExceptionListener implements BatchAcknowledgingConsumer
     @Override
     public void onMessage(List<ConsumerRecord<String, String>> data, Acknowledgment acknowledgment, Consumer<?, ?> consumer) {
         ObjectMapper mapper=new ObjectMapper();
-        ArrayList<AgentException> exceptions=new ArrayList<>();
-        AgentException exception;
+        ArrayList<RegistrationException> exceptions=new ArrayList<>();
+        RegistrationException exception;
         for(ConsumerRecord<String,String> singleRecord:data){
             logger.info("onMessage receive arrival record: value={}",singleRecord.value());
             try {
-                 exception = mapper.readValue(singleRecord.value(),AgentException.class);
+                 exception = mapper.readValue(singleRecord.value(), RegistrationException.class);
                  exceptions.add(exception);
             } catch (IOException e) {
                 e.printStackTrace();
             }
             if(exceptions.size()==pack) {
-                logger.info("onMessage: call registrationManager addAgentExceptionList count={}",exceptions.size());
-                registrationManager.addAgentExceptionList(exceptions);
+                logger.info("onMessage: call registrationManager addRegistrationExceptionList count={}",exceptions.size());
+                registrationManager.addRegistrationExceptionList(exceptions);
                 exceptions.clear();
             }
         }
         if(exceptions.size()!=0){
-            logger.info("onMessage: call registrationManager addAgentExceptionList count={}",exceptions.size());
-            registrationManager.addAgentExceptionList(exceptions);
+            logger.info("onMessage: call registrationManager addRegistrationExceptionList count={}",exceptions.size());
+            registrationManager.addRegistrationExceptionList(exceptions);
         }
     }
 }

@@ -31,7 +31,7 @@ public class PegaEnum {
     }
 
     public enum ActionType{
-        arrival,allocate,extract,local
+        arrival,allocate,extract,local,republish
     }
 
     public enum UpdaterStateCode{

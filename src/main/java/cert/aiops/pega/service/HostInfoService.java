@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -87,5 +89,11 @@ public class HostInfoService {
 
     public List<HostInfo> getMaintainedHosts(){
         return hostInfoRepository.getAllByState(PegaEnum.State.在维.name());
+    }
+
+    public List<HostInfo> getNewlyUpdatedHosts(Date time){
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String timeString=formatter.format(time);
+        return  hostInfoRepository.getAllByUpdateTime(timeString);
     }
 }
