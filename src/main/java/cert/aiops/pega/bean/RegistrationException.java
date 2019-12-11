@@ -13,8 +13,7 @@ public class RegistrationException {
     @Column(nullable = false, unique = true)
     private String issueId;
     private String topic;
-    @Enumerated(EnumType.STRING)
-    private PegaEnum.RegistrationExceptionCode code;
+    private int code;
     private String reason;
 
     @Override
@@ -61,11 +60,11 @@ public class RegistrationException {
         this.topic = topic;
     }
 
-    public PegaEnum.RegistrationExceptionCode getCode() {
+    public int getCode() {
         return code;
     }
 
-    public void setCode(PegaEnum.RegistrationExceptionCode code) {
+    public void setCode(int code) {
         this.code = code;
     }
 

@@ -59,13 +59,17 @@ public class KafkaUtil {
           logger.info("startConsumeMessage: container is not running. begin to start container");
             container.start();
         }
+//        else{
+//            logger.info("startConsumeMessage: container is  running. do nothing");
+//            return;
+//        }
         logger.info("startConsumeMessage:resume container");
         container.resume();
     }
 
     public void pauseConsumeMessage(){
         if(container==null){
-            logger.info("stopConsumeMessage: container is not exist. Do nothing...");
+            logger.info("stopConsumeMessage: container is not exist. do nothing...");
             return;
         }
         if(container.isRunning()||!container.isContainerPaused()){

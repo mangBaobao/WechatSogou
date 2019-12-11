@@ -2,6 +2,7 @@ package cert.aiops.pega.registration;
 
 
 import cert.aiops.pega.bean.RegistrationException;
+import cert.aiops.pega.util.SpringContextUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -19,13 +20,13 @@ public class RegistrationExceptionListener implements BatchAcknowledgingConsumer
     private Logger logger = LoggerFactory.getLogger(RegistrationExceptionListener.class);
 
     private final int pack=100;
-    @Autowired
-   private RegistrationManager registrationManager;
+
     @Override
     public void onMessage(List<ConsumerRecord<String, String>> data, Acknowledgment acknowledgment, Consumer<?, ?> consumer) {
         ObjectMapper mapper=new ObjectMapper();
         ArrayList<RegistrationException> exceptions=new ArrayList<>();
         RegistrationException exception;
+        RegistrationManager registrationManager= SpringContextUtil.getBean(RegistrationManager.class);
         for(ConsumerRecord<String,String> singleRecord:data){
             logger.info("onMessage receive arrival record: value={}",singleRecord.value());
             try {

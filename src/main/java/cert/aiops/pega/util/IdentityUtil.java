@@ -1,5 +1,8 @@
 package cert.aiops.pega.util;
 
+import cert.aiops.pega.config.PegaConfiguration;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -11,6 +14,7 @@ public class IdentityUtil {
     private static final String __ACROSS_SPLITTER="-";
     private static final String __COLON=":";
     private static final String __COMMA=",";
+    private static final String __EQUAL="=";
 
     public static String generateFileName(long systemId,long headId,long tailId){
         return systemId+ __SPLITTER +headId+ __SPLITTER +tailId;
@@ -71,5 +75,23 @@ public class IdentityUtil {
         }
         else
             return null;
+    }
+
+    public static ArrayList<String> unpackUuidNotMatchedException(String reason){
+        String[] seperated=reason.split(__COMMA);
+        ArrayList<String> phases=new ArrayList<>();
+        for(int i=0;i<seperated.length;i++){
+            String[] t=seperated[i].split((__EQUAL));
+            for(int j=0;j<t.length;j++)
+                phases.add(t[j]);
+        }
+        return phases;
+    }
+
+    public static byte[] generateUuidInputString(String ip){
+        PegaConfiguration pegaConfiguration=SpringContextUtil.getBean(PegaConfiguration.class);
+        String workingNet=pegaConfiguration.getWorkingNet();
+        String uuid= workingNet+__SPLITTER+ip;
+        return uuid.getBytes();
     }
 }

@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Time;
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -19,8 +20,14 @@ public interface RegisteredHostRepository extends JpaRepository<RegisteredHost,S
     @Query(value="select * from registered_host where host_name=:host_name",nativeQuery = true)
     RegisteredHost getByHostName(@Param("host_name")String host_name);
 
-    @Query(value="select * from registered_host where id=:id",nativeQuery = true)
-    RegisteredHost getById(@Param("id")String id);
+    @Query(value="select * from registered_host order by update_time desc",nativeQuery = true)
+    List<RegisteredHost> getAllHosts();
+
+    @Query(value="select * from registered_host where id=?1 order by update_time desc limit 1",nativeQuery = true)
+    RegisteredHost getById(String id);
+
+    @Query(value="select * from registered_host where id is not NULL  order by update_time desc limit 1",nativeQuery = true)
+    RegisteredHost getLatestAdmitHost();
 
     @Modifying
     @Query(value="update registered_host ph set ph.host_name=newName where ph.host_name=oldName",nativeQuery = true)
@@ -28,9 +35,18 @@ public interface RegisteredHostRepository extends JpaRepository<RegisteredHost,S
 
     @Modifying
     @Query(value="update registered_host ph set ph.id=?1 where ph.host_name=?2",nativeQuery = true)
-    void updateHostId(String id, String hostName);
+    void updateHostIdByName(String id, String hostName);
+
+    @Modifying
+    @Query(value="update registered_host ph set ph.id=?1 where ph.id=?2",nativeQuery = true)
+    void updateHostIdById(String nid, String oid);
 
     @Modifying
     @Query(value="udpate registered_host ph set ph.channels=?2 where ph.id=?1",nativeQuery = true)
     void updateChannels(String id, String channels);
+
+    @Modifying
+    @Query(value="udpate registered_host ph set ph.update_time=?2 where ph.id=?1",nativeQuery = true)
+    void updateUtime(String id, Date time);
+
 }

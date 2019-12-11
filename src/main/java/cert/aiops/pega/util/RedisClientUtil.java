@@ -119,7 +119,7 @@ public class RedisClientUtil {
     }
 
     public Set<ZSetOperations.TypedTuple<String>> getSetwithRange(String key, long begin, long end){
-        return stringRedisTemplate.opsForZSet().rangeWithScores(key,begin,end);
+        return stringRedisTemplate.opsForZSet().rangeByScoreWithScores(key,begin,end);
     }
 
 

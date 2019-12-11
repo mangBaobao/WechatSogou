@@ -18,21 +18,30 @@ public class RegistrationCronTask {
     @Autowired
     private RegistrationManager registrationManager;
 
-    @Scheduled(cron="0 0/2 * * * *")
+    @Scheduled(fixedDelay = 20000)
     public void startReceiveExceptions(){
         logger.info("startReceiveExceptions: begins to receive agent exceptions");
         RegistrationExceptionListener listener=new RegistrationExceptionListener();
         kafkaUtil.startConsumeMessage("exception",listener);
     }
 
-    @Scheduled(cron="0 0/3 * * * *")
+    @Scheduled(fixedDelay =20000,initialDelay = 20000)
     public void stopReceiveException(){
         logger.info("stopReceiveException: begins to stop receive agent exceptions");
         kafkaUtil.pauseConsumeMessage();
     }
 
-    @Scheduled(cron="0 0/5 * * * *")
+    @Scheduled(fixedDelay = 60000,initialDelay = 15000)
     public void incAdmitHosts(){
+        logger.info("incAdmitHosts:begins to process claim messages and generate admit identification");
         registrationManager.publishAdmitIdentification();
+        logger.info("incAdmitHosts:finishes to process claim messages and generate admit identification");
+    }
+
+    @Scheduled(fixedDelay = 60000,initialDelay = 45000)
+    public void processExceptions(){
+        logger.info("processExceptions:begins to process exception issues");
+        registrationManager.processExceptionIssues();
+        logger.info("processExceptions:finishes  to process exception issues");
     }
 }

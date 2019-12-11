@@ -12,6 +12,7 @@ import cert.aiops.pega.masterExecutors.MasterCronTasks;
 import cert.aiops.pega.masterExecutors.PegaNodeCacheListener;
 import cert.aiops.pega.registration.RegistrationManager;
 import cert.aiops.pega.service.JczySynchronizationService;
+import cert.aiops.pega.service.RegisteredHostService;
 import cert.aiops.pega.synchronization.*;
 import cert.aiops.pega.workerExecutors.Worker;
 import cert.aiops.pega.service.HostInfoService;
@@ -19,6 +20,9 @@ import cert.aiops.pega.service.SystemInfoService;
 import cert.aiops.pega.util.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ser.FilterProvider;
+import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
+import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.recipes.cache.*;
 import org.junit.Test;
@@ -34,6 +38,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.IOException;
 import java.sql.*;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.Date;
@@ -137,7 +142,7 @@ public class PegaApplicationTest {
         MessageUtil.getInstance().createQueue("w_192.168.1.6");
         MessageUtil.getInstance().createBinding("w_192.168.1.6", "w_192.168.1.6");
         logger.info("sendMessages:{}", task);
-        MessageUtil.getInstance().sendMessage("w_192.168.1.6", task,null);
+        MessageUtil.getInstance().sendMessage("w_192.168.1.6", task, null);
 
     }
 
@@ -200,8 +205,8 @@ public class PegaApplicationTest {
                 "PARTITION BY toYYYYMM(Cast(uptime as DateTime)) ORDER BY(Cast(uptime as DateTime),id)";
         ClickhouseUtil.getInstance().exeSql(sql);
 
-        sql="create table if not exists pega_test.judgement_history(issue_id String,exception_code Enum16('NotFoundUuid'=1000,'NotFoundMatchedIp'=1001,'NameNotMatched'=1002,'UuidNotMatched'=1003)," +
-                "status Enum8('lasting'=0,'finish'=1), action_type Enum8('arrival'=0,'allocate'=1,'extract'=2,'local'=3),content String, update_time DateTime) ENGINE MergeTree() PARTITION " +
+        sql = "create table if not exists pega_test.judgement_history(issue_id String,exception_code Enum16('NotFoundUuid'=1000,'NotFoundMatchedIp'=1001,'NameNotMatched'=1002,'UuidNotMatched'=1003)," +
+                "status Enum8('lasting'=0,'finish'=1), action_type Enum8( 'published'=0,'allocate'=1,'extract'=2,'republish'=3,'donothing'=4),content String, update_time DateTime) ENGINE MergeTree() PARTITION " +
                 "BY toYYYYMM(update_time) ORDER BY(update_time,issue_id)";
         ClickhouseUtil.getInstance().exeSql(sql);
     }
@@ -214,7 +219,7 @@ public class PegaApplicationTest {
         for (int i = 0; i < 6; i++) {
             HostInfoClick hinfo = new HostInfoClick();
             hinfo.setCreate_time(new Date());
-            hinfo.setHost_name("ysp"+i);
+            hinfo.setHost_name("ysp" + i);
             hinfo.setIp("10.10.10.10");
 //            hinfo.setNet(PegaEnum.Net.z);
             hinfo.setState(PegaEnum.State.在维);
@@ -841,7 +846,8 @@ public class PegaApplicationTest {
             e.printStackTrace();
         }
     }
-//        tasks.renovateMappings();
+
+    //        tasks.renovateMappings();
 //        try {
 //            logger.info("masterCronTaskTest:start to sleep 30  seconds");
 //            Thread.sleep(30000);
@@ -850,7 +856,8 @@ public class PegaApplicationTest {
 //        }
 //        tasks.renovateMappings();
 //    }
- private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
     @Test
     public void redisBatchOperationTest() {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -878,10 +885,10 @@ public class PegaApplicationTest {
         String __SYSTERM = "system";
         String __DEVICE = "device";
         String __DEVTYPE = "刀片服务器";
-     String system = "509音视频监控";
-     String net="z";
-     //   String system="运维实验";
-     //   String system="文本监控";
+        String system = "509音视频监控";
+        String net = "z";
+        //   String system="运维实验";
+        //   String system="文本监控";
         logger.info("feignClientTest begins..................................................");
 //        JczySystemInfoList jczySystemInfo = jczySynchronizationService.getSystemByName( __SYSTERM,system);
 //         logger.info("getSystemByName: jczySystemInfo={}",jczySystemInfo.toString());
@@ -898,28 +905,29 @@ public class PegaApplicationTest {
 //       deviceInfos = jczySynchronizationService.getHostsBySystem(__DEVICE, system, __DEVTYPE);
 //        logger.info("getHostsBySystem: deviceInfos={}", deviceInfos.size());
 
-         deviceInfos = jczySynchronizationService.getHostsBySystemAndNet(__DEVICE, net,system, __DEVTYPE);
+        deviceInfos = jczySynchronizationService.getHostsBySystemAndNet(__DEVICE, net, system, __DEVTYPE);
         logger.info("getHostsBySystemAndNet: deviceInfos={}", deviceInfos.size());
     }
 
     @Test
-    public void redisClientUtilExpireTest(){
-        String key="11_16";
-        long time=RedisClientUtil.getInstance().getExpire(key);
-        logger.info("redisClientUtilExpireTest:time={} for key ={}",time,key);
+    public void redisClientUtilExpireTest() {
+        String key = "11_16";
+        long time = RedisClientUtil.getInstance().getExpire(key);
+        logger.info("redisClientUtilExpireTest:time={} for key ={}", time, key);
     }
 
     @Autowired
     KafkaUtil kafkaUtil;
+
     @Test
-    public void kafkaSendObjectListTest(){
+    public void kafkaSendObjectListTest() {
         logger.info("kafkaSendObjectListTest begins......");
-        for(int i=0;i<=10;i++){
-            RegistrationException exception=new RegistrationException();
-            exception.setCode(PegaEnum.RegistrationExceptionCode.NotFoundUuid );
-            exception.setIssueId("dfadfadfadg_"+i);
+        for (int i = 0; i <= 10; i++) {
+            RegistrationException exception = new RegistrationException();
+            exception.setCode(PegaEnum.RegistrationExceptionCode.NotFoundUuid.getValue());
+            exception.setIssueId("dfadfadfadg_" + i);
             exception.setTopic("exception");
-            exception.setReporter("dfaqwerqewrrt_"+i);
+            exception.setReporter("dfaqwerqewrrt_" + i);
             exception.setTime(String.valueOf(new Date()));
             exception.setReason("test:round 5");
             logger.info("kafkaSendObjectListTest: exception instance={}", exception.toString());
@@ -928,24 +936,26 @@ public class PegaApplicationTest {
     }
 
     @Test
-    public void kafkaConsumeObjectTest(){
+    public void kafkaConsumeObjectTest() {
         logger.info("kafkaConsumeObjectTest begins......");
-        RegistrationExceptionListener listener=new RegistrationExceptionListener();
-        kafkaUtil.startConsumeMessage("exception",listener);
+        RegistrationExceptionListener listener = new RegistrationExceptionListener();
+        kafkaUtil.startConsumeMessage("exception", listener);
     }
+
     @Autowired
     JudgementDao judgementDao;
+
     @Test
-    public void  clickhouseJudgementTest(){
+    public void clickhouseJudgementTest() {
         Judgement judgement;
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         logger.info("clickhouseJudgementTest begins......");
-        for(int i=0;i<3;i++){
-            judgement =new Judgement();
+        for (int i = 0; i < 3; i++) {
+            judgement = new Judgement();
             judgement.setActionType(PegaEnum.ActionType.allocate);
             judgement.setContent("test:round 4");
             judgement.setExceptionCode(PegaEnum.RegistrationExceptionCode.NotFoundMatchedIp);
-            judgement.setIssueId("judgement0000"+i);
+            judgement.setIssueId("judgement0000" + i);
             judgement.setStatus(PegaEnum.IssueStatus.finish);
             judgement.setUpdateTime(new Date());
             judgementDao.storeJudgement(judgement);
@@ -954,84 +964,83 @@ public class PegaApplicationTest {
         logger.info("clickhouseJudgementTest begins to query judgements by time");
 //        String sql="select * from pega_test.judgement_history where update_time<'"+formatter.format(new Date())+"'";
 //        ResultSet results = ClickhouseUtil.getInstance().exeSql(sql);
-        ArrayList<Judgement> judgements=judgementDao.queryJudgementByTime(new Date());
+        ArrayList<Judgement> judgements = judgementDao.queryJudgementByTime(new Date());
 
-        for(Judgement judge : judgements){
-            logger.info("clickhouseJudgementTest: query judgement:{}",judge.toTabbedString());
+        for (Judgement judge : judgements) {
+            logger.info("clickhouseJudgementTest: query judgement:{}", judge.toTabbedString());
         }
 
         logger.info("clickhouseJudgementTest begins to query judgements by id");
-        judgements=judgementDao.queryJudgementById("judgement00001");
-        for(Judgement judge : judgements){
-            logger.info("clickhouseJudgementTest: query judgement by id:{}",judge.toTabbedString());
+        judgements = judgementDao.queryJudgementById("judgement00001");
+        for (Judgement judge : judgements) {
+            logger.info("clickhouseJudgementTest: query judgement by id:{}", judge.toTabbedString());
         }
     }
 
     @Test
-    public void kafkaSendCronObjectListTest(){
+    public void kafkaSendCronObjectListTest() {
         logger.info("kafkaSendCronObjectListTest begins......");
         int round = 1;
-        while(true) {
+        while (true) {
             for (int i = 0; i <= 3; i++) {
                 RegistrationException exception = new RegistrationException();
-                exception.setCode(PegaEnum.RegistrationExceptionCode.NotFoundUuid);
-                exception.setIssueId("wwwwwqqqq2_" + round+"_"+i);
-                exception.setTopic("exception");
+                exception.setCode(PegaEnum.RegistrationExceptionCode.NotFoundUuid.getValue());
+                exception.setIssueId("wwwwwqqqq2_" + round + "_" + i);
+                exception.setTopic("exception2");
                 exception.setReporter("wwwwwwqqqq2_" + i);
                 exception.setTime(String.valueOf(new Date()));
-                exception.setReason("test:round "+round);
+                exception.setReason("test:round " + round);
                 logger.info("kafkaSendCronObjectListTest: exception instance={}", exception.toString());
                 kafkaUtil.send2Kafka("exception", exception);
             }
             round++;
             try {
-            Thread.sleep(100000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+                Thread.sleep(100000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    @Autowired
-    UuidUtil uuidUtil;
     @Test
-    public void uuidTest(){
+    public void uuidTest() {
         logger.info("uuidTest begins ....");
-        uuidUtil.generateUuid("z_10.127.0.0".getBytes());
+        UuidUtil.generateUuid("z_10.127.0.0".getBytes());
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        uuidUtil.generateUuid("v_10.127.0.0".getBytes());
-        uuidUtil.generateUuid("z_10.127.0.1".getBytes());
+        UuidUtil.generateUuid("v_10.127.0.0".getBytes());
+        UuidUtil.generateUuid("z_10.127.0.1".getBytes());
 
     }
 
     @Autowired
     RegistrationManager manager;
+
     @Test
-    public void registerTest(){
+    public void registerTest() {
         logger.info("registerTest begins....");
 //        manager.publishIdentifications();
 //        manager.storePublishedHosts();
     }
 
     @Test
-    public void pickDataTest(){
+    public void pickDataTest() {
         logger.info("pickDataTest begins....");
-        ReportedData data=new ReportedData();
+        ReportedData data = new ReportedData();
         data.setChannelId("test");
         data.setMessageId("testMsg");
         data.setReportTime(new Date());
-        HashMap<String,Object> content=new HashMap<>();
-        content.put("key1","value1");
-        content.put("key2",2);
+        HashMap<String, Object> content = new HashMap<>();
+        content.put("key1", "value1");
+        content.put("key2", 2);
         data.setContent(content);
-        ObjectMapper mapper=new ObjectMapper();
+        ObjectMapper mapper = new ObjectMapper();
         try {
-            String dataAsString=mapper.writeValueAsString(data);
-            logger.info("pickDataTest:data as string={}",dataAsString);
+            String dataAsString = mapper.writeValueAsString(data);
+            logger.info("pickDataTest:data as string={}", dataAsString);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
@@ -1044,33 +1053,143 @@ public class PegaApplicationTest {
     private ClaimNoticeManager claimNoticeManager;
 
     @Test
-    public void claimSetTest(){
+    public void claimSetTest() {
         logger.info("claimSetTest begins....");
-       String uuid= uuidUtil.generateUuid("10.10.10.9".getBytes());
-        redisClientUtil.addSetSingle("checkin","10.10.10.9:"+uuid, System.currentTimeMillis());
-        String uuid1= uuidUtil.generateUuid("10.10.10.1".getBytes());
-        String uuid2=uuidUtil.generateUuid("10.10.10.2".getBytes());
-        ZSetOperations.TypedTuple<String> tuple1= new DefaultTypedTuple<String>("10.10.10.1:"+uuid1,Double.valueOf(System.currentTimeMillis()));
-        ZSetOperations.TypedTuple<String> tuple2= new DefaultTypedTuple<String>("10.10.10.2:"+uuid2,Double.valueOf(System.currentTimeMillis()));
-        Set<ZSetOperations.TypedTuple<String>> testSet=new HashSet<>(Arrays.asList(tuple1,tuple2));
-        redisClientUtil.addSetMultiple("checkin",testSet);
+        String uuid = UuidUtil.generateUuid("10.10.10.9".getBytes());
+        redisClientUtil.addSetSingle("checkin", "10.10.10.9:" + uuid, System.currentTimeMillis());
+        String uuid1 = UuidUtil.generateUuid("10.10.10.1".getBytes());
+        String uuid2 = UuidUtil.generateUuid("10.10.10.2".getBytes());
+        ZSetOperations.TypedTuple<String> tuple1 = new DefaultTypedTuple<String>("10.10.10.1:" + uuid1, Double.valueOf(System.currentTimeMillis()));
+        ZSetOperations.TypedTuple<String> tuple2 = new DefaultTypedTuple<String>("10.10.10.2:" + uuid2, Double.valueOf(System.currentTimeMillis()));
+        Set<ZSetOperations.TypedTuple<String>> testSet = new HashSet<>(Arrays.asList(tuple1, tuple2));
+        redisClientUtil.addSetMultiple("checkin", testSet);
         logger.info("claimSetTest : begins to pick checkin set....");
 //        claimNoticeManager.receiveLastRoundClaims(System.currentTimeMillis());
-        HashMap<String, ClaimNotice> map=claimNoticeManager.getClaimNotices();
-        Iterator iterator=map.entrySet().iterator();
-        while(iterator.hasNext()) {
-           Map.Entry<String,ClaimNotice> member= (Map.Entry<String, ClaimNotice>) iterator.next();
-            logger.info("claimSetTest: claims score={},value={}", member.getValue().getClaimTime(),member.getValue().toString());
+        HashMap<String, ClaimNotice> map = claimNoticeManager.getClaimNotices();
+        Iterator iterator = map.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<String, ClaimNotice> member = (Map.Entry<String, ClaimNotice>) iterator.next();
+            logger.info("claimSetTest: claims score={},value={}", member.getValue().getClaimTime(), member.getValue().toString());
         }
     }
 
     @Test
-    public void getHostInfosByTimeTest(){
-       logger.info("getHostInfosByTimeTest begins...");
-        HostInfoRepository repository=SpringContextUtil.getBean(HostInfoRepository.class);
-            List<HostInfo>  hosts=repository.getAllByUpdateTime("2019-11-26 08:30:20");
-            for(HostInfo info:hosts){
-                logger.info("getHostInfosByTimeTest: host={}",info.toString());
-            }
+    public void getHostInfosByTimeTest() {
+        logger.info("getHostInfosByTimeTest begins...");
+        HostInfoRepository repository = SpringContextUtil.getBean(HostInfoRepository.class);
+        List<HostInfo> hosts = repository.getAllByUpdateTime("2019-11-26 08:30:20");
+        for (HostInfo info : hosts) {
+            logger.info("getHostInfosByTimeTest: host={}", info.toString());
+        }
+    }
+
+    @Test
+    public void zsetOpsTest() {
+        logger.info("zsetOpsTest begins...");
+        long time = System.currentTimeMillis();
+        String ip = "10.10.10.9";
+        String uuid = UUID.randomUUID().toString();
+        String value = ip + ":" + uuid;
+        String key = "checkin";
+        logger.info("admitHostTest:value={},time={}", value, time);
+        redisClientUtil.addSetSingle(key, value, time);
+        long endTime = System.currentTimeMillis() + 1000;
+        Set<ZSetOperations.TypedTuple<String>> results = redisClientUtil.getSetwithRange(key, time - 1000, endTime);
+        logger.info("zsetOpsTest:resuls size={}", results.size());
+        Iterator<ZSetOperations.TypedTuple<String>> iterator = results.iterator();
+        while (iterator.hasNext()) {
+            ZSetOperations.TypedTuple<String> st = iterator.next();
+            logger.info("zsetOpsTest: result member score={},value={}", st.getScore(), st.getValue());
+        }
+    }
+
+    @Test
+    public void admitHostTest() throws InterruptedException {
+        logger.info("admitHostTest begins...");
+        long time = System.currentTimeMillis();
+        String ip = "10.10.10.8";
+        String uuid = UUID.randomUUID().toString();
+        String value = ip + ":" + uuid;
+        String key = "checkin";
+        logger.info("admitHostTest:value={},time={}", value, time);
+        redisClientUtil.addSetSingle(key, value, time);
+        Thread.sleep(100000);
+        String newUuid=UUID.randomUUID().toString();
+        value=ip+":"+newUuid;
+        time=System.currentTimeMillis();
+        logger.info("admitHostTest:value={},time={}",value,time);
+        redisClientUtil.addSetSingle(key,value,time);
+        Thread.sleep(100000);
+        String reason="localIdentity="+uuid+",publishedUuid="+newUuid;
+        RegistrationException exception=new RegistrationException();
+        exception.setReason(reason);
+        String issueId=uuid+"_"+PegaEnum.RegistrationExceptionCode.UuidNotMatched.getValue();
+        exception.setCode(PegaEnum.RegistrationExceptionCode.UuidNotMatched.getValue());
+        exception.setIssueId(issueId);
+        exception.setReporter(uuid);
+        exception.setTopic("exception");
+        String etime=formatter.format(new Date());
+        exception.setTime(etime);
+        logger.info("admitHostTest:registrationException={}",exception.toString());
+        kafkaUtil.send2Kafka("exception",exception);
+        Thread.sleep(100000);
+    }
+
+    @Test
+    public void processExceptionTest() throws InterruptedException {
+        logger.info("processExceptionTest begins...");
+        String uuid = "fac6431a-149d-4b47-a910-11aa8dcdf5af";
+        String newUuid=UUID.randomUUID().toString();
+        String reason="localIdentity="+uuid+",publishedUuid="+newUuid;
+        RegistrationException exception=new RegistrationException();
+        exception.setReason(reason);
+        String issueId=uuid+"_"+PegaEnum.RegistrationExceptionCode.UuidNotMatched.getValue();
+        exception.setCode(PegaEnum.RegistrationExceptionCode.UuidNotMatched.getValue());
+        exception.setIssueId(issueId);
+        exception.setReporter(uuid);
+        exception.setTopic("exception");
+        String etime=formatter.format(new Date());
+        exception.setTime(etime);
+        logger.info("processExceptionTest:registrationException={}",exception.toString());
+        kafkaUtil.send2Kafka("exception",exception);
+//        Thread.sleep(300000);
+    }
+
+    @Test
+    public void uuidExceptionTest() throws InterruptedException {
+        processExceptionTest();
+        Thread.sleep(50000);
+        RegistrationManager manager=SpringContextUtil.getBean(RegistrationManager.class);
+     manager.processExceptionIssues();
+    }
+    @Test
+    public void long2DateTest() {
+        logger.info("long2Date test begins...");
+        ObjectMapper objectMapper = new ObjectMapper();
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        objectMapper.setDateFormat(df);
+        SimpleBeanPropertyFilter theFilter = SimpleBeanPropertyFilter.serializeAllExcept("ip");
+        FilterProvider filters = new SimpleFilterProvider().addFilter("PublishFilter", theFilter);
+        RegisteredHost host = new RegisteredHost();
+        host.setUpdate_time(new Date());
+        host.setId("test1");
+        host.setIp("11.11.11.11");
+        host.setHostName("long2DateTest");
+        host.addChannel("basic");
+        String content = "";
+        try {
+            content = objectMapper.writer(filters).writeValueAsString(host);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        logger.info(" long2DateTest:host={}", content);
+    }
+
+    @Test
+    public void getHostByidTest(){
+        logger.info("getHostByidTest begins...");
+        RegisteredHostService service=SpringContextUtil.getBean(RegisteredHostService.class);
+        RegisteredHost host=service.getHostById("fac6431a-149d-4b47-a910-11aa8dcdf5af");
+        logger.info("getHostByidTest:host={}",host.toString());
     }
 }

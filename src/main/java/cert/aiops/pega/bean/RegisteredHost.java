@@ -1,6 +1,8 @@
 package cert.aiops.pega.bean;
 
+import cert.aiops.pega.util.CustomJsonDateDeserializer;
 import com.fasterxml.jackson.annotation.JsonFilter;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,7 +20,7 @@ import java.util.List;
 public class RegisteredHost {
 
     private String ip;
-    private Date update_time;
+    private long update_time;
     @Id
     @Column(nullable = false, unique = true)
     private String hostName;
@@ -29,7 +31,7 @@ public class RegisteredHost {
     public String toString() {
         return "RegisteredHost{" +
                 "ip='" + ip + '\'' +
-                ", update_time='" + update_time + '\'' +
+                ", update_time='" + getUpdate_time()+ '\'' +
                 ", hostName='" + hostName + '\'' +
                 ", id='" + id + '\'' +
                 ", channels='" + channels + '\'' +
@@ -45,11 +47,12 @@ public class RegisteredHost {
     }
 
     public Date getUpdate_time() {
-        return update_time;
+        return new Date(update_time);
     }
 
+    @JsonDeserialize(using = CustomJsonDateDeserializer.class)
     public void setUpdate_time(Date update_time) {
-        this.update_time = update_time;
+        this.update_time = update_time.getTime();
     }
 
     public String getHostName() {

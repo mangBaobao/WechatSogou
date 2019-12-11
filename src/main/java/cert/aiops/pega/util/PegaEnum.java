@@ -31,7 +31,7 @@ public class PegaEnum {
     }
 
     public enum ActionType{
-        arrival,allocate,extract,local,republish
+        published,allocate,extract,republish,donothing
     }
 
     public enum UpdaterStateCode{
@@ -82,7 +82,7 @@ public class PegaEnum {
             this.value=value;
         }
 
-        public RegistrationExceptionCode valueOf(int value){
+        public static RegistrationExceptionCode valueOf(int value){
             switch (value){
                 case 1000:
                     return RegistrationExceptionCode.NotFoundUuid;
