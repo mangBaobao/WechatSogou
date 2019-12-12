@@ -327,7 +327,7 @@ public class MappingManager {
 //            return;
         for (SystemInfo systemInfo : systemInfos) {
             ArrayList<HostInfo> hostInfos = systemInfo.getHosts();
-            if (hostInfos != null) {
+            if (hostInfos != null && hostInfos.size()!=0) {
                 SystemRecorder bean = new SystemRecorder();
                 bean.setId(systemInfo.getId());
                 bean.setAllocatedCount(0);
@@ -343,8 +343,10 @@ public class MappingManager {
                 systemMappings.addSystemMapping(bean, segments);
             }
         }
-        logger.info("MappingManager_initSystemRecorders: after initSystemRecorders,systemMappings={}", systemMappings.toTabbedString());
-        writeSystemMappingsToZKTree();
+        if(systemMappings.getSystemRecorders().size()!=0) {
+            logger.info("MappingManager_initSystemRecorders: after initSystemRecorders,systemMappings={}", systemMappings.toTabbedString());
+            writeSystemMappingsToZKTree();
+        }
     }
 
     void writeMappingsToDB(Date time) {

@@ -42,7 +42,9 @@ public class RegistrationManager {
     private ArrayList<HostInfo> hostInfos;
     // private ArrayList<RegisteredHost> registeredHosts;
     private HashMap<String, RegisteredHost> registeredHosts;//key:ip,value:host instance
+    private HashMap<String, String> id2IpMap;
     private Date lastReadHostInfos;
+    private Date latestRegisteredTime = null;
     HashMap<String, RegisteredHost> newArrival;
     @Autowired
     private RegisteredHostService registeredHostService;
@@ -69,7 +71,8 @@ public class RegistrationManager {
         arrivalExceptions = new ConcurrentLinkedQueue<>();
         registeredHosts = new HashMap<>();
         newArrival = new HashMap<>();
-        exceptionStatus=new HashMap<>();
+        exceptionStatus = new HashMap<>();
+        id2IpMap = new HashMap<>();
     }
 
 
@@ -91,15 +94,19 @@ public class RegistrationManager {
         arrivalExceptions.addAll(registrationExceptionList);
     }
 
-    private void loadRegisteredHostsFromDB(){
-        List<RegisteredHost> hosts=registeredHostService.getAllHosts();
-        for(RegisteredHost rh:hosts){
-            registeredHosts.put(rh.getIp(),rh);
+    private Date loadRegisteredHostsFromDB() {
+        List<RegisteredHost> hosts = registeredHostService.getAllHosts();
+        Date time = hosts.get(0).getUpdate_time();
+        for (RegisteredHost rh : hosts) {
+            registeredHosts.put(rh.getIp(), rh);
+            if (rh.getId() != null)
+                id2IpMap.put(rh.getId(), rh.getIp());
         }
+        return time;
     }
 
     public void firstPublishIdentification() {
-        loadRegisteredHostsFromDB();
+        latestRegisteredTime = loadRegisteredHostsFromDB();
         initiateHostInfos();
         this.generateIdentifications();
         this.storePublishedHosts(registeredHosts);
@@ -137,13 +144,15 @@ public class RegistrationManager {
                 e.printStackTrace();
             }
             RedisClientUtil.getInstance().setStr(key, content);
+            if (host.getId() != null)
+                id2IpMap.put(host.getId(), host.getIp());
         }
         logger.info("publishIdentifications: finishes to publish host identification. registered host count={}", registeredHosts.size());
     }
 
     public void processExceptionIssues() {
-        int batch_publish=100;
-        HashMap<String, RegisteredHost> newlyAddHosts = new HashMap<>();
+        int batch_publish = 100;
+        HashMap<String, RegisteredHost> newlyUpdatedHosts = new HashMap<>();
         Date time = new Date();
         RegisteredHost host = null;
         HostInfo info = null;
@@ -164,11 +173,13 @@ public class RegistrationManager {
                         host = registeredHosts.get(ips[i]);
                         if (host != null) {//if host exists, publish again
                             host.setUpdate_time(time);
-                            newlyAddHosts.put(ips[i], host);
+                            newlyUpdatedHosts.put(ips[i], host);
+                            logger.info("processExceptionIssues: NotFoundMatchedIp ip={} already registered, publish again", ips[i]);
                         } else {// if host not registered yet, create new registration and publish
                             host = hostInfo2RegisteredHost(info, time);
-                            newlyAddHosts.put(ips[i], host);
+                            newlyUpdatedHosts.put(ips[i], host);
                             registeredHostService.storeHost(host);
+                            logger.info("processExceptionIssues: NotFoundMatchedIp ip={} hasn't registered yet, first publish", ips[i]);
                         }
                         judgement.setStatus(PegaEnum.IssueStatus.finish);
                         judgement.setActionType(PegaEnum.ActionType.republish);
@@ -178,12 +189,13 @@ public class RegistrationManager {
                         judgement.setStatus(PegaEnum.IssueStatus.lasting);
                         judgement.setActionType(PegaEnum.ActionType.donothing);
                         judgement.setContent("cannot find valid ip from maintained hosts");
+                        logger.info("processExceptionIssues: NotFoundMatchedIp ip={} hasn't fall under management yet, do nothing", registrationException.getIssueId());
                     }
                     break;
                 case NotFoundUuid:
                     String ip = IdentityUtil.unpackNotFoundUuidException(registrationException.getIssueId());
                     if (ip == null) {//ip invalid,do nothing
-                        logger.info("processExceptionIssues:cannot extract valid ip from issueid={}", registrationException.getIssueId());
+                        logger.info("processExceptionIssues:NotFoundUuid cannot extract valid ip from issueid={}, exception lasting", registrationException.getIssueId());
                         judgement.setStatus(PegaEnum.IssueStatus.lasting);
                         judgement.setActionType(PegaEnum.ActionType.donothing);
                         judgement.setContent("cannot extract valid ip from issueid");
@@ -196,6 +208,7 @@ public class RegistrationManager {
                             judgement.setStatus(PegaEnum.IssueStatus.lasting);
                             judgement.setActionType(PegaEnum.ActionType.donothing);
                             judgement.setContent("cannot find valid ip from maintained hosts");
+                            logger.info("processExceptionIssues: NotFoundUuid ip={} hasn't fall under management yet, do nothing", registrationException.getIssueId());
                             break;
                         } else// create new registered host instance
                             host = this.hostInfo2RegisteredHost(info, time);
@@ -203,11 +216,12 @@ public class RegistrationManager {
                     String allocatedUuid = UuidUtil.generateUuid(IdentityUtil.generateUuidInputString(host.getIp()));
                     host.setId(allocatedUuid);
                     host.setUpdate_time(time);
-                    newlyAddHosts.put(host.getIp(), host);
+                    newlyUpdatedHosts.put(host.getIp(), host);
                     registeredHostService.storeHost(host);
                     judgement.setActionType(PegaEnum.ActionType.allocate);
                     judgement.setStatus(PegaEnum.IssueStatus.finish);
                     judgement.setContent(allocatedUuid);
+                    logger.info("processExceptionIssues: NotFoundUuid ip={} has been allocated id={},exception resolved", host.getIp(), host.getId());
                     break;
                 case UuidNotMatched:
                     ArrayList<String> phases = IdentityUtil.unpackUuidNotMatchedException(registrationException.getReason());
@@ -215,47 +229,54 @@ public class RegistrationManager {
                         judgement.setActionType(PegaEnum.ActionType.donothing);
                         judgement.setStatus(PegaEnum.IssueStatus.lasting);
                         judgement.setContent(phases.toString());
+                        logger.info("processExceptionIssues: UuidNotMatched reason={} information is unqualified, exception lasting", registrationException.getReason());
                         break;
                     }
-                    host = registeredHostService.getHostById(registrationException.getReporter());
-                    if (host == null) {//host with identity doesn't exist in db
+                    // host = registeredHostService.getHostById(registrationException.getReporter());
+                    host = registeredHosts.get(id2IpMap.get(registrationException.getReporter()));
+                    if (host == null) {//host with local identity doesn't exist in db
                         if (phases.contains(__PUBLISH)) {
                             host = registeredHostService.getHostById(phases.get(phases.indexOf(__PUBLISH) + 1));
                             if (host == null) {//host with published identity doesn't exist in db, do nothing
                                 judgement.setActionType(PegaEnum.ActionType.donothing);
                                 judgement.setStatus(PegaEnum.IssueStatus.lasting);
                                 judgement.setContent("host with identity doesn't exist");
+                                logger.info("processExceptionIssues: UuidNotMatched published id={}, reported id={} doesn't exist", registrationException.getReporter(), phases.get(phases.indexOf(__PUBLISH) + 1));
+                                logger.warn("processExceptionIssues: UuidNotMatched reason={}. data inconsistency exists, request human intervention", registrationException.getReason());
                                 break;
                             }
                             host.setUpdate_time(time);
-                            newlyAddHosts.put(host.getIp(), host);
+                            newlyUpdatedHosts.put(host.getIp(), host);
                             registeredHostService.storeHost(host);
+                            logger.info("processExceptionIssues: UuidNotMatched id={} has updated to new id={}, exception resolved", registrationException.getReporter(), host.getId());
                         }
-                    } else {//host with identity exists in db, update
-                        if (phases.contains(__EXTRACT)) {
-                            String extractUuid=phases.get(phases.indexOf(__EXTRACT)+1);
+                    } else {//host with local identity exists in db, update
+                        if (phases.contains(__EXTRACT)) {//update to published extracted identity
+                            String extractUuid = phases.get(phases.indexOf(__EXTRACT) + 1);
 //                            registeredHostService.updateHostId(host.getId(),extractUuid);
 //                            registeredHostService.updateUtime(extractUuid,time);
                             host.setId(extractUuid);
                             host.setUpdate_time(time);
                             registeredHostService.storeHost(host);
-                            newlyAddHosts.put(host.getIp(),host);
+                            newlyUpdatedHosts.put(host.getIp(), host);
                             judgement.setActionType(PegaEnum.ActionType.extract);
                             judgement.setStatus(PegaEnum.IssueStatus.finish);
                             judgement.setContent(extractUuid);
+                            logger.info("processExceptionIssues: UuidNotMatched change occurs in appealed entity. id={} will be updated to extracted id={}, exception resolved", registrationException.getReporter(), extractUuid);
                             break;
                         }
-                        if (phases.contains(__PUBLISH)) {
-                            String publishedUuid=phases.get(phases.indexOf(__PUBLISH)+1);
+                        if (phases.contains(__PUBLISH)) {//update to published identity
+                            String publishedUuid = phases.get(phases.indexOf(__PUBLISH) + 1);
 //                            registeredHostService.updateHostId(host.getId(), publishedUuid);
 //                            registeredHostService.updateUtime(publishedUuid,time);
                             host.setId(publishedUuid);
                             host.setUpdate_time(time);
                             registeredHostService.storeHost(host);
-                            newlyAddHosts.put(host.getIp(), host);
+                            newlyUpdatedHosts.put(host.getIp(), host);
                             judgement.setStatus(PegaEnum.IssueStatus.finish);
                             judgement.setActionType(PegaEnum.ActionType.published);
                             judgement.setContent(host.getId());
+                            logger.info("processExceptionIssues: UuidNotMatched id={} will be updated to published id={},exception resolved", registrationException.getReporter(), publishedUuid);
                             break;
                         }
                     }
@@ -264,22 +285,25 @@ public class RegistrationManager {
                     judgement.setContent(registrationException.getReason());
                     judgement.setStatus(PegaEnum.IssueStatus.finish);
                     judgement.setActionType(PegaEnum.ActionType.donothing);
+                    logger.info("processExceptionIssues: NameNotMatched id={} name update ={} is knowned and recoreded , do nothing", registrationException.getReporter(), registrationException.getReason());
                     break;
                 default:
                     break;
             }
             arrivalExceptions.poll();
             judgementService.storeJudgement(judgement);
-            exceptionStatus.put(judgement.getIssueId(),judgement.getStatus());
-            if(newlyAddHosts.size()==batch_publish){
-                this.publishIdentifications(newlyAddHosts);
-                registeredHosts.putAll(newlyAddHosts);
-                newlyAddHosts.clear();
+            exceptionStatus.put(judgement.getIssueId(), judgement.getStatus());
+            if (newlyUpdatedHosts.size() == batch_publish) {
+                this.publishIdentifications(newlyUpdatedHosts);
+                registeredHosts.putAll(newlyUpdatedHosts);
+                logger.info("processExceptionIssues: newly updated hosts has been published and stored, size={}", newlyUpdatedHosts.size());
+                newlyUpdatedHosts.clear();
             }
         }
-        if(newlyAddHosts.size()!=0){
-            this.publishIdentifications(newlyAddHosts);
-            registeredHosts.putAll(newlyAddHosts);
+        if (newlyUpdatedHosts.size() != 0) {
+            this.publishIdentifications(newlyUpdatedHosts);
+            registeredHosts.putAll(newlyUpdatedHosts);
+            logger.info("processExceptionIssues: newly updated hosts has been published and stored, size={}", newlyUpdatedHosts.size());
         }
     }
 
@@ -311,8 +335,8 @@ public class RegistrationManager {
         Date time = new Date();
         RegisteredHost host;
         for (HostInfo hostInfo : hostInfos) {
-            host=registeredHosts.get(hostInfo.getIp());
-            if(host!=null)
+            host = registeredHosts.get(hostInfo.getIp());
+            if (host != null)
                 continue;
             host = new RegisteredHost();
             host.setIp(hostInfo.getIp());
@@ -327,7 +351,7 @@ public class RegistrationManager {
     }
 
     private void getNewArrivalHosts() {
-        HashMap<String, ClaimNotice> claimNotices = claimNoticeManager.getLastRoundClaimNotices();
+        HashMap<String, ClaimNotice> claimNotices = claimNoticeManager.getLastRoundClaimNotices(latestRegisteredTime);
         if (claimNotices.size() == 0) {
             logger.info("getNewArrivalHosts: find no claim notice, do nothing ...");
             return;

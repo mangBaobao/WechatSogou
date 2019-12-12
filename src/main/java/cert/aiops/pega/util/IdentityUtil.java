@@ -61,7 +61,7 @@ public class IdentityUtil {
 
     public static  String[] unpackNoMatchedIPException(String issueId){
         String[] phases=issueId.split(__SPLITTER);
-        if(phases[1].equals(PegaEnum.RegistrationExceptionCode.NotFoundMatchedIp))
+        if(phases[1].equals(String.valueOf(PegaEnum.RegistrationExceptionCode.NotFoundMatchedIp.getValue())))
             return phases[0].split(__COMMA);
         else
             return null;
@@ -69,7 +69,7 @@ public class IdentityUtil {
 
     public static String unpackNotFoundUuidException(String issueId){
         String[] phases=issueId.split(__SPLITTER);
-        if(phases[1].equals(PegaEnum.RegistrationExceptionCode.NotFoundUuid)) {
+        if(phases[1].equals(String.valueOf(PegaEnum.RegistrationExceptionCode.NotFoundUuid.getValue()))) {
            String[] factors=phases[0].split(__ACROSS_SPLITTER);
            return factors[2];
         }

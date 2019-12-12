@@ -15,7 +15,7 @@ public class UuidUtil {
 
     public static String generateUuid(byte[] key){//key :ip and time
         String uuid=UUID.nameUUIDFromBytes(key).toString();
-        String allo_uuid=__PREFIX+"_"+uuid;
+        String allo_uuid=__PREFIX+uuid;
         logger.info("UuidUtil:generate uuid={} by key={}",allo_uuid,new String(key));
         return allo_uuid;
     }

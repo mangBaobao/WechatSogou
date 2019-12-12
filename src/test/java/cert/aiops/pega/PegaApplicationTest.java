@@ -1107,32 +1107,32 @@ public class PegaApplicationTest {
     public void admitHostTest() throws InterruptedException {
         logger.info("admitHostTest begins...");
         long time = System.currentTimeMillis();
-        String ip = "10.10.10.8";
+        String ip = "10.10.10.7";
         String uuid = UUID.randomUUID().toString();
         String value = ip + ":" + uuid;
         String key = "checkin";
         logger.info("admitHostTest:value={},time={}", value, time);
         redisClientUtil.addSetSingle(key, value, time);
         Thread.sleep(100000);
-        String newUuid=UUID.randomUUID().toString();
-        value=ip+":"+newUuid;
-        time=System.currentTimeMillis();
-        logger.info("admitHostTest:value={},time={}",value,time);
-        redisClientUtil.addSetSingle(key,value,time);
-        Thread.sleep(100000);
-        String reason="localIdentity="+uuid+",publishedUuid="+newUuid;
-        RegistrationException exception=new RegistrationException();
-        exception.setReason(reason);
-        String issueId=uuid+"_"+PegaEnum.RegistrationExceptionCode.UuidNotMatched.getValue();
-        exception.setCode(PegaEnum.RegistrationExceptionCode.UuidNotMatched.getValue());
-        exception.setIssueId(issueId);
-        exception.setReporter(uuid);
-        exception.setTopic("exception");
-        String etime=formatter.format(new Date());
-        exception.setTime(etime);
-        logger.info("admitHostTest:registrationException={}",exception.toString());
-        kafkaUtil.send2Kafka("exception",exception);
-        Thread.sleep(100000);
+//        String newUuid=UUID.randomUUID().toString();
+//        value=ip+":"+newUuid;
+//        time=System.currentTimeMillis();
+//        logger.info("admitHostTest:value={},time={}",value,time);
+//        redisClientUtil.addSetSingle(key,value,time);
+//        Thread.sleep(100000);
+//        String reason="localIdentity="+uuid+",publishedUuid="+newUuid;
+//        RegistrationException exception=new RegistrationException();
+//        exception.setReason(reason);
+//        String issueId=uuid+"_"+PegaEnum.RegistrationExceptionCode.UuidNotMatched.getValue();
+//        exception.setCode(PegaEnum.RegistrationExceptionCode.UuidNotMatched.getValue());
+//        exception.setIssueId(issueId);
+//        exception.setReporter(uuid);
+//        exception.setTopic("exception");
+//        String etime=formatter.format(new Date());
+//        exception.setTime(etime);
+//        logger.info("admitHostTest:registrationException={}",exception.toString());
+//        kafkaUtil.send2Kafka("exception",exception);
+//        Thread.sleep(100000);
     }
 
     @Test
@@ -1156,12 +1156,62 @@ public class PegaApplicationTest {
     }
 
     @Test
-    public void uuidExceptionTest() throws InterruptedException {
+    public void uuidNotMatchExceptionTest() throws InterruptedException {
         processExceptionTest();
         Thread.sleep(50000);
         RegistrationManager manager=SpringContextUtil.getBean(RegistrationManager.class);
      manager.processExceptionIssues();
     }
+
+    @Test
+    public void uuidNotFoundExceptionTest() throws InterruptedException {
+        logger.info("uuidNotFoundExceptionTest begins....");
+        RegistrationException exception=new RegistrationException();
+        String reporter="z-gj-10.10.10.5";
+        exception.setTopic("exception");
+        exception.setReporter(reporter);
+        exception.setTime(formatter.format(new Date()));
+        exception.setCode(PegaEnum.RegistrationExceptionCode.NotFoundUuid.getValue());
+        String issueId=reporter+"_"+ PegaEnum.RegistrationExceptionCode.NotFoundUuid.getValue();
+        exception.setIssueId(issueId);
+        String reason="reporter="+reporter+",uuid=null";
+        exception.setReason(reason);
+        kafkaUtil.send2Kafka("exception",exception);
+        Thread.sleep(120000);
+    }
+
+    @Test
+    public void notFoundMatchedIpExceptionTest() throws InterruptedException {
+        RegistrationException exception=new RegistrationException();
+        String reporter="10.10.10.11,10.127.0.3";
+        exception.setTopic("exception");
+        exception.setReporter(reporter);
+        exception.setTime(formatter.format(new Date()));
+        exception.setCode(PegaEnum.RegistrationExceptionCode.NotFoundMatchedIp.getValue());
+        String issueId=reporter+"_"+ PegaEnum.RegistrationExceptionCode.NotFoundMatchedIp.getValue();
+        exception.setIssueId(issueId);
+        String reason="reporter="+reporter;
+        exception.setReason(reason);
+        kafkaUtil.send2Kafka("exception",exception);
+        Thread.sleep(120000);
+    }
+
+    @Test
+    public void nameNotMatchedExceptionTest() throws InterruptedException {
+        RegistrationException exception=new RegistrationException();
+        String reporter="ALLOCefcf5d9b-c134-32bd-85c6-659989a82e33";
+        exception.setTopic("exception");
+        exception.setReporter(reporter);
+        exception.setTime(formatter.format(new Date()));
+        exception.setCode(PegaEnum.RegistrationExceptionCode.NameNotMatched.getValue());
+        String issueId=reporter+"_"+ PegaEnum.RegistrationExceptionCode.NameNotMatched.getValue();
+        exception.setIssueId(issueId);
+        String reason="localName=z-gj-10.10.10.6,remoteName=z-bj-10.10.10.6";
+        exception.setReason(reason);
+        kafkaUtil.send2Kafka("exception",exception);
+        Thread.sleep(120000);
+    }
+
     @Test
     public void long2DateTest() {
         logger.info("long2Date test begins...");

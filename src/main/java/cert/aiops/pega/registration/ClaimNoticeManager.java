@@ -68,10 +68,12 @@ public class ClaimNoticeManager {
         return claimNotices;
     }
 
-    public HashMap<String, ClaimNotice> getLastRoundClaimNotices() {
+    public HashMap<String, ClaimNotice> getLastRoundClaimNotices(Date latestRegisteredTime) {
 //        if(lastRoundResultSet.size()==0){
-        if (lastRoundTime == 0)
+        if (latestRegisteredTime == null)
             initLastRoundTime();
+        else
+            lastRoundTime=latestRegisteredTime.getTime();
         receiveLastRoundClaims(System.currentTimeMillis());
         incSyncClaimNotices();
 //        }
