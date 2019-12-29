@@ -1,16 +1,15 @@
 package cert.aiops.pega.service;
 
 import cert.aiops.pega.bean.*;
-import cert.aiops.pega.bean.mapping.WorkAssignment;
 import cert.aiops.pega.config.PegaConfiguration;
 import cert.aiops.pega.dao.HostStateDao;
+import cert.aiops.pega.innerService.SystemInfoService;
 import cert.aiops.pega.util.RedisClientUtil;
 import cert.aiops.pega.util.SpringContextUtil;
 import cert.aiops.pega.util.ZookeeperUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.netflix.discovery.converters.Auto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

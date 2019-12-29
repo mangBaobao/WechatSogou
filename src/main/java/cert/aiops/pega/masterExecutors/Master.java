@@ -1,11 +1,11 @@
 package cert.aiops.pega.masterExecutors;
 
-import cert.aiops.pega.registration.RegistrationManager;
+import cert.aiops.pega.registratedHostManagement.RegistratedHostManager;
 import cert.aiops.pega.util.PegaEnum;
 import cert.aiops.pega.bean.SystemInfo;
 import cert.aiops.pega.config.PegaConfiguration;
-import cert.aiops.pega.service.HostInfoService;
-import cert.aiops.pega.service.SystemInfoService;
+import cert.aiops.pega.innerService.HostInfoService;
+import cert.aiops.pega.innerService.SystemInfoService;
 import cert.aiops.pega.startup.BeingMasterCondition;
 import cert.aiops.pega.synchronization.Synchronizer;
 import cert.aiops.pega.util.SpringContextUtil;
@@ -41,7 +41,7 @@ public class Master {
     private MessageQueueManager messageQueueManager;
 
     @Autowired
-    private RegistrationManager registrationManager;
+    private RegistratedHostManager registratedHostManager;
 
     MappingManager getMappingManager() {
         return mappingManager;
@@ -64,7 +64,7 @@ public class Master {
             mappingManager.setSystemInfos(systemInfos);
             mappingManager.initAllMappings();
             messageQueueManager.updateQueueStatus();
-            registrationManager.firstPublishIdentification();
+            registratedHostManager.firstPublishIdentification();
         }
     }
 

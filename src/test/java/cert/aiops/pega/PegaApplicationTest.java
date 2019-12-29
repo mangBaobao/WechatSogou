@@ -4,19 +4,19 @@ import cert.aiops.pega.bean.*;
 import cert.aiops.pega.bean.mapping.*;
 import cert.aiops.pega.config.PegaConfiguration;
 import cert.aiops.pega.dao.*;
-import cert.aiops.pega.registration.ClaimNotice;
-import cert.aiops.pega.registration.ClaimNoticeManager;
-import cert.aiops.pega.registration.RegistrationExceptionListener;
+import cert.aiops.pega.registratedHostManagement.ClaimNotice;
+import cert.aiops.pega.registratedHostManagement.ClaimNoticeManager;
+import cert.aiops.pega.registratedHostManagement.RegistrationExceptionListener;
 import cert.aiops.pega.masterExecutors.Master;
 import cert.aiops.pega.masterExecutors.MasterCronTasks;
 import cert.aiops.pega.masterExecutors.PegaNodeCacheListener;
-import cert.aiops.pega.registration.RegistrationManager;
+import cert.aiops.pega.registratedHostManagement.RegistratedHostManager;
 import cert.aiops.pega.service.JczySynchronizationService;
-import cert.aiops.pega.service.RegisteredHostService;
+import cert.aiops.pega.innerService.RegisteredHostService;
 import cert.aiops.pega.synchronization.*;
 import cert.aiops.pega.workerExecutors.Worker;
-import cert.aiops.pega.service.HostInfoService;
-import cert.aiops.pega.service.SystemInfoService;
+import cert.aiops.pega.innerService.HostInfoService;
+import cert.aiops.pega.innerService.SystemInfoService;
 import cert.aiops.pega.util.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -1017,7 +1017,7 @@ public class PegaApplicationTest {
     }
 
     @Autowired
-    RegistrationManager manager;
+    RegistratedHostManager manager;
 
     @Test
     public void registerTest() {
@@ -1159,7 +1159,7 @@ public class PegaApplicationTest {
     public void uuidNotMatchExceptionTest() throws InterruptedException {
         processExceptionTest();
         Thread.sleep(50000);
-        RegistrationManager manager=SpringContextUtil.getBean(RegistrationManager.class);
+        RegistratedHostManager manager=SpringContextUtil.getBean(RegistratedHostManager.class);
      manager.processExceptionIssues();
     }
 

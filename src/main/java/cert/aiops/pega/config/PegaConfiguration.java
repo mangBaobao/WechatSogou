@@ -18,6 +18,7 @@ public class PegaConfiguration {
     private int maxPoolSize;
     private int queueCapacity;
     private String hostQueryThreadPoolNamePrefix;
+    private String channelQueryThreadPoolNamePrefix;
     private String systemQueryThreadPoolNamePrefix;
     private String epochUpdateThreadNamePrefix;
     private String RenovationThreadNamePrefix;
@@ -57,6 +58,7 @@ public class PegaConfiguration {
                 ", maxPoolSize=" + maxPoolSize +
                 ", queueCapacity=" + queueCapacity +
                 ", hostQueryThreadPoolNamePrefix='" + hostQueryThreadPoolNamePrefix + '\'' +
+                ", channelQueryThreadPoolNamePrefix='" + channelQueryThreadPoolNamePrefix + '\'' +
                 ", systemQueryThreadPoolNamePrefix='" + systemQueryThreadPoolNamePrefix + '\'' +
                 ", epochUpdateThreadNamePrefix='" + epochUpdateThreadNamePrefix + '\'' +
                 ", RenovationThreadNamePrefix='" + RenovationThreadNamePrefix + '\'' +
@@ -75,6 +77,14 @@ public class PegaConfiguration {
                 ", cacheValidation=" + cacheValidation +
                 ", fragFactor=" + fragFactor +
                 '}';
+    }
+
+    public String getChannelQueryThreadPoolNamePrefix() {
+        return channelQueryThreadPoolNamePrefix;
+    }
+
+    public void setChannelQueryThreadPoolNamePrefix(String channelQueryThreadPoolNamePrefix) {
+        this.channelQueryThreadPoolNamePrefix = channelQueryThreadPoolNamePrefix;
     }
 
     public int getCacheValidation() {

@@ -70,4 +70,16 @@ public class MasterThreadPoolConfigurator {
         return executor;
     }
 
+    @Bean
+    public Executor channelQueryExecutor(){
+        ThreadPoolTaskExecutor executor = new TraceableThreadPoolTaskExecutor();
+        executor.setCorePoolSize(2);
+        executor.setMaxPoolSize(2);
+        executor.setQueueCapacity(3);
+        executor.setThreadNamePrefix(pegaConfiguration.getRenovationThreadNamePrefix());
+        executor.initialize();
+        logger.info("channelQueryExecutorThreadPool has been initialized and starts to work");
+        return executor;
+    }
+
 }

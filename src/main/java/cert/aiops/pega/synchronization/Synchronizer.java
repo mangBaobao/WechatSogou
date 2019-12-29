@@ -6,7 +6,7 @@ import cert.aiops.pega.bean.SystemInfo;
 import cert.aiops.pega.bean.SystemInfoClick;
 import cert.aiops.pega.config.PegaConfiguration;
 import cert.aiops.pega.service.JczySynchronizationService;
-import cert.aiops.pega.service.SystemInfoService;
+import cert.aiops.pega.innerService.SystemInfoService;
 import cert.aiops.pega.startup.BeingMasterCondition;
 import cert.aiops.pega.util.Sorter;
 import cert.aiops.pega.util.SpringContextUtil;

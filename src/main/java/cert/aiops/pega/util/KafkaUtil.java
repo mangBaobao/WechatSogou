@@ -1,7 +1,7 @@
 package cert.aiops.pega.util;
 
 import cert.aiops.pega.config.KafkaConsumerConfiguer;
-import cert.aiops.pega.registration.RegistrationExceptionListener;
+import cert.aiops.pega.registratedHostManagement.RegistrationExceptionListener;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
