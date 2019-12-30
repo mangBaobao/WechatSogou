@@ -1,9 +1,9 @@
 package cert.aiops.pega.util;
 
 public class PegaEnum {
-//    public enum Net{
-//        z,v
-//    }
+    public enum Net{
+        z,v
+    }
 
     public enum State{
         不在维,在维,交维中,施工中,下线

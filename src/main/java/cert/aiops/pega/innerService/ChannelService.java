@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 
-@Transactional
+//@Transactional
 @Service
 public class ChannelService {
     @Autowired
@@ -23,8 +23,8 @@ public class ChannelService {
         channelRepository.updateChannelMembers(id,members,update_time);
     }
 
-    public List<Channel> loadValidChannels(){
-        return channelRepository.getChannelsByStatus(PegaEnum.ObjectState.valid.toString());
+    public List<Channel> loadChannelsByStatus(PegaEnum.ObjectState state){
+        return channelRepository.getChannelsByStatus(state.name());
     }
 
     public void abortChannel(Long id, String update_time){

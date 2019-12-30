@@ -11,22 +11,32 @@ public class Channel {
     @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String updator;
+    private String updater;
     private String update_time;
     private String members;
     @Enumerated(EnumType.STRING)
     private PegaEnum.ObjectState status;
+    private String description;
 
     @Override
     public String toString() {
         return "Channel{" +
                 "name='" + name + '\'' +
                 ", id=" + id +
-                ", updator='" + updator + '\'' +
+                ", updater='" + updater + '\'' +
                 ", update_time='" + update_time + '\'' +
                 ", members='" + members + '\'' +
                 ", status=" + status +
+                ", description='" + description + '\'' +
                 '}';
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getName() {
@@ -45,12 +55,12 @@ public class Channel {
         this.id = id;
     }
 
-    public String getUpdator() {
-        return updator;
+    public String getUpdater() {
+        return updater;
     }
 
-    public void setUpdator(String updator) {
-        this.updator = updator;
+    public void setUpdater(String updater) {
+        this.updater = updater;
     }
 
     public String getUpdate_time() {
