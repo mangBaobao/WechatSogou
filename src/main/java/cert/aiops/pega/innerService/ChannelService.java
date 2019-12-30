@@ -1,0 +1,33 @@
+package cert.aiops.pega.innerService;
+
+import cert.aiops.pega.bean.Channel;
+import cert.aiops.pega.dao.ChannelRepository;
+import cert.aiops.pega.util.PegaEnum;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
+import java.util.List;
+
+@Transactional
+@Service
+public class ChannelService {
+    @Autowired
+    private ChannelRepository channelRepository;
+
+    public void storeChannel(Channel channel){
+        channelRepository.save(channel);
+    }
+
+    public void updateMembers(Long id,String members,String update_time){
+        channelRepository.updateChannelMembers(id,members,update_time);
+    }
+
+    public List<Channel> loadValidChannels(){
+        return channelRepository.getChannelsByStatus(PegaEnum.ObjectState.valid.toString());
+    }
+
+    public void abortChannel(Long id, String update_time){
+        channelRepository.abortChannel(id,update_time);
+    }
+}
