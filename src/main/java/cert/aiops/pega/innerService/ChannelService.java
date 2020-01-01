@@ -27,6 +27,10 @@ public class ChannelService {
         return channelRepository.getChannelsByStatus(state.name());
     }
 
+    public Long getChannelLargestId(){
+        return channelRepository.getMaxChannelId();
+    }
+
     public void abortChannel(Long id, String update_time){
         channelRepository.abortChannel(id,update_time);
     }

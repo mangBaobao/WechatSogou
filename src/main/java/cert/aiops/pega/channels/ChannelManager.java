@@ -16,7 +16,7 @@ import java.util.Date;
 public class ChannelManager {
 
     private Logger logger = LoggerFactory.getLogger(ChannelManager.class);
-
+    private Long maxChannelId= Long.valueOf(1000);
     public final static String __DEFAULT_CHANNEL = "basic";
     private ArrayList<Channel> validChannels;
     private ArrayList<Channel> invalidChannels;
@@ -29,6 +29,9 @@ public class ChannelManager {
         logger.info("init: succeed to load valid channel count={}", validChannels.size());
         invalidChannels= (ArrayList<Channel>) channelService.loadChannelsByStatus(PegaEnum.ObjectState.invalid);
         logger.info("init: succeed to load invalid channel count={}", invalidChannels.size());
+        Long id=channelService.getChannelLargestId();
+       if(id > maxChannelId)
+           maxChannelId=id;
     }
 
      public Channel getChannelByName(String name){
@@ -41,6 +44,11 @@ public class ChannelManager {
                  return e;
          }
         return null;
+    }
+
+    public Long getMaxChannelId(){
+        maxChannelId++;
+        return maxChannelId;
     }
 
     public void abortChannel(String name){
@@ -68,7 +76,7 @@ public class ChannelManager {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         channelService.updateMembers(id,members,formatter.format(date));
         channel.setMembers(members);
-        channel.setUpdate_time(formatter.format(date));
+        channel.setUptime(formatter.format(date));
     }
 
     public void addChannel(Channel channel){

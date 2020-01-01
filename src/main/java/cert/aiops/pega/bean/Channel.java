@@ -9,14 +9,15 @@ import javax.persistence.*;
 public class Channel {
     String name;
     @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String updater;
-    private String update_time;
+    private String uptime;
     private String members;
     @Enumerated(EnumType.STRING)
     private PegaEnum.ObjectState status;
     private String description;
+    private String workingNet;
+
 
     @Override
     public String toString() {
@@ -24,11 +25,20 @@ public class Channel {
                 "name='" + name + '\'' +
                 ", id=" + id +
                 ", updater='" + updater + '\'' +
-                ", update_time='" + update_time + '\'' +
+                ", uptime='" + uptime + '\'' +
                 ", members='" + members + '\'' +
                 ", status=" + status +
                 ", description='" + description + '\'' +
+                ", workingNet='" + workingNet + '\'' +
                 '}';
+    }
+
+    public String getWorkingNet() {
+        return workingNet;
+    }
+
+    public void setWorkingNet(String workingNet) {
+        this.workingNet = workingNet;
     }
 
     public String getDescription() {
@@ -63,12 +73,12 @@ public class Channel {
         this.updater = updater;
     }
 
-    public String getUpdate_time() {
-        return update_time;
+    public String getUptime() {
+        return uptime;
     }
 
-    public void setUpdate_time(String update_time) {
-        this.update_time = update_time;
+    public void setUptime(String uptime) {
+        this.uptime = uptime;
     }
 
     public String getMembers() {
