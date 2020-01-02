@@ -16,7 +16,7 @@ public class RegistratedHostCronTask {
     @Autowired
     private KafkaUtil kafkaUtil;
     @Autowired
-    private RegistratedHostManager registratedHostManager;
+    private RegisteredHostManager registeredHostManager;
 
     @Scheduled(fixedDelay = 300000,initialDelay =60000)
     public void startReceiveExceptions(){
@@ -34,14 +34,14 @@ public class RegistratedHostCronTask {
     @Scheduled(fixedDelay = 300000,initialDelay = 300000)
     public void incAdmitHosts(){
         logger.info("incAdmitHosts:begins to process claim messages and generate admit identification");
-        registratedHostManager.publishAdmitIdentification();
+        registeredHostManager.publishAdmitIdentification();
         logger.info("incAdmitHosts:finishes to process claim messages and generate admit identification");
     }
 
     @Scheduled(fixedDelay = 300000,initialDelay = 100000)
     public void processExceptions(){
         logger.info("processExceptions:begins to process exception issues");
-        registratedHostManager.processExceptionIssues();
+        registeredHostManager.processExceptionIssues();
         logger.info("processExceptions:finishes  to process exception issues");
     }
 }

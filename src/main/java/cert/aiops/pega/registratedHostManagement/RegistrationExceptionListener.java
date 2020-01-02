@@ -25,7 +25,7 @@ public class RegistrationExceptionListener implements BatchAcknowledgingConsumer
         ObjectMapper mapper=new ObjectMapper();
         ArrayList<RegistrationException> exceptions=new ArrayList<>();
         RegistrationException exception;
-        RegistratedHostManager registratedHostManager = SpringContextUtil.getBean(RegistratedHostManager.class);
+        RegisteredHostManager registeredHostManager = SpringContextUtil.getBean(RegisteredHostManager.class);
         for(ConsumerRecord<String,String> singleRecord:data){
             logger.info("onMessage receive arrival record: value={}",singleRecord.value());
             try {
@@ -36,13 +36,13 @@ public class RegistrationExceptionListener implements BatchAcknowledgingConsumer
             }
             if(exceptions.size()==pack) {
                 logger.info("onMessage: call registrationManager addRegistrationExceptionList count={}",exceptions.size());
-                registratedHostManager.addRegistrationExceptionList(exceptions);
+                registeredHostManager.addRegistrationExceptionList(exceptions);
                 exceptions.clear();
             }
         }
         if(exceptions.size()!=0){
             logger.info("onMessage: call registrationManager addRegistrationExceptionList count={}",exceptions.size());
-            registratedHostManager.addRegistrationExceptionList(exceptions);
+            registeredHostManager.addRegistrationExceptionList(exceptions);
         }
     }
 }

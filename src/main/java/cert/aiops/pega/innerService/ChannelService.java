@@ -31,7 +31,7 @@ public class ChannelService {
         return channelRepository.getMaxChannelId();
     }
 
-    public void abortChannel(Long id, String update_time){
-        channelRepository.abortChannel(id,update_time);
+    public void abortChannel(Channel channel){
+        this.storeChannel(channel);
     }
 }

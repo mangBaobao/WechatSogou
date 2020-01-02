@@ -10,7 +10,7 @@ import cert.aiops.pega.registratedHostManagement.RegistrationExceptionListener;
 import cert.aiops.pega.masterExecutors.Master;
 import cert.aiops.pega.masterExecutors.MasterCronTasks;
 import cert.aiops.pega.masterExecutors.PegaNodeCacheListener;
-import cert.aiops.pega.registratedHostManagement.RegistratedHostManager;
+import cert.aiops.pega.registratedHostManagement.RegisteredHostManager;
 import cert.aiops.pega.service.JczySynchronizationService;
 import cert.aiops.pega.innerService.RegisteredHostService;
 import cert.aiops.pega.synchronization.*;
@@ -1017,7 +1017,7 @@ public class PegaApplicationTest {
     }
 
     @Autowired
-    RegistratedHostManager manager;
+    RegisteredHostManager manager;
 
     @Test
     public void registerTest() {
@@ -1159,7 +1159,7 @@ public class PegaApplicationTest {
     public void uuidNotMatchExceptionTest() throws InterruptedException {
         processExceptionTest();
         Thread.sleep(50000);
-        RegistratedHostManager manager=SpringContextUtil.getBean(RegistratedHostManager.class);
+        RegisteredHostManager manager=SpringContextUtil.getBean(RegisteredHostManager.class);
      manager.processExceptionIssues();
     }
 

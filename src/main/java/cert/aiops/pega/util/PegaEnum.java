@@ -30,6 +30,9 @@ public class PegaEnum {
         lasting,finish
     }
 
+    public enum MemberAction{
+        add,reduce
+    }
     public enum ActionType{
         published,allocate,extract,republish,donothing
     }

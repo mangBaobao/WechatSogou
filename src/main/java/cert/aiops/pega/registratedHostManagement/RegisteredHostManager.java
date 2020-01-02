@@ -29,8 +29,8 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 @Order(1)
 @Component
-public class RegistratedHostManager {
-    private Logger logger = LoggerFactory.getLogger(RegistratedHostManager.class);
+public class RegisteredHostManager {
+    private Logger logger = LoggerFactory.getLogger(RegisteredHostManager.class);
 
     private final String __EXTRACT = "extractUuid";
     private final String __LOCAL = "localIdentity";
@@ -45,7 +45,7 @@ public class RegistratedHostManager {
     private Date lastReadHostInfos;
     private Date latestRegisteredTime = null;
     private HashMap<String, RegisteredHost> newArrival;
-    private HashMap<String, RegisteredHost> updatedHostsRecently;
+    private HashMap<String, RegisteredHost> updatedHostsRecently;//key:ip,value:host instance
     @Autowired
     private RegisteredHostService registeredHostService;
 
@@ -67,7 +67,7 @@ public class RegistratedHostManager {
     @Autowired
     private JudgementService judgementService;
 
-    public RegistratedHostManager() {
+    public RegisteredHostManager() {
         arrivalExceptions = new ConcurrentLinkedQueue<>();
         registeredHosts = new HashMap<>();
         newArrival = new HashMap<>();
@@ -96,6 +96,8 @@ public class RegistratedHostManager {
 
     private Date loadRegisteredHostsFromDB() {
         List<RegisteredHost> hosts = registeredHostService.getAllHosts();
+        if(hosts==null || hosts.size()==0)
+            return new Date();
         Date time = hosts.get(0).getUpdate_time();
         for (RegisteredHost rh : hosts) {
             registeredHosts.put(rh.getIp(), rh);
@@ -108,6 +110,8 @@ public class RegistratedHostManager {
     public void firstPublishIdentification() {
         latestRegisteredTime = loadRegisteredHostsFromDB();
         initiateHostInfos();
+        if(registeredHosts.isEmpty())
+            return;
         this.generateIdentifications();
         this.storePublishedHosts(registeredHosts);
         this.publishIdentifications(registeredHosts);
