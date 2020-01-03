@@ -12,7 +12,9 @@ import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 @Component
 public class ChannelManager {
@@ -41,11 +43,11 @@ public class ChannelManager {
 
     public Channel getChannelById(Long id) {
         for (Channel e : validChannels) {
-            if (e.getId()==id)
+            if (e.getId() == id)
                 return e;
         }
         for (Channel e : invalidChannels) {
-            if (e.getId()==id)
+            if (e.getId() == id)
                 return e;
         }
         return null;
@@ -85,27 +87,30 @@ public class ChannelManager {
     }
 
     public String addChannelMembers(Long id, String members) {
-        Channel channel=getChannelById(id);
-        String currentMembers=channel.getMembers();
-        String[] requiredMembers=members.split(",");
-        ArrayList<String> validMembers=new ArrayList<>();
-        for(String member:requiredMembers){
-            RegisteredHost host=hostManager.getHostByIp(member);
-            if(host!=null){
+        Date uptime = new Date();
+        Channel channel = getChannelById(id);
+        String currentMembers = channel.getMembers();
+        String[] requiredMembers = members.split(",");
+        ArrayList<String> validMembers = new ArrayList<>();
+        for (String member : requiredMembers) {
+            RegisteredHost host = hostManager.getHostByIp(member);
+            if (host != null) {
                 host.addChannel(String.valueOf(id));
-                validMembers.add(String.valueOf(id));
+                host.setUpdate_time(uptime);
+                hostManager.markingUpdatedHost(host);
+                validMembers.add(member);
             }
         }
-        if(!currentMembers.isEmpty()){
-            String[] currents=currentMembers.replace("[","").replace("]","").split(",");
-            int size=validMembers.size();
+        if (!currentMembers.isEmpty()) {
+            String[] currents = currentMembers.replace("[", "").replace("]", "").split(",");
+            int size = validMembers.size();
             int loop;
-            for(String c:currents) {
+            for (String c : currents) {
                 for (loop = 0; loop < size; loop++) {
                     if (validMembers.get(loop).equals(c))
                         break;
                 }
-                if(loop==size)
+                if (loop == size)
                     validMembers.add(c);
             }
         }
@@ -113,7 +118,26 @@ public class ChannelManager {
     }
 
     public String reduceChannelMembers(Long id, String members) {
-        return null;
+        Date uptime = new Date();
+        Channel channel = getChannelById(id);
+        List<String> currentMembers = Arrays.asList(channel.getMembers().replace("[", "").replace("]", "").split(","));
+        String[] requiredMembers = members.split(",");
+
+        int loop;
+        for (String e : requiredMembers) {
+            for (loop = 0; loop < currentMembers.size(); loop++) {
+                if (e.equals(currentMembers.get(loop))) {
+                    RegisteredHost host = hostManager.getHostByIp(currentMembers.get(loop));
+                    if (host != null) {
+                        host.removeChannel(String.valueOf(id));
+                        host.setUpdate_time(uptime);
+                        hostManager.markingUpdatedHost(host);
+                        currentMembers.remove(loop);
+                    }
+                }
+            }
+        }
+        return currentMembers.toString();
     }
 
     public Channel updateChannelAttributes(Channel channel) {

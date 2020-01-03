@@ -86,4 +86,23 @@ public class RegisteredHost {
         else
             channels+=channel+"]";
     }
+
+    public void removeChannel(String channel){
+        if(channels.isEmpty())
+            return;
+        String pattern=","+channel;
+        if(channels.contains(pattern)) {
+            channels.replace(pattern, "");
+            return;
+        }
+        pattern=channel+",";
+        if(channels.contains(pattern)){
+            channels.replace(pattern,"");
+            return;
+        }
+        if(channels.contains(channel))
+            channels.replace(channel,"");
+
+
+    }
 }
