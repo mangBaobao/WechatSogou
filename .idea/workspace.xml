@@ -1,21 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="77949154-d0ea-4538-8da3-fb57a3ba8d60" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/cert/aiops/pega/util/IPAddrUtil.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/cert/aiops/pega/util/PegaConstant.java" afterDir="false" />
+    <list default="true" id="77949154-d0ea-4538-8da3-fb57a3ba8d60" name="Default Changelist" comment="channel service processing: update members to be continue">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/cert/aiops/pega/channels/ChannelManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cert/aiops/pega/channels/ChannelManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cert/aiops/pega/controller/ChannelController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cert/aiops/pega/controller/ChannelController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cert/aiops/pega/innerService/ChannelService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cert/aiops/pega/innerService/ChannelService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cert/aiops/pega/masterExecutors/Master.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cert/aiops/pega/masterExecutors/Master.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cert/aiops/pega/registratedHostManagement/RegistratedHostCronTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cert/aiops/pega/registratedHostManagement/RegistratedHostCronTask.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cert/aiops/pega/registratedHostManagement/RegistratedHostManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cert/aiops/pega/registratedHostManagement/RegisteredHostManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cert/aiops/pega/registratedHostManagement/RegistrationExceptionListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cert/aiops/pega/registratedHostManagement/RegistrationExceptionListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cert/aiops/pega/registratedHostManagement/RegisteredHostManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cert/aiops/pega/registratedHostManagement/RegisteredHostManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/cert/aiops/pega/service/ChannelQueryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cert/aiops/pega/service/ChannelQueryService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cert/aiops/pega/util/PegaEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cert/aiops/pega/util/PegaEnum.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/cert/aiops/pega/PegaApplicationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/cert/aiops/pega/PegaApplicationTest.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -87,7 +77,7 @@
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="class" value="29" />
-          <entry key="java" value="233" />
+          <entry key="java" value="235" />
           <entry key="properties" value="10" />
           <entry key="xml" value="4" />
         </counts>
@@ -95,7 +85,7 @@
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="CLASS" value="29" />
-          <entry key="JAVA" value="233" />
+          <entry key="JAVA" value="235" />
           <entry key="Properties" value="10" />
           <entry key="XML" value="4" />
         </counts>
@@ -103,16 +93,16 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="dummy" value="67" />
-          <entry key="java" value="34214" />
+          <entry key="java" value="34845" />
           <entry key="properties" value="1107" />
-          <entry key="txt" value="451" />
+          <entry key="txt" value="488" />
           <entry key="xml" value="3" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="34214" />
-          <entry key="PLAIN_TEXT" value="518" />
+          <entry key="JAVA" value="34845" />
+          <entry key="PLAIN_TEXT" value="555" />
           <entry key="Properties" value="1107" />
           <entry key="XML" value="3" />
         </counts>
@@ -143,15 +133,37 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/cert/aiops/pega/bean/RegisteredHost.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="676">
+              <caret line="83" column="30" selection-start-line="83" selection-start-column="30" selection-end-line="83" selection-end-column="30" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/cert/aiops/pega/channels/ChannelManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="452">
-              <caret line="95" column="5" selection-start-line="95" selection-start-column="5" selection-end-line="95" selection-end-column="5" />
+            <state relative-caret-position="446">
+              <caret line="101" column="21" selection-start-line="101" selection-start-column="21" selection-end-line="101" selection-end-column="21" />
               <folding>
-                <element signature="e#2537#2538#0" expanded="true" />
-                <element signature="e#2556#2557#0" expanded="true" />
-                <element signature="e#2624#2625#0" expanded="true" />
-                <element signature="e#2642#2643#0" expanded="true" />
+                <element signature="e#3846#3847#0" expanded="true" />
+                <element signature="e#3873#3874#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/cert/aiops/pega/bean/Channel.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="52">
+              <caret line="14" column="18" lean-forward="true" selection-start-line="14" selection-start-column="18" selection-end-line="14" selection-end-column="18" />
+              <folding>
+                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -160,10 +172,12 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/cert/aiops/pega/registratedHostManagement/RegisteredHostManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="450">
-              <caret line="47" column="93" selection-start-line="47" selection-start-column="93" selection-end-line="47" selection-end-column="93" />
+            <state relative-caret-position="736">
+              <caret line="79" column="39" selection-start-line="79" selection-start-column="39" selection-end-line="79" selection-end-column="39" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#3027#3028#0" expanded="true" />
+                <element signature="e#3064#3065#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -183,14 +197,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/cert/aiops/pega/service/ChannelQueryService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="568">
-              <caret line="101" column="57" lean-forward="true" selection-start-line="101" selection-start-column="57" selection-end-line="101" selection-end-column="57" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="-858">
+              <caret line="3" column="47" selection-start-line="3" selection-start-column="47" selection-end-line="3" selection-end-column="47" />
             </state>
           </provider>
         </entry>
@@ -217,24 +228,6 @@
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/cert/aiops/pega/util/PegaConstant.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="338">
-              <caret line="13" column="66" selection-start-line="13" selection-start-column="66" selection-end-line="13" selection-end-column="66" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/cert/aiops/pega/util/PegaEnum.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="312">
-              <caret line="33" column="18" selection-start-line="33" selection-start-column="18" selection-end-line="33" selection-end-column="18" />
             </state>
           </provider>
         </entry>
@@ -289,7 +282,6 @@
         <option value="$PROJECT_DIR$/src/main/java/cert/aiops/pega/service/RegisteredHostService.java" />
         <option value="$PROJECT_DIR$/src/main/java/cert/aiops/pega/util/RedisClientUtil.java" />
         <option value="$PROJECT_DIR$/src/main/java/cert/aiops/pega/util/CustomJsonDateDeserializer.java" />
-        <option value="$PROJECT_DIR$/src/main/java/cert/aiops/pega/bean/RegisteredHost.java" />
         <option value="$PROJECT_DIR$/src/main/java/cert/aiops/pega/registration/RegistrationExceptionListener.java" />
         <option value="$PROJECT_DIR$/src/main/java/cert/aiops/pega/registration/ClaimNoticeManager.java" />
         <option value="$PROJECT_DIR$/src/main/java/cert/aiops/pega/masterExecutors/MappingManager.java" />
@@ -306,7 +298,6 @@
         <option value="$PROJECT_DIR$/src/main/java/cert/aiops/pega/config/MasterThreadPoolConfigurator.java" />
         <option value="$PROJECT_DIR$/src/main/java/cert/aiops/pega/config/PegaConfiguration.java" />
         <option value="$PROJECT_DIR$/src/main/java/cert/aiops/pega/dao/ChannelRepository.java" />
-        <option value="$PROJECT_DIR$/src/main/java/cert/aiops/pega/bean/Channel.java" />
         <option value="$PROJECT_DIR$/src/main/java/cert/aiops/pega/registratedHostManagement/RegistratedHostManager.java" />
         <option value="$PROJECT_DIR$/src/main/java/cert/aiops/pega/util/PegaEnum.java" />
         <option value="$PROJECT_DIR$/src/main/java/cert/aiops/pega/util/PegaConstant.java" />
@@ -314,8 +305,10 @@
         <option value="$PROJECT_DIR$/src/main/java/cert/aiops/pega/util/IPAddrUtil.java" />
         <option value="$PROJECT_DIR$/src/main/java/cert/aiops/pega/controller/ChannelController.java" />
         <option value="$PROJECT_DIR$/src/main/java/cert/aiops/pega/innerService/ChannelService.java" />
-        <option value="$PROJECT_DIR$/src/main/java/cert/aiops/pega/registratedHostManagement/RegisteredHostManager.java" />
         <option value="$PROJECT_DIR$/src/main/java/cert/aiops/pega/service/ChannelQueryService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cert/aiops/pega/bean/Channel.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cert/aiops/pega/registratedHostManagement/RegisteredHostManager.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cert/aiops/pega/bean/RegisteredHost.java" />
         <option value="$PROJECT_DIR$/src/main/java/cert/aiops/pega/channels/ChannelManager.java" />
       </list>
     </option>
@@ -576,7 +569,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1577956685383" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1578042801390" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/src/main/java/cert/aiops/pega" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
@@ -840,7 +833,14 @@
       <option name="project" value="LOCAL" />
       <updated>1577714770762</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="channel service processing: update members to be continue">
+      <created>1577956772078</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1577956772078</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -876,7 +876,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="225378000" />
+    <option name="totallyTimeSpent" value="229831000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -891,8 +891,8 @@
     <frame x="-8" y="-8" width="1696" height="1026" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.74327356" visible="true" weight="0.28850856" />
-      <window_info id="Structure" order="1" sideWeight="0.25672644" side_tool="true" visible="true" weight="0.28850856" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.42825112" visible="true" weight="0.28850856" />
+      <window_info active="true" id="Structure" order="1" sideWeight="0.57174885" side_tool="true" visible="true" weight="0.28850856" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
       <window_info id="UI Designer" order="4" />
@@ -984,7 +984,8 @@
     <MESSAGE value="proceeding: exception handling" />
     <MESSAGE value="exception processing finished and tested" />
     <MESSAGE value="channel service processing" />
-    <option name="LAST_COMMIT_MESSAGE" value="channel service processing" />
+    <MESSAGE value="channel service processing: update members to be continue" />
+    <option name="LAST_COMMIT_MESSAGE" value="channel service processing: update members to be continue" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1097,16 +1098,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
           <caret line="17" column="17" lean-forward="true" selection-start-line="17" selection-start-column="17" selection-end-line="17" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cert/aiops/pega/bean/RegisteredHost.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="702">
-          <caret line="27" column="28" selection-start-line="27" selection-start-column="28" selection-end-line="27" selection-end-column="28" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1344,16 +1335,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cert/aiops/pega/bean/Channel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="208">
-          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/application.properties">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="286">
@@ -1373,10 +1354,39 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cert/aiops/pega/service/ChannelQueryService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-858">
+          <caret line="3" column="47" selection-start-line="3" selection-start-column="47" selection-end-line="3" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cert/aiops/pega/bean/Channel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="52">
+          <caret line="14" column="18" lean-forward="true" selection-start-line="14" selection-start-column="18" selection-end-line="14" selection-end-column="18" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/cert/aiops/pega/registratedHostManagement/RegisteredHostManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="47" column="93" selection-start-line="47" selection-start-column="93" selection-end-line="47" selection-end-column="93" />
+        <state relative-caret-position="736">
+          <caret line="79" column="39" selection-start-line="79" selection-start-column="39" selection-end-line="79" selection-end-column="39" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#3027#3028#0" expanded="true" />
+            <element signature="e#3064#3065#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cert/aiops/pega/bean/RegisteredHost.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="676">
+          <caret line="83" column="30" selection-start-line="83" selection-start-column="30" selection-end-line="83" selection-end-column="30" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1385,23 +1395,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/cert/aiops/pega/channels/ChannelManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="452">
-          <caret line="95" column="5" selection-start-line="95" selection-start-column="5" selection-end-line="95" selection-end-column="5" />
+        <state relative-caret-position="446">
+          <caret line="101" column="21" selection-start-line="101" selection-start-column="21" selection-end-line="101" selection-end-column="21" />
           <folding>
-            <element signature="e#2537#2538#0" expanded="true" />
-            <element signature="e#2556#2557#0" expanded="true" />
-            <element signature="e#2624#2625#0" expanded="true" />
-            <element signature="e#2642#2643#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cert/aiops/pega/service/ChannelQueryService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="568">
-          <caret line="101" column="57" lean-forward="true" selection-start-line="101" selection-start-column="57" selection-end-line="101" selection-end-column="57" />
-          <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#3846#3847#0" expanded="true" />
+            <element signature="e#3873#3874#0" expanded="true" />
           </folding>
         </state>
       </provider>

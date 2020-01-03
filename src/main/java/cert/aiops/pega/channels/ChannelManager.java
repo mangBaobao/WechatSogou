@@ -1,6 +1,7 @@
 package cert.aiops.pega.channels;
 
 import cert.aiops.pega.bean.Channel;
+import cert.aiops.pega.bean.RegisteredHost;
 import cert.aiops.pega.innerService.ChannelService;
 import cert.aiops.pega.registratedHostManagement.RegisteredHostManager;
 import cert.aiops.pega.util.PegaEnum;
@@ -38,6 +39,18 @@ public class ChannelManager {
             maxChannelId = id;
     }
 
+    public Channel getChannelById(Long id) {
+        for (Channel e : validChannels) {
+            if (e.getId()==id)
+                return e;
+        }
+        for (Channel e : invalidChannels) {
+            if (e.getId()==id)
+                return e;
+        }
+        return null;
+    }
+
     public Channel getChannelByName(String name) {
         for (Channel e : validChannels) {
             if (e.getName().equals(name))
@@ -72,14 +85,38 @@ public class ChannelManager {
     }
 
     public String addChannelMembers(Long id, String members) {
-        return null;
+        Channel channel=getChannelById(id);
+        String currentMembers=channel.getMembers();
+        String[] requiredMembers=members.split(",");
+        ArrayList<String> validMembers=new ArrayList<>();
+        for(String member:requiredMembers){
+            RegisteredHost host=hostManager.getHostByIp(member);
+            if(host!=null){
+                host.addChannel(String.valueOf(id));
+                validMembers.add(String.valueOf(id));
+            }
+        }
+        if(!currentMembers.isEmpty()){
+            String[] currents=currentMembers.replace("[","").replace("]","").split(",");
+            int size=validMembers.size();
+            int loop;
+            for(String c:currents) {
+                for (loop = 0; loop < size; loop++) {
+                    if (validMembers.get(loop).equals(c))
+                        break;
+                }
+                if(loop==size)
+                    validMembers.add(c);
+            }
+        }
+        return validMembers.toString();
     }
 
     public String reduceChannelMembers(Long id, String members) {
         return null;
     }
 
-    public Channel updateChannel(Channel channel) {
+    public Channel updateChannelAttributes(Channel channel) {
         Long id = channel.getId();
         for (Channel c : validChannels)
             if (id == c.getId())

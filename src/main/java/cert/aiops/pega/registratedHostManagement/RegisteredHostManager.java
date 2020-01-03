@@ -68,6 +68,7 @@ public class RegisteredHostManager {
     private JudgementService judgementService;
 
     public RegisteredHostManager() {
+        updatedHostsRecently=new HashMap<>();
         arrivalExceptions = new ConcurrentLinkedQueue<>();
         registeredHosts = new HashMap<>();
         newArrival = new HashMap<>();
@@ -75,6 +76,9 @@ public class RegisteredHostManager {
         id2IpMap = new HashMap<>();
     }
 
+    public RegisteredHost getHostByIp(String ip){
+        return registeredHosts.get(ip);
+    }
 
     public void addAgentException(RegistrationException a) {
         arrivalExceptions.add(a);

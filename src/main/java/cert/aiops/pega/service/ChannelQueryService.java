@@ -99,7 +99,7 @@ public class ChannelQueryService {
                     logger.info("updateChannelAttributes: channel name={} status ={} is not changed", channel.getName(), value);
             }
             if(isUpdated==true)//if status is not changed
-                channelManager.updateChannel(channel);
+                channelManager.updateChannelAttributes(channel);
         return new AsyncResult<>(channel);
     }
 }
