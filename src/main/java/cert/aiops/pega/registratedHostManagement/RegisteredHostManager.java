@@ -79,6 +79,10 @@ public class RegisteredHostManager {
     public RegisteredHost getHostByIp(String ip){
         return registeredHosts.get(ip);
     }
+    public void markingUpdatedHost(RegisteredHost host){
+        registeredHosts.put(host.getIp(),host);
+        updatedHostsRecently.put(host.getIp(),host);
+    }
 
     public void addAgentException(RegistrationException a) {
         arrivalExceptions.add(a);
@@ -130,6 +134,16 @@ public class RegisteredHostManager {
         }
         newArrival.clear();
     }
+
+    public void publishUpdatedHosts(){
+        if(updatedHostsRecently.size()==0)
+            return;
+        storePublishedHosts(updatedHostsRecently);
+        publishIdentifications(updatedHostsRecently);
+        updatedHostsRecently.clear();
+    }
+
+
 
     private void publishIdentifications(HashMap<String, RegisteredHost> registeredHosts) {
 //        if(registeredHosts.size()==0)

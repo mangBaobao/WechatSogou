@@ -38,6 +38,13 @@ public class RegistratedHostCronTask {
         logger.info("incAdmitHosts:finishes to process claim messages and generate admit identification");
     }
 
+    @Scheduled(fixedDelay = 200000,initialDelay = 300000)
+    public void publishUpdatedHosts(){
+        logger.info("publishUpdatedHosts:begins to publish recent-updated host identification");
+        registeredHostManager.publishUpdatedHosts();
+        logger.info("publishUpdatedHosts:finishes to publish recent-updated host identification");
+    }
+
     @Scheduled(fixedDelay = 300000,initialDelay = 100000)
     public void processExceptions(){
         logger.info("processExceptions:begins to process exception issues");
