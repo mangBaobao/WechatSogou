@@ -47,12 +47,23 @@ public class ChannelQueryService {
     }
 
     @Async("channelQueryExecutor")
+    public Future<Channel> getChannelInfo(String name){
+        Channel channel=channelManager.getChannelByName(name);
+        if(channel==null){
+            logger.info("getChannelInfo: channel name={} is not existed",name);
+            return new AsyncResult<>(null);
+        }
+        else
+            return new AsyncResult<>(channel);
+    }
+
+    @Async("channelQueryExecutor")
     public Future<Channel> updateChannelAttributes(Map<String, String> params) {
         boolean isUpdated = false;
         Channel channel = channelManager.getChannelByName(params.get(PegaConstant.__CHANNEL_NAME));
         if (channel == null) {
             logger.info("updateChannelAttributes: channel name ={} is not existed", params.get(PegaConstant.__CHANNEL_NAME));
-            return null;
+            return new AsyncResult<>(null);
         }
         if (!channel.getUpdater().equals(params.get(PegaConstant.__CHANNEL_UPDATER))) {
             logger.info("updateChannelAttributes: updater={} is not authorized to channel name ={} by creater={} ", params.get(PegaConstant.__CHANNEL_UPDATER),

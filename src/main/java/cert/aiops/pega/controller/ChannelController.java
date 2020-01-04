@@ -134,7 +134,14 @@ public class ChannelController extends  BaseController {
 
 
     @RequestMapping(value="/{channel}", method = RequestMethod.GET)
-    public ResponseEntity<Channel> getChannelInfo(@PathVariable  String name){
-        return null;
+    public ResponseEntity<Channel> getChannelInfo(@PathVariable  String name) throws ExecutionException, InterruptedException {
+        Future<Channel> channelFuture=channelQueryService.getChannelInfo(name);
+        Channel channel=channelFuture.get();
+        if(channel==null){
+            channel=new Channel();
+            channel.setDescription("channel is not existed");
+            return new ResponseEntity<>(channel,HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(channel,HttpStatus.FOUND);
     }
 }
