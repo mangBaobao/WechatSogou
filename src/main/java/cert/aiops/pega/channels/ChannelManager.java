@@ -8,7 +8,10 @@ import cert.aiops.pega.util.PegaEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
+import sun.java2d.pipe.SpanShapeRenderer;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -17,13 +20,17 @@ import java.util.Date;
 import java.util.List;
 
 @Component
+@PropertySource("classpath:application.properties")
 public class ChannelManager {
 
     private Logger logger = LoggerFactory.getLogger(ChannelManager.class);
     private Long maxChannelId = Long.valueOf(1000);
     public final static String __DEFAULT_CHANNEL = "basic";
-    private ArrayList<Channel> validChannels;
-    private ArrayList<Channel> invalidChannels;
+    private ArrayList<Channel> channels;
+//    private ArrayList<Channel> invalidChannels;
+
+    @Value("pega.workingNet")
+    private String workingNet;
 
     @Autowired
     private ChannelService channelService;
@@ -32,21 +39,38 @@ public class ChannelManager {
     private RegisteredHostManager hostManager;
 
     public void init() {
-        validChannels = (ArrayList<Channel>) channelService.loadChannelsByStatus(PegaEnum.ObjectState.valid);
-        logger.info("init: succeed to load valid channel count={}", validChannels.size());
-        invalidChannels = (ArrayList<Channel>) channelService.loadChannelsByStatus(PegaEnum.ObjectState.invalid);
-        logger.info("init: succeed to load invalid channel count={}", invalidChannels.size());
+        channels = (ArrayList<Channel>) channelService.loadAllChannels();
+        logger.info("init: succeed to load all channel count={}", channels.size());
+//        invalidChannels = (ArrayList<Channel>) channelService.loadChannelsByStatus(PegaEnum.ObjectState.invalid);
+//        logger.info("init: succeed to load invalid channel count={}", invalidChannels.size());
+        if(channels.isEmpty()){
+            Channel channel=createBasicChannel();
+            channels.add(channel);
+            channelService.storeChannel(channel);
+            logger.info("init: succeed to init basic channel ={}",channel.toString());
+        }
         Long id = channelService.getChannelLargestId();
         if (id > maxChannelId)
             maxChannelId = id;
     }
 
+    private Channel createBasicChannel(){
+        Channel channel=new Channel();
+        channel.setStatus(PegaEnum.ObjectState.valid);
+        channel.setDescription("basic channel for all agents");
+        channel.setWorkingNet(workingNet);
+        channel.setName(this.__DEFAULT_CHANNEL);
+        channel.setId(maxChannelId);
+        SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        String dateString=format.format(new Date());
+        channel.setUptime(dateString);
+        channel.setUpdater("Admin");
+        channel.setMembers("");
+        return channel;
+    }
+
     public Channel getChannelById(Long id) {
-        for (Channel e : validChannels) {
-            if (e.getId() == id)
-                return e;
-        }
-        for (Channel e : invalidChannels) {
+        for (Channel e : channels) {
             if (e.getId() == id)
                 return e;
         }
@@ -54,11 +78,7 @@ public class ChannelManager {
     }
 
     public Channel getChannelByName(String name) {
-        for (Channel e : validChannels) {
-            if (e.getName().equals(name))
-                return e;
-        }
-        for (Channel e : invalidChannels) {
+        for (Channel e : channels) {
             if (e.getName().equals(name))
                 return e;
         }
@@ -72,17 +92,18 @@ public class ChannelManager {
 
     public void abortChannel(Channel channel) {
         Long id = channel.getId();
-        for (Channel c : validChannels) {
+        for (Channel c : channels) {
             if (c.getId() == id) {
-                validChannels.remove(c);
+                c.setStatus(PegaEnum.ObjectState.invalid);
+                List<String> hosts=getHostIpsByChannel(c.getId());
+                for(String ip:hosts){
+                    RegisteredHost host=hostManager.getHostByIp(ip);
+                    host.removeChannel(String.valueOf(c.getId()));
+                    hostManager.markingUpdatedHost(host);
+                }
             }
         }
-        for (Channel c : invalidChannels) {
-            if (c.getId() == id)
-                invalidChannels.remove(c);
-        }
-        invalidChannels.add(channel);
-        channelService.abortChannel(channel);
+        channelService.abortChannel(channel.getId(),channel.getUptime());
         logger.info("abortChannel: successful to abort channel id={},name={}", channel.getId(), channel.getName());
     }
 
@@ -141,29 +162,34 @@ public class ChannelManager {
     }
 
     public Channel updateChannelAttributes(Channel channel) {
-        Long id = channel.getId();
-        for (Channel c : validChannels)
-            if (id == c.getId())
-                validChannels.remove(c);
-        for (Channel c : invalidChannels)
-            if (id == c.getId())
-                invalidChannels.remove(c);
-        if (channel.getStatus().equals(PegaEnum.ObjectState.valid))
-            validChannels.add(channel);
-        else
-            invalidChannels.add(channel);
+
         channelService.storeChannel(channel);
         return channel;
     }
 
     public void addChannel(Channel channel) {
         Long id = channel.getId();
-        for (Channel c : validChannels) {
+        for (Channel c : channels) {
             if (id == c.getId())
-                validChannels.remove(c);
+                channels.remove(c);
         }
-        validChannels.add(channel);
+        channels.add(channel);
         channelService.storeChannel(channel);
     }
 
+    public List<String> getHostIpsByChannel(Long channelId){
+        Channel channel=getChannelById(channelId);
+        if(channel==null)
+            return null;
+        List<String> currentMembers = Arrays.asList(channel.getMembers().replace("[", "").replace("]", "").split(","));
+        return currentMembers;
+    }
+
+    public  Channel getBasicChannel(){
+        for(Channel c:channels){
+            if(c.getName().equals(this.__DEFAULT_CHANNEL))
+                return c;
+        }
+        return null;
+    }
 }

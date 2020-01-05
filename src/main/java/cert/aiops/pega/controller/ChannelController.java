@@ -1,6 +1,7 @@
 package cert.aiops.pega.controller;
 
 import cert.aiops.pega.bean.Channel;
+import cert.aiops.pega.channels.ChannelManager;
 import cert.aiops.pega.service.ChannelQueryService;
 import cert.aiops.pega.util.IPAddrUtil;
 import cert.aiops.pega.util.PegaConstant;
@@ -78,6 +79,11 @@ public class ChannelController extends  BaseController {
             errChannel.setDescription("updateChannelAttributes must specify updater ");
             return new ResponseEntity<>(errChannel, HttpStatus.BAD_REQUEST);
         }
+        if(channelName.equals(ChannelManager.__DEFAULT_CHANNEL)){
+            errChannel.setDescription("updateChannelAttributes must not modify basic channel");
+            return new ResponseEntity<>(errChannel, HttpStatus.BAD_REQUEST);
+        }
+
         if(params.containsKey(PegaConstant.__CHANNEL_NET)){
             errChannel.setDescription("updateChannelAttributes cannot modify belonging net");
             return new ResponseEntity<>(errChannel, HttpStatus.BAD_REQUEST);

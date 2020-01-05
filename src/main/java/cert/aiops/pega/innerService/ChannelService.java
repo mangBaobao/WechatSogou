@@ -27,11 +27,15 @@ public class ChannelService {
         return channelRepository.getChannelsByStatus(state.name());
     }
 
+    public List<Channel> loadAllChannels(){
+        return channelRepository.findAll();
+    }
+
     public Long getChannelLargestId(){
         return channelRepository.getMaxChannelId();
     }
 
-    public void abortChannel(Channel channel){
-        this.storeChannel(channel);
+    public void abortChannel(Long id, String uptime){
+        channelRepository.abortChannel(id,uptime);
     }
 }

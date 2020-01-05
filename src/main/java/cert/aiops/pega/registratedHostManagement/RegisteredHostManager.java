@@ -352,6 +352,7 @@ public class RegisteredHostManager {
     }
 
     private void generateIdentifications() {
+        ChannelManager channelManager=SpringContextUtil.getBean(ChannelManager.class);
         logger.info("generateIdentifications: already has count={} host identifications", registeredHosts.size());
         String hostName;
         Date time = new Date();
@@ -366,7 +367,7 @@ public class RegisteredHostManager {
             host.setHostName(IdentityUtil.generateRegisterName(pegaConfiguration.getWorkingNet(), hostName, host.getIp()));
             host.setId(null);
             host.setUpdate_time(time);
-            host.addChannel(ChannelManager.__DEFAULT_CHANNEL);
+            host.addChannel(String.valueOf(channelManager.getBasicChannel().getId()));
             registeredHosts.put(host.getIp(), host);
         }
         logger.info("generateIdentifications: totally generate count={} host identifications", registeredHosts.size());

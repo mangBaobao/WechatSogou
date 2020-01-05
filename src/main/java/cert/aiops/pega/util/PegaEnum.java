@@ -36,6 +36,18 @@ public class PegaEnum {
     public enum ActionType{
         published,allocate,extract,republish,donothing
     }
+    public enum CronEnum{
+
+        None, One_min, Five_min, Ten_min, Twenty_min
+    }
+
+    public enum WaitEnum{
+        None, One_sec, Five_sec, Ten_sec
+    }
+
+    public enum TriggerEnum{
+        None,HostBoot, HostExit, AgentStart, AgentExit
+    }
 
     public enum UpdaterStateCode{
         AgentRunningFailed(1100),
