@@ -29,7 +29,7 @@ public class ChannelManager {
     private ArrayList<Channel> channels;
 //    private ArrayList<Channel> invalidChannels;
 
-    @Value("pega.workingNet")
+    @Value("${pega.workingNet}")
     private String workingNet;
 
     @Autowired
@@ -43,26 +43,26 @@ public class ChannelManager {
         logger.info("init: succeed to load all channel count={}", channels.size());
 //        invalidChannels = (ArrayList<Channel>) channelService.loadChannelsByStatus(PegaEnum.ObjectState.invalid);
 //        logger.info("init: succeed to load invalid channel count={}", invalidChannels.size());
-        if(channels.isEmpty()){
-            Channel channel=createBasicChannel();
+        if (channels.isEmpty()) {
+            Channel channel = createBasicChannel();
             channels.add(channel);
             channelService.storeChannel(channel);
-            logger.info("init: succeed to init basic channel ={}",channel.toString());
+            logger.info("init: succeed to init basic channel ={}", channel.toString());
         }
         Long id = channelService.getChannelLargestId();
         if (id > maxChannelId)
             maxChannelId = id;
     }
 
-    private Channel createBasicChannel(){
-        Channel channel=new Channel();
+    private Channel createBasicChannel() {
+        Channel channel = new Channel();
         channel.setStatus(PegaEnum.ObjectState.valid);
         channel.setDescription("basic channel for all agents");
         channel.setWorkingNet(workingNet);
         channel.setName(this.__DEFAULT_CHANNEL);
         channel.setId(maxChannelId);
-        SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-        String dateString=format.format(new Date());
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String dateString = format.format(new Date());
         channel.setUptime(dateString);
         channel.setUpdater("Admin");
         channel.setMembers("");
@@ -95,15 +95,15 @@ public class ChannelManager {
         for (Channel c : channels) {
             if (c.getId() == id) {
                 c.setStatus(PegaEnum.ObjectState.invalid);
-                List<String> hosts=getHostIpsByChannel(c.getId());
-                for(String ip:hosts){
-                    RegisteredHost host=hostManager.getHostByIp(ip);
+                List<String> hosts = getHostIpsByChannel(c.getId());
+                for (String ip : hosts) {
+                    RegisteredHost host = hostManager.getHostByIp(ip);
                     host.removeChannel(String.valueOf(c.getId()));
                     hostManager.markingUpdatedHost(host);
                 }
             }
         }
-        channelService.abortChannel(channel.getId(),channel.getUptime());
+        channelService.abortChannel(channel.getId(), channel.getUptime());
         logger.info("abortChannel: successful to abort channel id={},name={}", channel.getId(), channel.getName());
     }
 
@@ -113,52 +113,59 @@ public class ChannelManager {
         String currentMembers = channel.getMembers();
         String[] requiredMembers = members.split(",");
         ArrayList<String> validMembers = new ArrayList<>();
+        boolean isUpdated = false;
         for (String member : requiredMembers) {
             RegisteredHost host = hostManager.getHostByIp(member);
-            if (host != null) {
+            if (host != null && !host.getChannels().contains(String.valueOf(id))) {
                 host.addChannel(String.valueOf(id));
                 host.setUpdate_time(uptime);
                 hostManager.markingUpdatedHost(host);
                 validMembers.add(member);
+                isUpdated = true;
             }
         }
         if (!currentMembers.isEmpty()) {
-            String[] currents = currentMembers.replace("[", "").replace("]", "").split(",");
-            int size = validMembers.size();
-            int loop;
-            for (String c : currents) {
-                for (loop = 0; loop < size; loop++) {
-                    if (validMembers.get(loop).equals(c))
-                        break;
-                }
-                if (loop == size)
+            String[] currents = currentMembers.replace("[", "").replace("]", "")
+                    .replace(" ", "").split(",");
+            for (String c : currents)
+                if (!validMembers.contains(c))
                     validMembers.add(c);
-            }
         }
-        return validMembers.toString();
+        if (isUpdated)
+            return validMembers.toString();
+        else return null;
     }
 
     public String reduceChannelMembers(Long id, String members) {
         Date uptime = new Date();
         Channel channel = getChannelById(id);
-        List<String> currentMembers = Arrays.asList(channel.getMembers().replace("[", "").replace("]", "").split(","));
-        String[] requiredMembers = members.split(",");
-
-        int loop;
-        for (String e : requiredMembers) {
-            for (loop = 0; loop < currentMembers.size(); loop++) {
-                if (e.equals(currentMembers.get(loop))) {
-                    RegisteredHost host = hostManager.getHostByIp(currentMembers.get(loop));
-                    if (host != null) {
+        List<String> currentMembers = Arrays.asList(channel.getMembers().replace("[", "").replace("]", "")
+                .replace(" ", "").split(","));
+        ArrayList membersList = new ArrayList(currentMembers);
+        List<String> requiredMembers = Arrays.asList(members.replace(" ", "").split(","));
+        ArrayList<String> removedMembers = new ArrayList<>();
+        boolean isUpdated=false;
+        int i, size = currentMembers.size();
+        String member;
+        for (String e : requiredMembers)
+            for (i = 0; i < size; i++) {
+                member = currentMembers.get(i);
+                if (member.equals(e)) {
+                    RegisteredHost host = hostManager.getHostByIp(e);
+                    if (host != null && host.getChannels().contains(String.valueOf(id))) {
                         host.removeChannel(String.valueOf(id));
                         host.setUpdate_time(uptime);
                         hostManager.markingUpdatedHost(host);
-                        currentMembers.remove(loop);
+                        removedMembers.add(member);
+                        isUpdated=true;
                     }
                 }
             }
-        }
-        return currentMembers.toString();
+            if(isUpdated) {
+                membersList.removeAll(removedMembers);
+                return membersList.toString();
+            }
+            else return null;
     }
 
     public Channel updateChannelAttributes(Channel channel) {
@@ -170,24 +177,25 @@ public class ChannelManager {
     public void addChannel(Channel channel) {
         Long id = channel.getId();
         for (Channel c : channels) {
-            if (id == c.getId())
-                channels.remove(c);
+            if (id == c.getId()) {
+                c.setStatus(channel.getStatus());
+                c.setUptime(channel.getUptime());
+                channelService.storeChannel(c);
+            }
         }
-        channels.add(channel);
-        channelService.storeChannel(channel);
     }
 
-    public List<String> getHostIpsByChannel(Long channelId){
-        Channel channel=getChannelById(channelId);
-        if(channel==null)
+    public List<String> getHostIpsByChannel(Long channelId) {
+        Channel channel = getChannelById(channelId);
+        if (channel == null)
             return null;
         List<String> currentMembers = Arrays.asList(channel.getMembers().replace("[", "").replace("]", "").split(","));
         return currentMembers;
     }
 
-    public  Channel getBasicChannel(){
-        for(Channel c:channels){
-            if(c.getName().equals(this.__DEFAULT_CHANNEL))
+    public Channel getBasicChannel() {
+        for (Channel c : channels) {
+            if (c.getName().equals(this.__DEFAULT_CHANNEL))
                 return c;
         }
         return null;

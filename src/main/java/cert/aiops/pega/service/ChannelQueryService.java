@@ -40,6 +40,8 @@ public class ChannelQueryService {
             channel.setWorkingNet(params.get(PegaConstant.__CHANNEL_NET));
             channel.setDescription(params.get(PegaConstant.__CHANNEL_DESCRIPTION));
             channel.setId(channelManager.getMaxChannelId());
+            channel.setMembers("");
+            channel.setStatus(PegaEnum.ObjectState.valid);
             channelManager.addChannel(channel);
             logger.info("declareChannel: new channel is created and managed ={}", channel.toString());
             return new AsyncResult<>(channel);
@@ -47,13 +49,12 @@ public class ChannelQueryService {
     }
 
     @Async("channelQueryExecutor")
-    public Future<Channel> getChannelInfo(String name){
-        Channel channel=channelManager.getChannelByName(name);
-        if(channel==null){
-            logger.info("getChannelInfo: channel name={} is not existed",name);
+    public Future<Channel> getChannelInfo(String name) {
+        Channel channel = channelManager.getChannelByName(name);
+        if (channel == null) {
+            logger.info("getChannelInfo: channel name={} is not existed", name);
             return new AsyncResult<>(null);
-        }
-        else
+        } else
             return new AsyncResult<>(channel);
     }
 
@@ -74,6 +75,7 @@ public class ChannelQueryService {
         if (value != null) {
             logger.info("updateChannelAttributes: channel name={} updates to new name={}", channel.getName(), value);
             channel.setName(value);
+            isUpdated = true;
         }
         value = params.get(PegaConstant.__CHANNEL_DESCRIPTION);
         if (value != null) {
@@ -85,32 +87,42 @@ public class ChannelQueryService {
         if (value != null) {
             String action = params.get(PegaConstant.__CHANNEL_MEMBERACTIONTYPE);
             if (action.equals(PegaEnum.MemberAction.add.name())) {
-                channel.setMembers(channelManager.addChannelMembers(channel.getId(), value));
-                isUpdated = true;
+                String members = channelManager.addChannelMembers(channel.getId(), value);
+                if (members != null) {
+                    channel.setMembers(members);
+                    isUpdated = true;
+                }
             } else {
-             channel.setMembers(channelManager.reduceChannelMembers(channel.getId(), value));
-                isUpdated = true;
+                String members = channelManager.reduceChannelMembers(channel.getId(), value);
+                if (members != null) {
+                    channel.setMembers(members);
+                    isUpdated = true;
+                }
             }
         }
-        value = params.get(PegaConstant.__CHANNEL_UPTIME);
-        channel.setUptime(value);
+        String time = params.get(PegaConstant.__CHANNEL_UPTIME);
+
         value = params.get(PegaConstant.__CHANNEL_STATUS);
         if (value != null) {
-                if (value.equals(PegaEnum.ObjectState.invalid.name()) && !channel.getStatus().name().equals(value)) {
-                    logger.info("updateChannelAttributes: channel name={} becomes invalid", channel.getName());
-                    channel.setStatus(PegaEnum.ObjectState.valueOf(value));
-                    channelManager.abortChannel(channel);
-                }
-                else if (value.equals(PegaEnum.ObjectState.valid.name()) && !channel.getStatus().name().equals(value)) {
-                    logger.info("updateChannelAttributes: channel name={} becomes valid", channel.getName());
-                    channel.setStatus(PegaEnum.ObjectState.valueOf(value));
-                    channelManager.addChannel(channel);
-                }
-                else
-                    logger.info("updateChannelAttributes: channel name={} status ={} is not changed", channel.getName(), value);
-            }
-            if(isUpdated==true)//if status is not changed
-                channelManager.updateChannelAttributes(channel);
+            if (value.equals(PegaEnum.ObjectState.invalid.name()) && !channel.getStatus().name().equals(value)) {
+                logger.info("updateChannelAttributes: channel name={} becomes invalid", channel.getName());
+                channel.setStatus(PegaEnum.ObjectState.valueOf(value));
+                channel.setUptime(time);
+                channelManager.abortChannel(channel);
+
+            } else if (value.equals(PegaEnum.ObjectState.valid.name()) && !channel.getStatus().name().equals(value)) {
+                logger.info("updateChannelAttributes: channel name={} becomes valid", channel.getName());
+                channel.setStatus(PegaEnum.ObjectState.valueOf(value));
+                channel.setUptime(time);
+                channelManager.addChannel(channel);
+
+            } else
+                logger.info("updateChannelAttributes: channel name={} status ={} is not changed", channel.getName(), value);
+        }
+        if (isUpdated == true) {//if status is not changed
+            channel.setUptime(time);
+            channelManager.updateChannelAttributes(channel);
+        }
         return new AsyncResult<>(channel);
     }
 }

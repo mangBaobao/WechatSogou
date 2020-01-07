@@ -1022,8 +1022,7 @@ public class PegaApplicationTest {
     @Test
     public void registerTest() {
         logger.info("registerTest begins....");
-//        manager.publishIdentifications();
-//        manager.storePublishedHosts();
+        manager.firstPublishIdentification();
     }
 
     @Test
@@ -1107,13 +1106,16 @@ public class PegaApplicationTest {
     public void admitHostTest() throws InterruptedException {
         logger.info("admitHostTest begins...");
         long time = System.currentTimeMillis();
-        String ip = "10.10.10.7";
-        String uuid = UUID.randomUUID().toString();
-        String value = ip + ":" + uuid;
-        String key = "checkin";
-        logger.info("admitHostTest:value={},time={}", value, time);
-        redisClientUtil.addSetSingle(key, value, time);
-        Thread.sleep(100000);
+        for(int i=1;i<10;i++) {
+            String ip = "10.10.10." + i;
+            String uuid = UUID.randomUUID().toString();
+            String value = ip + ":" + uuid;
+            String key = "checkin";
+            time+=i;
+            logger.info("admitHostTest:value={},time={}", value, time);
+            redisClientUtil.addSetSingle(key, value, time);
+        }
+        Thread.sleep(500000);
 //        String newUuid=UUID.randomUUID().toString();
 //        value=ip+":"+newUuid;
 //        time=System.currentTimeMillis();
