@@ -12,8 +12,8 @@ import org.springframework.scheduling.annotation.EnableAsync;
  * @Author HuihongHe
  */
 @SpringBootApplication
-@EnableFeignClients
-@EnableDiscoveryClient
+//@EnableFeignClients
+//@EnableDiscoveryClient
 @EnableAsync
 @EnableCaching
 public class PegaMainApplication {

@@ -77,6 +77,8 @@ public class RegisteredHost {
     }
 
     public void addChannel(String channel) {
+        if(channels.contains(channel))
+            return;
         if(channels=="")
             channels="[";
         else
@@ -85,23 +87,26 @@ public class RegisteredHost {
             channels+=","+channel+"]";
         else
             channels+=channel+"]";
+        channels=channels.trim();
     }
 
     public void removeChannel(String channel){
+        if(!channels.contains(channel))
+            return;
         if(channels.isEmpty())
             return;
         String pattern=","+channel;
         if(channels.contains(pattern)) {
-            channels.replace(pattern, "");
+            channels=channels.replace(pattern, "");
             return;
         }
         pattern=channel+",";
         if(channels.contains(pattern)){
-            channels.replace(pattern,"");
+            channels=channels.replace(pattern,"");
             return;
         }
         if(channels.contains(channel))
-            channels.replace(channel,"");
+            channels=channels.replace(channel,"");
 
 
     }

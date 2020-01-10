@@ -68,7 +68,7 @@ public class RegisteredHostManager {
     private JudgementService judgementService;
 
     public RegisteredHostManager() {
-        updatedHostsRecently=new HashMap<>();
+        updatedHostsRecently = new HashMap<>();
         arrivalExceptions = new ConcurrentLinkedQueue<>();
         registeredHosts = new HashMap<>();
         newArrival = new HashMap<>();
@@ -76,12 +76,13 @@ public class RegisteredHostManager {
         id2IpMap = new HashMap<>();
     }
 
-    public RegisteredHost getHostByIp(String ip){
+    public RegisteredHost getHostByIp(String ip) {
         return registeredHosts.get(ip);
     }
-    public void markingUpdatedHost(RegisteredHost host){
-        registeredHosts.put(host.getIp(),host);
-        updatedHostsRecently.put(host.getIp(),host);
+
+    public void markingUpdatedHost(RegisteredHost host) {
+        registeredHosts.put(host.getIp(), host);
+        updatedHostsRecently.put(host.getIp(), host);
     }
 
     public void addAgentException(RegistrationException a) {
@@ -104,7 +105,7 @@ public class RegisteredHostManager {
 
     private Date loadRegisteredHostsFromDB() {
         List<RegisteredHost> hosts = registeredHostService.getAllHosts();
-        if(hosts==null || hosts.size()==0)
+        if (hosts == null || hosts.size() == 0)
             return new Date();
         Date time = hosts.get(0).getUpdate_time();
         for (RegisteredHost rh : hosts) {
@@ -118,9 +119,8 @@ public class RegisteredHostManager {
     public void firstPublishIdentification() {
         latestRegisteredTime = loadRegisteredHostsFromDB();
         initiateHostInfos();
-        if(registeredHosts.isEmpty())
-            return;
-        this.generateIdentifications();
+        if (registeredHosts.isEmpty())
+            this.generateIdentifications();
         this.storePublishedHosts(registeredHosts);
         this.publishIdentifications(registeredHosts);
     }
@@ -135,14 +135,13 @@ public class RegisteredHostManager {
         newArrival.clear();
     }
 
-    public void publishUpdatedHosts(){
-        if(updatedHostsRecently.size()==0)
+    public void publishUpdatedHosts() {
+        if (updatedHostsRecently.size() == 0)
             return;
         storePublishedHosts(updatedHostsRecently);
         publishIdentifications(updatedHostsRecently);
         updatedHostsRecently.clear();
     }
-
 
 
     private void publishIdentifications(HashMap<String, RegisteredHost> registeredHosts) {
@@ -352,6 +351,7 @@ public class RegisteredHostManager {
     }
 
     private void generateIdentifications() {
+        ChannelManager channelManager = SpringContextUtil.getBean(ChannelManager.class);
         logger.info("generateIdentifications: already has count={} host identifications", registeredHosts.size());
         String hostName;
         Date time = new Date();
@@ -366,7 +366,7 @@ public class RegisteredHostManager {
             host.setHostName(IdentityUtil.generateRegisterName(pegaConfiguration.getWorkingNet(), hostName, host.getIp()));
             host.setId(null);
             host.setUpdate_time(time);
-            host.addChannel(ChannelManager.__DEFAULT_CHANNEL);
+            host.addChannel(String.valueOf(channelManager.getBasicChannel().getId()));
             registeredHosts.put(host.getIp(), host);
         }
         logger.info("generateIdentifications: totally generate count={} host identifications", registeredHosts.size());
@@ -385,6 +385,7 @@ public class RegisteredHostManager {
             Map.Entry<String, ClaimNotice> claim = (Map.Entry<String, ClaimNotice>) iterator.next();
             String ip = claim.getKey();
             RegisteredHost host = registeredHosts.get(ip);
+
             if (host.getId() == null) {
                 host.setId(claim.getValue().getUuid());
                 host.setUpdate_time(date);

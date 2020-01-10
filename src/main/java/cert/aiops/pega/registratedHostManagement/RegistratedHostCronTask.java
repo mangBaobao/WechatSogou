@@ -31,7 +31,7 @@ public class RegistratedHostCronTask {
         kafkaUtil.pauseConsumeMessage();
     }
 
-    @Scheduled(fixedDelay = 300000,initialDelay = 300000)
+    @Scheduled(fixedDelay = 300000,initialDelay = 100000)
     public void incAdmitHosts(){
         logger.info("incAdmitHosts:begins to process claim messages and generate admit identification");
         registeredHostManager.publishAdmitIdentification();

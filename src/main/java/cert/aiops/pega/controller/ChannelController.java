@@ -1,6 +1,7 @@
 package cert.aiops.pega.controller;
 
 import cert.aiops.pega.bean.Channel;
+import cert.aiops.pega.channels.ChannelManager;
 import cert.aiops.pega.service.ChannelQueryService;
 import cert.aiops.pega.util.IPAddrUtil;
 import cert.aiops.pega.util.PegaConstant;
@@ -30,10 +31,10 @@ public class ChannelController extends  BaseController {
         Iterator<String> iterator=keys.iterator();
         while(iterator.hasNext()){
             String key=iterator.next();
-            paramsInString.concat(key+":");
-            paramsInString.concat(params.get(key)+",");
+            paramsInString+=key+":";
+            paramsInString+=params.get(key)+",";
         }
-        paramsInString.subSequence(0,paramsInString.length()-1);
+        paramsInString= (String) paramsInString.subSequence(0,paramsInString.length()-1);
         return paramsInString;
     }
 
@@ -46,7 +47,7 @@ public class ChannelController extends  BaseController {
             return new ResponseEntity<>(errChannel, HttpStatus.BAD_REQUEST);
         }
         String net=params.get(PegaConstant.__CHANNEL_NET);
-        if(!net.equals(PegaEnum.Net.z.name())||!net.equals(PegaEnum.Net.v.name())){
+        if(!net.equals(PegaEnum.Net.z.name())&&!net.equals(PegaEnum.Net.v.name())){
             errChannel.setDescription("declaring new channel must specify correct net");
             return new ResponseEntity<>(errChannel,HttpStatus.BAD_REQUEST);
         }
@@ -71,13 +72,18 @@ public class ChannelController extends  BaseController {
             return new ResponseEntity<>(channel,HttpStatus.CREATED);
     }
 
-    @RequestMapping(value="/channel/{name}", method = RequestMethod.POST)
+    @RequestMapping(value="/channel/{channelName}", method = RequestMethod.POST)
     public ResponseEntity<Channel> updateChannelAttributes(@PathVariable String channelName, @RequestParam Map<String,String> params) throws ExecutionException, InterruptedException {
         Channel errChannel=new Channel();
         if( !params.containsKey(PegaConstant.__CHANNEL_UPDATER)){
             errChannel.setDescription("updateChannelAttributes must specify updater ");
             return new ResponseEntity<>(errChannel, HttpStatus.BAD_REQUEST);
         }
+        if(channelName.equals(ChannelManager.__DEFAULT_CHANNEL)){
+            errChannel.setDescription("updateChannelAttributes must not modify basic channel");
+            return new ResponseEntity<>(errChannel, HttpStatus.BAD_REQUEST);
+        }
+
         if(params.containsKey(PegaConstant.__CHANNEL_NET)){
             errChannel.setDescription("updateChannelAttributes cannot modify belonging net");
             return new ResponseEntity<>(errChannel, HttpStatus.BAD_REQUEST);
@@ -133,7 +139,7 @@ public class ChannelController extends  BaseController {
     }
 
 
-    @RequestMapping(value="/{channel}", method = RequestMethod.GET)
+    @RequestMapping(value="/channel/{name}", method = RequestMethod.GET)
     public ResponseEntity<Channel> getChannelInfo(@PathVariable  String name) throws ExecutionException, InterruptedException {
         Future<Channel> channelFuture=channelQueryService.getChannelInfo(name);
         Channel channel=channelFuture.get();

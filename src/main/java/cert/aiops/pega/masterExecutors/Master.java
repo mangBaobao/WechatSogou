@@ -1,5 +1,6 @@
 package cert.aiops.pega.masterExecutors;
 
+import cert.aiops.pega.channels.ChannelManager;
 import cert.aiops.pega.registratedHostManagement.RegisteredHostManager;
 import cert.aiops.pega.util.PegaEnum;
 import cert.aiops.pega.bean.SystemInfo;
@@ -43,6 +44,9 @@ public class Master {
     @Autowired
     private RegisteredHostManager registeredHostManager;
 
+    @Autowired
+    private ChannelManager channelManager;
+
     MappingManager getMappingManager() {
         return mappingManager;
     }
@@ -64,6 +68,7 @@ public class Master {
             mappingManager.setSystemInfos(systemInfos);
             mappingManager.initAllMappings();
             messageQueueManager.updateQueueStatus();
+            channelManager.init();
             registeredHostManager.firstPublishIdentification();
         }
     }
